@@ -1,3 +1,4 @@
+/* global chrome */
 import React from 'react';
 
 class SettingsManager extends React.Component
@@ -6,6 +7,10 @@ class SettingsManager extends React.Component
     {
         super(props);
         this.state = {passwordType: 'None', details: null};
+        chrome.storage.local.get('passwordType',(result)=>{
+            this.setState(result.passwordType);
+            console.log("Data loaded!");
+        });
         this.handleMainSelectChange = this.handleMainSelectChange.bind(this);
         this.handlePasswordTextChange = this.handlePasswordTextChange.bind(this);
         this.handleChallengeSelectChange = this.handleChallengeSelectChange.bind(this);
@@ -46,16 +51,7 @@ class SettingsManager extends React.Component
         case 'None':
             return null;
         case 'Password':
-            return (<input type='text' onChange={this.handlePasswordTextChange} />);
-        case 'Challenge':
-            return (
-            <select onChange={this.handleChallengeSelectChange}>
-                <option>Tetris</option>
-                <option>Typerace</option>
-                <option>Puzzle</option>
-                <option>Chess</option>
-                <option>Riddle</option>
-            </select>);
+            return (<input type='password' onChange={this.handlePasswordTextChange} />);
         default:
             console.error('UnexpectedResult: this.state.passwordType is not known.')
             return null;
@@ -63,14 +59,15 @@ class SettingsManager extends React.Component
     }
     save(){
         console.log(this.state);
+        chrome.storage.local.set({'passwordData': this.state});
     }
     render(){
         return (
         <div>
+            <span>Password Protection</span>
             <select onChange={this.handleMainSelectChange} defaultValue={this.state.passwordType}>
                 <option value='None'>None</option>
                 <option value='Password'>Password</option>
-                <option value='Challenge'>Challenge</option>
             </select>
             {this.getDependantForm()}
             <button onClick={this.save}>Save</button>

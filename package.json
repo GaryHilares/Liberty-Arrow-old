@@ -40,7 +40,6 @@
     "npm-watch": "^0.10.0"
   },
   "watch": {
-    "build": "src/",
-    "build": "public/"
+    "build": "{src,public}/"
   }
 }
