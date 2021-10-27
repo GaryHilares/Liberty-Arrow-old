@@ -1,8 +1,8 @@
 const Types = {group: '1', unique: '2'};
-chrome.runtime.onInstalled.addListener(function(){
-	chrome.storage.local.get('blockedPages',function(result){
+chrome.runtime.onInstalled.addListener(()=>{
+	chrome.storage.local.get('blockedPages',(result)=>{
 		if(!result.blockedPages)
-			chrome.storage.local.set({blockedPages: {type: Types.group, name: null, isRoot: true, childs: []}},function(){console.log('Setted root correctly')});
+			chrome.storage.local.set({blockedPages: {type: Types.group, name: null, isRoot: true, childs: []}},()=>{console.log('Setted root correctly')});
 	});
 });
 
@@ -27,12 +27,12 @@ function pageInTree(url,root)
 }
 
 let blockedPages = {};
-chrome.storage.local.get('blockedPages',function(result){
+chrome.storage.local.get('blockedPages',(result)=>{
 	blockedPages = result.blockedPages;
 });
 let currentTab  = null;
 
-chrome.storage.onChanged.addListener(function(changes,namespace){
+chrome.storage.onChanged.addListener((changes,namespace)=>{
 	if(namespace == 'local')
 	{
 		for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
@@ -43,12 +43,12 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
 	}
 });
 
-chrome.tabs.onActivated.addListener(function(activeInfo){
+chrome.tabs.onActivated.addListener((activeInfo)=>{
 	currentTab = activeInfo.tabId;
 	console.log(currentTab);
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
+chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab)=>{
 	if(tabId == currentTab)
 	{
 		console.log(tab.url);

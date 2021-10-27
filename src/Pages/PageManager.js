@@ -126,7 +126,7 @@ class PageGroupManagerUnit extends React.Component
       {this.props.isRoot ? null:<button onClick={this.handleDeleteButtonClick}>Delete</button>}
       <button>Configure</button>
       <ul>
-        {this.props.currentNode.childs.map(function(element,index){
+        {this.props.currentNode.childs.map((element,index)=>{
             if(element.type === Types.group)
               return <li key={index}><PageGroupManagerUnit
               currentNode={element}
@@ -183,7 +183,7 @@ class PageManager extends React.Component
   }
   handleModalChange(modalData)
   {
-    this.setState(function(state){return {modal: {showing: state.modal.showing, targetAdress: state.modal.targetAdress, data: modalData}};});
+    this.setState((state)=>{return {modal: {showing: state.modal.showing, targetAdress: state.modal.targetAdress, data: modalData}};});
   }
   openModalOnAddMode(selectorArray)
   {
@@ -213,10 +213,10 @@ class PageManager extends React.Component
     console.log("Root: ");
     console.log("Size in bytes: " + unescape(encodeURIComponent(JSON.stringify(this.state.root))).length);
     console.log(this.state.root);
-    chrome.storage.local.set({blockedPages: this.state.root},function(result){
+    chrome.storage.local.set({blockedPages: this.state.root},(result)=>{
       console.log("Data saved!");
     });
-    chrome.storage.local.get(null, function(result){console.log(result);})
+    chrome.storage.local.get(null, (result)=>{console.log(result);})
   }
   render()
   {
