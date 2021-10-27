@@ -213,7 +213,7 @@ class PageManager extends React.Component
     console.log("Root: ");
     console.log("Size in bytes: " + unescape(encodeURIComponent(JSON.stringify(this.state.root))).length);
     console.log(this.state.root);
-    chrome.storage.local.set({blockedPages: this.state.root},(result)=>{
+    chrome.storage.local.set({blockedPages: this.state.root},()=>{
       console.log("Data saved!");
     });
     chrome.storage.local.get(null, (result)=>{console.log(result);})

@@ -7,10 +7,6 @@ class SettingsManager extends React.Component
     {
         super(props);
         this.state = {passwordType: 'None', details: null};
-        chrome.storage.local.get('passwordType',(result)=>{
-            this.setState(result.passwordType);
-            console.log("Data loaded!");
-        });
         this.handleMainSelectChange = this.handleMainSelectChange.bind(this);
         this.handlePasswordTextChange = this.handlePasswordTextChange.bind(this);
         this.handleChallengeSelectChange = this.handleChallengeSelectChange.bind(this);
