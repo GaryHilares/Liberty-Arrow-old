@@ -8,9 +8,6 @@
   <img alt="badge-codesize" src="https://img.shields.io/github/languages/code-size/GaryNLOL/Ganbara-Neba?style=for-the-badge">
 </p>
 
-## Useful links
-- [Project's Style Guide](https://github.com/GaryNLOL/Style-Guides/).
-
 ## What is Ganbara Neba?
 Ganbara Neba is the Chrome extension for blocking websites and improving productivity.
 
