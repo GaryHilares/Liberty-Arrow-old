@@ -1,8 +1,7 @@
 import SettingsManager from "../Components/SettingsManager";
 import React from "react";
 
-function SettingsTab
-{
+function SettingsTab(){
   return (<SettingsManager />);
 }
 
