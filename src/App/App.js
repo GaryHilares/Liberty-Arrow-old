@@ -1,7 +1,7 @@
 import React from "react";
-import HomeTab from "./Home/Home";
-import PagesTab from "./Pages/Pages";
-import SettingsTab from "./Settings/Settings";
+import HomeTab from "../Tabs/HomeTab/HomeTab";
+import PagesTab from "../Tabs/PagesTab/PagesTab";
+import SettingsTab from "../Tabs/SettingsTab/SettingsTab";
 
 class NavBar extends React.Component
 {
