@@ -9,8 +9,6 @@ class PasswordModal extends React.Component
             return null;
         case 'Password':
             return (<input type='password' />);
-        case 'Challenge':
-            return <span>Challenge</span>;
         default:
             console.error('UnexpectedResult: this.props.type is not known.');
         }

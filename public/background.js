@@ -53,7 +53,9 @@ chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab)=>{
 	{
 		console.log(tab.url);
 		console.log(blockedPages);
+		let id = chrome.runtime.id;
+		let webpage_url = `chrome-extension://${id}/blocked.html`;
 		if(pageInTree(tab.url, blockedPages))
-			chrome.tabs.update(tabId,{url: "https://github.com/GaryNLOL"});
+			chrome.tabs.update(tabId,{url: webpage_url});
 	}
 });
