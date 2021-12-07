@@ -1,4 +1,4 @@
-import SettingsManager from "./SettingsManager";
+import SettingsManager from "../Components/SettingsManager";
 import React from "react";
 
 class SettingsTab extends React.Component

@@ -1,6 +1,6 @@
 /* global chrome */
 import React from "react";
-import deepCopy from '../../Utils/utils';
+import deepCopy from '../Utils/utils';
 
 const Types = {group: '1', unique: '2'};
 Object.freeze(Types);
