@@ -6,15 +6,14 @@ class SettingsManager extends React.Component
     constructor(props)
     {
         super(props);
-        this.state = {passwordType: 'None', details: null};
-        this.handleMainSelectChange = this.handleMainSelectChange.bind(this);
+        this.state = {protectionType: 'None', details: null};
+        this.handleProtectionTypeChange = this.handleProtectionTypeChange.bind(this);
         this.handlePasswordTextChange = this.handlePasswordTextChange.bind(this);
-        this.handleChallengeSelectChange = this.handleChallengeSelectChange.bind(this);
         this.save = this.save.bind(this);
     }
-    handleMainSelectChange(event)
+    handleProtectionTypeChange(event)
     {
-        let newState = {passwordType: event.target.value};
+        let newState = {protectionType: event.target.value};
         switch(event.target.value)
         {
         case 'None':
@@ -23,12 +22,9 @@ class SettingsManager extends React.Component
         case 'Password':
             newState['details'] = {password: ''};
             break;
-        case 'Challenge':
-            newState['details'] = {type: 'Tetris'};
-            break;
         default:
             newState['details'] = null;
-            console.error('UnexpectedResult: this.state.tab is not known.')
+            console.error('UnexpectedResult: this.state.tab is not known.');
         }
         this.setState(newState);
     }
@@ -36,20 +32,16 @@ class SettingsManager extends React.Component
     {
         this.setState({details: {password: event.target.value}});
     }
-    handleChallengeSelectChange(event)
-    {
-        this.setState({details: {type: event.target.value}});
-    }
     getDependantForm()
     {
-        switch(this.state.passwordType)
+        switch(this.state.protectionType)
         {
         case 'None':
             return null;
         case 'Password':
             return (<input type='password' onChange={this.handlePasswordTextChange} />);
         default:
-            console.error('UnexpectedResult: this.state.passwordType is not known.')
+            console.error('UnexpectedResult: this.state.protectionType is not known.');
             return null;
         }
     }
@@ -61,7 +53,7 @@ class SettingsManager extends React.Component
         return (
         <div>
             <span>Password Protection</span>
-            <select onChange={this.handleMainSelectChange} defaultValue={this.state.passwordType}>
+            <select onChange={this.handleProtectionTypeChange} defaultValue={this.state.protectionType}>
                 <option value='None'>None</option>
                 <option value='Password'>Password</option>
             </select>
