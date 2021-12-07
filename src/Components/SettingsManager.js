@@ -1,5 +1,6 @@
 /* global chrome */
 import React from 'react';
+import {getUniqueId} from '../Utils/utils';
 
 class SettingsManager extends React.Component
 {
@@ -50,10 +51,11 @@ class SettingsManager extends React.Component
         chrome.storage.local.set({'passwordData': this.state});
     }
     render(){
+        const password_protection_select_id = getUniqueId('password-protection-select');
         return (
         <div>
-            <span>Password Protection</span>
-            <select onChange={this.handleProtectionTypeChange} defaultValue={this.state.protectionType}>
+            <label htmlFor={password_protection_select_id}>Password Protection</label>
+            <select id={password_protection_select_id} onChange={this.handleProtectionTypeChange} defaultValue={this.state.protectionType}>
                 <option value='None'>None</option>
                 <option value='Password'>Password</option>
             </select>

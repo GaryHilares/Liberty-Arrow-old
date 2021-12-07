@@ -1,6 +1,6 @@
 /* global chrome */
 import React from "react";
-import deepCopy from '../Utils/utils';
+import {deepCopy,getUniqueId} from '../Utils/utils';
 
 const Types = {group: '1', unique: '2'};
 Object.freeze(Types);
@@ -53,13 +53,16 @@ class Modal extends React.Component
     switch(this.props.data.type)
     {
       case Types.unique:
+        const unique_name_id = getUniqueId('name');
+        const unique_url_id = getUniqueId('url');
         return (<fieldset /* Unique */ >
-                  <span>Name</span><input type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
-                  <span>URL</span><input type='text' data-dict-key='url' value={this.props.data.url || ''} onChange={this.handleChange} />
+                  <label htmlFor={unique_name_id}>Name</label><input id={unique_name_id} type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
+                  <label htmlFor={unique_url_id}>URL</label><input id={unique_url_id} type='text' data-dict-key='url' value={this.props.data.url || ''} onChange={this.handleChange} />
                 </fieldset>);
       case Types.group:
+        const group_name_id = getUniqueId('name');
         return (<fieldset /* Group */>
-                  <span>Name</span><input type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
+                  <label htmlFor={group_name_id}>Name</label><input id={group_name_id} type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
                 </fieldset>);
       default:
         return null;
@@ -67,12 +70,14 @@ class Modal extends React.Component
   }
   render()
   {
+    const type_unique_id = getUniqueId('type-unique');
+    const type_group_id = getUniqueId('type-group');
     return (
     <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
       <h2>Create new entry</h2>
       <fieldset /* All */>
-        <input name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <span>Unique</span>
-        <input name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <span>Group</span>
+        <input id={type_unique_id} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <label htmlFor={type_unique_id}>Unique</label>
+        <input id={type_group_id} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <label htmlFor={type_group_id}>Group</label>
       </fieldset>
       {this.getFieldset()}
       <input type='submit' value='Ok' />

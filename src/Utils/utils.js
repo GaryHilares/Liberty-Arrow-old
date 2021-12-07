@@ -1,3 +1,5 @@
+const getUniqueId = (prefix)=>{return `${prefix}-${Date.now()}-${Math.random()}`;};
+
 function compose(a,b)
 {
   return function(c){
@@ -6,4 +8,5 @@ function compose(a,b)
 }
 const deepCopy = compose(JSON.parse,JSON.stringify);
 
-export default deepCopy;
+export default {deepCopy,getUniqueId};
+export {deepCopy,getUniqueId};
