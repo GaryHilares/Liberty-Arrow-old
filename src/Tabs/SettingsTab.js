@@ -1,11 +1,9 @@
 import SettingsManager from "../Components/SettingsManager";
 import React from "react";
 
-class SettingsTab extends React.Component
+function SettingsTab
 {
-  render(){
-    return (<SettingsManager />);
-  }
+  return (<SettingsManager />);
 }
 
 export default SettingsTab;
