@@ -1,57 +1,33 @@
 import React from "react";
+import {BrowserRouter as Router,Route,Routes,Link,Navigate} from "react-router-dom";
 import HomeTab from "../Tabs/HomeTab";
 import PagesTab from "../Tabs/PagesTab";
 import SettingsTab from "../Tabs/SettingsTab";
 
-class NavBar extends React.Component
+function NavBar()
 {
-  render(){
-    return (
-    <React.Fragment>
-      <div>
-        <button onClick={this.props.handleTabButtonClick} value='Home'>Home</button>
-        <button onClick={this.props.handleTabButtonClick} value='Pages'>Pages</button>
-        <button onClick={this.props.handleTabButtonClick} value='Settings'>Settings</button>
-      </div>
-    </React.Fragment>);
-  }
+  return (
+  <div>
+    <Link to='/home'>Home</Link>
+    <Link to='/pages'>Pages</Link>
+    <Link to='/settings'>Settings</Link>
+  </div>);
 }
 
-class App extends React.Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.state = {tab: "Home"};
-    this.handleTabButtonClick = this.handleTabButtonClick.bind(this);
-  }
-  getPage()
-  {
-    switch(this.state.tab)
-    {
-      case 'Home':
-        return (<HomeTab />);
-      case 'Pages':
-        return (<PagesTab />);
-      case 'Settings':
-        return (<SettingsTab />);
-      default:
-        console.error('UnexpectedResult: this.state.tab is not known.')
-        return null;
-    }
-  }
-  handleTabButtonClick(event)
-  {
-    this.setState({tab: event.target.value});
-  }
-  render() {
-    return (
+function App(){
+  return (
+    <Router>
       <div className="App">
-        <NavBar handleTabButtonClick={this.handleTabButtonClick} />
-        {this.getPage()}
+        <NavBar />
+        <Routes>
+          <Route path="/index.html" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomeTab />} />
+          <Route path="/pages" element={<PagesTab />} />
+          <Route path="/settings" element={<SettingsTab />} />
+        </Routes>
       </div>
-    );
-  }
+    </Router>
+  );
 }
 
 export default App;
