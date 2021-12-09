@@ -43,19 +43,15 @@ chrome.storage.onChanged.addListener((changes,namespace)=>{
 	}
 });
 
-chrome.tabs.onActivated.addListener((activeInfo)=>{
-	currentTab = activeInfo.tabId;
-	console.log(currentTab);
-});
-
 chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab)=>{
-	if(tabId == currentTab)
+	if(changeInfo.url)
 	{
-		console.log(tab.url);
-		console.log(blockedPages);
-		let id = chrome.runtime.id;
-		let webpage_url = `chrome-extension://${id}/static/html/blocked.html`;
-		if(pageInTree(tab.url, blockedPages))
+		let webpage_url = 'static/html/blocked.html';
+		console.log(changeInfo.url, blockedPages, pageInTree(changeInfo.url, blockedPages));
+		if(pageInTree(changeInfo.url, blockedPages))
+		{
+			console.log("Updating");
 			chrome.tabs.update(tabId,{url: webpage_url});
+		}
 	}
 });
