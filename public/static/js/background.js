@@ -30,7 +30,6 @@ let blockedPages = {};
 chrome.storage.local.get('blockedPages',(result)=>{
 	blockedPages = result.blockedPages;
 });
-let currentTab  = null;
 
 chrome.storage.onChanged.addListener((changes,namespace)=>{
 	if(namespace == 'local')
@@ -43,7 +42,7 @@ chrome.storage.onChanged.addListener((changes,namespace)=>{
 	}
 });
 
-chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab)=>{
+chrome.tabs.onUpdated.addListener((tabId,changeInfo,_tab)=>{
 	if(changeInfo.url)
 	{
 		let webpage_url = 'static/html/blocked.html';
