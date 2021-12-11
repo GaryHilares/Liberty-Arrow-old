@@ -8,7 +8,7 @@ import './App.css';
 function NavBar()
 {
   return (
-  <div>
+  <div className="navbar">
     <Link to='/home'>Home</Link>
     <Link to='/pages'>Pages</Link>
     <Link to='/settings'>Settings</Link>

@@ -1,5 +1,6 @@
 /* global chrome */
 import React from "react";
+import PageManagerStyles from './PageManager.module.css';
 import {deepCopy,getUniqueId} from '../Utils/utils';
 
 const Types = {group: '1', unique: '2'};
@@ -55,13 +56,13 @@ class Modal extends React.Component
       case Types.unique:
         const unique_name_id = getUniqueId('name');
         const unique_url_id = getUniqueId('url');
-        return (<fieldset /* Unique */ >
+        return (<fieldset className={PageManagerStyles.fieldset} /* Unique */ >
                   <label htmlFor={unique_name_id}>Name</label><input id={unique_name_id} type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
                   <label htmlFor={unique_url_id}>URL</label><input id={unique_url_id} type='text' data-dict-key='url' value={this.props.data.url || ''} onChange={this.handleChange} />
                 </fieldset>);
       case Types.group:
         const group_name_id = getUniqueId('name');
-        return (<fieldset /* Group */>
+        return (<fieldset className={PageManagerStyles.fieldset} /* Group */>
                   <label htmlFor={group_name_id}>Name</label><input id={group_name_id} type='text' data-dict-key='name' value={this.props.data.name || ''} onChange={this.handleChange} />
                 </fieldset>);
       default:
@@ -73,16 +74,20 @@ class Modal extends React.Component
     const type_unique_id = getUniqueId('type-unique');
     const type_group_id = getUniqueId('type-group');
     return (
-    <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
-      <h2>Create new entry</h2>
-      <fieldset /* All */>
-        <input id={type_unique_id} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <label htmlFor={type_unique_id}>Unique</label>
-        <input id={type_group_id} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <label htmlFor={type_group_id}>Group</label>
-      </fieldset>
-      {this.getFieldset()}
-      <input type='submit' value='Ok' />
-      <input type='reset' value='Cancel' />
-    </form>);
+    <div className={PageManagerStyles.modal__wrapper}>
+      <div className={PageManagerStyles.modal}>
+        <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
+          <h2>Create new entry</h2>
+          <fieldset className={PageManagerStyles.fieldset} /* All */>
+            <input id={type_unique_id} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <label htmlFor={type_unique_id}>Unique</label>
+            <input id={type_group_id} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <label htmlFor={type_group_id}>Group</label>
+          </fieldset>
+          {this.getFieldset()}
+          <input type='submit' value='Ok' />
+          <input type='reset' value='Cancel' />
+        </form>
+      </div>
+    </div>);
   }
 }
 
@@ -100,7 +105,8 @@ class PageUniqueManagerUnit extends React.Component
   render()
   {
     return (<div>
-      <span>{this.props.name}</span><span>{this.props.url}</span>
+      <span className={PageManagerStyles.unique_entry__name}>{this.props.name}</span>
+      <span className={PageManagerStyles.unique_entry__url}>{this.props.url}</span>
       <button onClick={this.handleDeleteButtonClick}>Delete</button>
     </div>);
   }
@@ -126,7 +132,7 @@ class PageGroupManagerUnit extends React.Component
   {
     return (
     <div>
-      {this.props.isRoot ? null:<h1>{this.props.name}</h1>}
+      {this.props.isRoot ? null:<span className={PageManagerStyles.group_entry__name}>{this.props.name}</span>}
       <button onClick={this.handleAddButtonClick}>Add</button>
       {this.props.isRoot ? null:<button onClick={this.handleDeleteButtonClick}>Delete</button>}
       <button>Configure</button>
