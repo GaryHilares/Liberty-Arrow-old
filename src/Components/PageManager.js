@@ -75,6 +75,8 @@ class PageManagerModal extends React.Component
   }
   render()
   {
+    if(!(this.props.data.type in Types))
+      console.error('UnexpectedResult: this.props.data.type is not known.')
     const type_unique_id = getUniqueId('type-unique');
     const type_group_id = getUniqueId('type-group');
     return (

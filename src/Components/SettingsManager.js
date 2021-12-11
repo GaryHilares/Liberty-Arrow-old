@@ -33,24 +33,13 @@ class SettingsManager extends React.Component
     {
         this.setState({details: {password: event.target.value}});
     }
-    getDependantForm()
-    {
-        switch(this.state.protectionType)
-        {
-        case 'None':
-            return null;
-        case 'Password':
-            return (<input type='password' onChange={this.handlePasswordTextChange} />);
-        default:
-            console.error('UnexpectedResult: this.state.protectionType is not known.');
-            return null;
-        }
-    }
     save(){
         console.log(this.state);
         chrome.storage.local.set({'passwordData': this.state});
     }
     render(){
+        if(!(this.state.protectionType in ['None','Password']))
+            console.error('UnexpectedResult: this.state.protectionType is not known.');
         const password_protection_select_id = getUniqueId('password-protection-select');
         return (
         <div>
@@ -59,7 +48,7 @@ class SettingsManager extends React.Component
                 <option value='None'>None</option>
                 <option value='Password'>Password</option>
             </select>
-            {this.getDependantForm()}
+            {this.props.type == 'Password' && <input type='password' onChange={this.handlePasswordTextChange} />}
             <button onClick={this.save}>Save</button>
         </div>
         );
