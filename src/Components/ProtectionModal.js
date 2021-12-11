@@ -6,16 +6,22 @@ function PasswordTypeForm(){
     return (<input type='password' />);
 }
 
-class ProtectionModal extends React.Component
+export class ProtectionModal extends React.Component
 {
+    constructor(props){
+        super(props);
+        this.state = {protectionType: 'None', details: null};
+        chrome.storage.local.get('passwordData',(result)=>{
+            this.setState(result.passwordData);
+            console.log('Data loaded!');
+        });
+    }
     render(){
-        if(!(this.props.type in ['None','Password']))
-            console.error('UnexpectedResult: this.props.type is not known.');
+        if(!(this.state.protectionType in ['None','Password']))
+            console.error('UnexpectedResult: this.state.protectionType is not known.');
         return (
         <Modal>
-            {this.props.type == 'Password' && <PasswordTypeForm />}
+            {this.state.protectionType == 'Password' && <PasswordTypeForm />}
         </Modal>);
     }
 }
-
-/* Working on it */

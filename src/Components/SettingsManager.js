@@ -48,7 +48,7 @@ class SettingsManager extends React.Component
                 <option value='None'>None</option>
                 <option value='Password'>Password</option>
             </select>
-            {this.props.type == 'Password' && <input type='password' onChange={this.handlePasswordTextChange} />}
+            {this.state.protectionType == 'Password' && <input type='password' onChange={this.handlePasswordTextChange} />}
             <button onClick={this.save}>Save</button>
         </div>
         );
