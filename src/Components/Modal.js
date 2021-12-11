@@ -1,6 +1,6 @@
 import ModalStyles from './Modal.module.css';
 
-function Modal(props)
+export function Modal(props)
 {
   return (
     <div className={ModalStyles.modal__wrapper}>
@@ -9,6 +9,3 @@ function Modal(props)
       </div>
     </div>);
 }
-
-export default Modal;
-export {Modal};
