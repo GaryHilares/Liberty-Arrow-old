@@ -13,12 +13,18 @@ Ganbara Neba is the Chrome extension for blocking websites and improving product
 
 ### Features
 - **Multiple level:** Ganbara Neba allows you to put groups of blocked pages with individual rules and nested in multiple levels.
+- **Unlimited sites:** You wan't to block 50 different sites? No problem!
+- **Substring blocking system:** You not only can block sites by adding the domain name, but also by adding any url's substring.
 
 ### Platforms
 - Google Chrome.
+- Firefox.
+- Edge (Unnoficial).
+- Opera (Unnoficial).
+- Brave (Unnoficial).
 
 ## Motivation
-I like different Chrome extensions that help you to improve productivity by giving you different options to make you waste less time in unnecessary websites. However, I wanted to add multiple websites in different ways and these extensions only allowed to set a group of rules for all pages.
+I like different browser extensions that help you to improve productivity by giving you different options to make you waste less time in unnecessary websites. However, I wanted to add multiple websites in different ways and these extensions only allowed to set a group of rules for all pages.
 
 Ganbara Neba aims to solve this problem by providing group organization to your websites and allowing you to put different rules for them.
 
