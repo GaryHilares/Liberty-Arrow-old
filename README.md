@@ -19,9 +19,9 @@ Ganbara Neba is the Chrome extension for blocking websites and improving product
 ### Platforms
 - Google Chrome.
 - Firefox.
-- Edge (Unnoficial).
-- Opera (Unnoficial).
-- Brave (Unnoficial).
+- Edge (Unofficial).
+- Opera (Unofficial).
+- Brave (Unofficial).
 
 ## Motivation
 I like different browser extensions that help you to improve productivity by giving you different options to make you waste less time in unnecessary websites. However, I wanted to add multiple websites in different ways and these extensions only allowed to set a group of rules for all pages.
