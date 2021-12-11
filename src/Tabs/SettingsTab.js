@@ -1,8 +1,6 @@
 import SettingsManager from "../Components/SettingsManager";
 import React from "react";
 
-function SettingsTab(){
+export function SettingsTab(){
   return (<SettingsManager />);
 }
-
-export default SettingsTab;

@@ -1,7 +1,5 @@
 import React from "react";
 
-function HomeTab(){
+export function HomeTab(){
   return (null);
 }
-
-export default HomeTab;
