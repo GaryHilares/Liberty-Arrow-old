@@ -177,7 +177,7 @@ class PageManager extends React.Component
     super(props);
     this.state = {root: {type: Types.group, name: null, isRoot: true, childs: []}, modal: {showing: false, targetAdress: null, data: {}}}
     chrome.storage.local.get('blockedPages',(result)=>{
-      this.setState({root: result.blockedPages, modal: {showing: false, targetAdress: null, data: {}}});
+      this.setState({root: result.blockedPages});
       console.log('Data loaded!');
     });
     this.addPage = this.addPage.bind(this);
