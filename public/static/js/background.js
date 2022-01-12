@@ -45,7 +45,7 @@ chrome.storage.onChanged.addListener((changes,namespace)=>{
 chrome.tabs.onUpdated.addListener((tabId,changeInfo,_tab)=>{
 	if(changeInfo.url)
 	{
-		let webpage_url = 'static/html/blocked.html';
+		let webpage_url = '/blocked.html';
 		console.log(changeInfo.url, blockedPages, pageInTree(changeInfo.url, blockedPages));
 		if(pageInTree(changeInfo.url, blockedPages))
 		{
