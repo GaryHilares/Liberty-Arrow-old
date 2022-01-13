@@ -1,5 +1,5 @@
 import React from "react";
 
-export function HomeTab(){
+export function HomeTab() {
   return (null);
 }

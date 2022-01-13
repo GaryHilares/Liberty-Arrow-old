@@ -1,15 +1,15 @@
-.unique_entry__name{
+.unique_entry__name {
     font-size: 0.9em;
     font-weight: bold;
     padding-right: 5px;
 }
 
-.unique_entry__url{
+.unique_entry__url {
     font-size: 0.9em;
     padding-right: 5px;
 }
 
-.group_entry__name{
+.group_entry__name {
     font-size: 1.25em;
     font-weight: bold;
     padding-right: 5px;

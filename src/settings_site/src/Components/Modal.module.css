@@ -1,4 +1,4 @@
-.modal__wrapper{
+.modal__wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -7,12 +7,12 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal{
+.modal {
     background-color: white;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     width: 50%;
     height: 50%;
     border: 1px solid black;

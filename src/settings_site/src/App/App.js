@@ -1,12 +1,12 @@
 import React from "react";
-import {HashRouter as Router,Route,Routes,Navigate} from "react-router-dom";
-import {HomeTab} from "../Tabs/HomeTab";
-import {PagesTab} from "../Tabs/PagesTab";
-import {SettingsTab} from "../Tabs/SettingsTab";
-import {NavBar} from "../Components/NavBar";
+import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { HomeTab } from "../Tabs/HomeTab";
+import { PagesTab } from "../Tabs/PagesTab";
+import { SettingsTab } from "../Tabs/SettingsTab";
+import { NavBar } from "../Components/NavBar";
 import './App.css';
 
-function App(){
+function App() {
   return (
     <Router>
       <div className="App">
