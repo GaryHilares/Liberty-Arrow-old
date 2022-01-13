@@ -78,8 +78,8 @@ class PageManagerModal extends React.Component {
             <input id={type_unique_id} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <label htmlFor={type_unique_id}>Unique</label>
             <input id={type_group_id} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <label htmlFor={type_group_id}>Group</label>
           </fieldset>
-          {this.props.data.type == Types.unique && <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />}
-          {this.props.data.type == Types.group && <GroupTypeForm onChange={this.handleChange} data={this.props.data} />}
+          {this.props.data.type === Types.unique && <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />}
+          {this.props.data.type === Types.group && <GroupTypeForm onChange={this.handleChange} data={this.props.data} />}
           <input type='submit' value='Ok' />
           <input type='reset' value='Cancel' />
         </form>
