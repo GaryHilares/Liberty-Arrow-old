@@ -4,23 +4,23 @@ from distutils.dir_util import copy_tree
 
 
 def build_background_scripts():
-    copy_tree('src/background_scripts/', 'build/')
+    copy_tree('src/background_scripts/', 'build/',update=True)
 
 
 def build_metadata():
-    copy_tree('src/metadata/', 'build/')
+    copy_tree('src/metadata/', 'build/',update=True)
 
 
 def build_settings_site():
     os.environ["INLINE_RUNTIME_CHUNK"] = "false"
     os.environ["GENERATE_SOURCEMAP"] = "false"
     os.system('cd src/settings_site && npm run build')
-    copy_tree('src/settings_site/build/', 'build/')
+    copy_tree('src/settings_site/build/', 'build/',update=True)
 
 
 build_bindings = {
     "background_scripts": build_background_scripts,
-    "metadata": build_background_scripts,
+    "metadata": build_metadata,
     "settings_site": build_settings_site
 }
 
