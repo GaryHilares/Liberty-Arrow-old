@@ -1,6 +1,7 @@
 /* global chrome */
 import React from 'react';
 import { getUniqueId } from '../Utils/utils';
+import SettingsManagerStyles from "./SettingsManager.module.css";
 
 class SettingsManager extends React.Component {
     constructor(props) {
@@ -36,15 +37,25 @@ class SettingsManager extends React.Component {
         if (!(this.state.protectionType in ['None', 'Password']))
             console.error('UnexpectedResult: this.state.protectionType is not known.');
         const password_protection_select_id = getUniqueId('password-protection-select');
+        const password_input_id = getUniqueId('password_input_id');
         return (
-            <div>
-                <label htmlFor={password_protection_select_id}>Password Protection</label>
-                <select id={password_protection_select_id} onChange={this.handleProtectionTypeChange} defaultValue={this.state.protectionType}>
-                    <option value='None'>None</option>
-                    <option value='Password'>Password</option>
-                </select>
-                {this.state.protectionType === 'Password' && <input type='password' onChange={this.handlePasswordTextChange} />}
-                <button onClick={this.save}>Save</button>
+            <div className={SettingsManagerStyles.settings_manager}>
+                <div className={SettingsManagerStyles.settings__pair}>
+                    <label htmlFor={password_protection_select_id}>Protection Type</label>
+                    <select className={SettingsManagerStyles.settings__pair__value} id={password_protection_select_id} onChange={this.handleProtectionTypeChange} defaultValue={this.state.protectionType}>
+                        <option value='None'>None</option>
+                        <option value='Password'>Password</option>
+                    </select>
+                </div>
+                {this.state.protectionType === 'Password' && (
+                    <div className={SettingsManagerStyles.settings__pair}>
+                        <label htmlFor={password_input_id}>Password</label>
+                        <input className={SettingsManagerStyles.settings__pair__value} id={password_input_id} type='password' onChange={this.handlePasswordTextChange} />
+                    </div>
+                )}
+                <div className={SettingsManagerStyles.settings__buttons_box}>
+                    <button className={SettingsManagerStyles.settings__buttons_box__save_button} onClick={this.save}>Save</button>
+                </div>
             </div>
         );
     }
