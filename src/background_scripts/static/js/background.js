@@ -2,7 +2,7 @@ const Types = { group: '1', unique: '2' };
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.storage.local.get('blockedPages', (result) => {
 		if (!result.blockedPages)
-			chrome.storage.local.set({ blockedPages: { type: Types.group, name: null, isRoot: true, childs: [] } }, () => { console.log('Setted root correctly') });
+			chrome.storage.local.set({ blockedPages: { type: Types.group, name: "All pages", isRoot: true, childs: [] } }, () => { console.log('Setted root correctly') });
 	});
 });
 

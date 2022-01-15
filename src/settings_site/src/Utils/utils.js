@@ -1,5 +1,3 @@
-/* global structuredClone */
-
 function getUniqueId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random()}`;
 };
@@ -9,7 +7,7 @@ function compose(a, b) {
     return a(b(c));
   };
 }
-const deepCopy = structuredClone;
+const deepCopy = compose(JSON.parse, JSON.stringify);
 
 const Utils = {
   deepCopy,
