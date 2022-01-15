@@ -3,8 +3,23 @@
 	<head>
 		<title>Ganbaraneba Popup</title>
 		<meta charset="utf-8" />
+		<link rel="stylesheet"
+			href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+		<style>
+			.settings_button {
+				color: gray;
+				transition: all 0.5s;
+			}
+
+			.settings_button:hover,
+			.settings_button:active {
+				background-color: gray;
+				color: white;
+				transition: all 0.5s;
+			}
+		</style>
 	</head>
 	<body>
-		<a href="/index.html" target="_blank">Extension</a>
+		<a href="/index.html" target="_blank"><i aria-label="Settings" class="las la-tools settings_button"></i></a>
 	</body>
 </html>
