@@ -2,6 +2,7 @@
 import React from "react";
 import { deepCopy, getUniqueId } from '../Utils/utils';
 import { Modal } from './modal';
+import PageManagerStyles from './PageManager.module.css';
 
 const Types = { group: '1', unique: '2' };
 Object.freeze(Types);
@@ -175,29 +176,35 @@ class PageGroupView extends React.Component {
     render() {
         return (
             <div>
-                {!this.state.currentNode.isRoot && <button onClick={this.handleGoBackButtonClick}>Go back</button>}
-                <button onClick={this.handleAddButtonClick}>Add</button>
-                {/*!this.state.currentNode.isRoot && <button onClick={this.handleEditButtonClick}>Edit</button>*/}
-                {!this.state.currentNode.isRoot && <button onClick={this.handleDeleteButtonClick}>Delete</button>}
                 <span>{this.state.path.join('/')}</span>
-                <ul>
+                <div style={{ float: "right" }}>
+                    {!this.state.currentNode.isRoot && <button onClick={this.handleGoBackButtonClick}>Go back</button>}
+                    <button onClick={this.handleAddButtonClick}>Add</button>
+                    {/*!this.state.currentNode.isRoot && <button onClick={this.handleEditButtonClick}>Edit</button>*/}
+                    {!this.state.currentNode.isRoot && <button onClick={this.handleDeleteButtonClick}>Delete</button>}
+                </div>
+                <ul className={PageManagerStyles.page_manager__rule_list}>
                     {this.state.currentNode.childs.map((child) => {
                         switch (child.type) {
                             case Types.group:
                                 return (
-                                    <div>
-                                        <a value={child.name} onClick={this.handleChildClick}>{child.name}</a>
-                                        <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
-                                        <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                    <div className={PageManagerStyles.page_manager__rule_list__rule}>
+                                        <span className={PageManagerStyles.page_manager__group__name} value={child.name} onClick={this.handleChildClick}>{child.name}</span>
+                                        <div style={{ float: "right" }}>
+                                            <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
+                                            <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                        </div>
                                     </div>
                                 );
                             case Types.unique:
                                 return (
-                                    <div>
-                                        <a>{child.name}</a>
-                                        <span>{child.url}</span>
-                                        <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
-                                        <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                    <div className={PageManagerStyles.page_manager__rule_list__rule}>
+                                        <span className={PageManagerStyles.page_manager__unique__name}>{child.name}</span>
+                                        <span className={PageManagerStyles.page_manager__unique__url}>{child.url}</span>
+                                        <div style={{ float: "right" }}>
+                                            <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
+                                            <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                        </div>
                                     </div>
                                 );
                             default:
@@ -314,14 +321,16 @@ class PageManager extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className={PageManagerStyles.page_manager}>
                 {this.state.modal && <PageManagerModal
                     onSubmit={this.handleModalSubmit} onCancel={this.handleModalCancel}
                     onChange={this.handleModalChange} data={this.state.modal.data} />}
                 <PageGroupView root={this.state.root} addNode={this.addPage}
                     editNode={this.editPage} deleteNode={this.deletePage} />
-                <button onClick={this.save}>Save</button>
-            </div>
+                <div className={PageManagerStyles.page_manager__buttons_box}>
+                    <button className={PageManagerStyles.page_manager__buttons_box__save_button} onClick={this.save}>Save</button>
+                </div>
+            </div >
         );
     }
 }

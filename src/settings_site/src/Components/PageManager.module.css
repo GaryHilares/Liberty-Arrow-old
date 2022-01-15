@@ -1,16 +1,51 @@
-.unique_entry__name {
-    font-size: 0.9em;
-    font-weight: bold;
-    padding-right: 5px;
+.page_manager {
+    margin: 10px 25% 0;
 }
 
-.unique_entry__url {
-    font-size: 0.9em;
-    padding-right: 5px;
+.page_manager__buttons_box {
+    text-align: center;
 }
 
-.group_entry__name {
-    font-size: 1.25em;
+.page_manager__rule_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.page_manager__rule_list__rule {
+    clear: both;
+    border-bottom: 1px dashed gray;
+    padding: 5px 0;
+}
+
+.page_manager__buttons_box__save_button {
+    font-size: 1em;
+    background-color: transparent;
+    color: blue;
+    border: 1px solid blue;
+    transition: all 0.5s;
+}
+
+.page_manager__buttons_box__save_button:hover,
+.page_manager__buttons_box__save_button:active {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
+
+.page_manager__group__name {
+    font-size: 0.9em;
     font-weight: bold;
-    padding-right: 5px;
+    cursor: pointer;
+}
+
+.page_manager__unique__name {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding-right: 0.5em;
+}
+
+.page_manager__unique__url {
+    font-size: 0.75em;
+    color: gray;
 }
