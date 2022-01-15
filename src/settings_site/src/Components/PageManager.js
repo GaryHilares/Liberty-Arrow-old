@@ -154,7 +154,7 @@ class PageGroupView extends React.Component {
         });
     }
     handleChildDeleteButtonClick(event) {
-        let childName = event.target.value;
+        let childName = event.target.dataset.pagename;
         this.props.deleteNode(this.state.path.concat([childName]), () => { });
     }
     componentDidUpdate(prevProps) {
@@ -166,7 +166,7 @@ class PageGroupView extends React.Component {
         }
     }
     handleEditButtonClick(event) {
-        const path = event.target.value ? this.state.path.concat([event.target.value]) : this.state.path;
+        const path = event.target.dataset.pagename ? this.state.path.concat([event.target.dataset.pagename]) : this.state.path;
         this.props.editNode(path);
     }
     handleAddButtonClick() {
@@ -192,8 +192,8 @@ class PageGroupView extends React.Component {
                                         <span className={PageManagerStyles.page_manager__group__name}>{child.name}</span>
                                         <div style={{ float: "right" }}>
                                             <i aria-label="Go" className={["las la-chevron-right", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildClick}></i>
-                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleEditButtonClick}></i>
-                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleChildDeleteButtonClick}></i>
+                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleEditButtonClick}></i>
+                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildDeleteButtonClick}></i>
                                         </div>
                                     </div>
                                 );
@@ -203,8 +203,8 @@ class PageGroupView extends React.Component {
                                         <span className={PageManagerStyles.page_manager__unique__name}>{child.name}</span>
                                         <span className={PageManagerStyles.page_manager__unique__url}>{child.url}</span>
                                         <div style={{ float: "right" }}>
-                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleEditButtonClick}></i>
-                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleChildDeleteButtonClick}></i>
+                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleEditButtonClick}></i>
+                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildDeleteButtonClick}></i>
                                         </div>
                                     </div>
                                 );
