@@ -124,7 +124,7 @@ class PageGroupView extends React.Component {
             root.childs[index] = newValue;
     }
     handleChildClick(event) {
-        let childName = event.target.textContent;
+        let childName = event.target.dataset.pagename;
         this.setState((prevState) => {
             const newPath = prevState.path.concat([childName]);
             return {
@@ -178,10 +178,10 @@ class PageGroupView extends React.Component {
             <div>
                 <span>{this.state.path.join('/')}</span>
                 <div style={{ float: "right" }}>
-                    {!this.state.currentNode.isRoot && <button onClick={this.handleGoBackButtonClick}>Go back</button>}
-                    <button onClick={this.handleAddButtonClick}>Add</button>
+                    {!this.state.currentNode.isRoot && <i aria-label="Go back" className={["las la-chevron-left", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleGoBackButtonClick}></i>}
+                    <i aria-label="Add" className={["las la-plus", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleAddButtonClick}></i>
                     {/*!this.state.currentNode.isRoot && <button onClick={this.handleEditButtonClick}>Edit</button>*/}
-                    {!this.state.currentNode.isRoot && <button onClick={this.handleDeleteButtonClick}>Delete</button>}
+                    {!this.state.currentNode.isRoot && <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleDeleteButtonClick}></i>}
                 </div>
                 <ul className={PageManagerStyles.page_manager__rule_list}>
                     {this.state.currentNode.childs.map((child) => {
@@ -189,10 +189,11 @@ class PageGroupView extends React.Component {
                             case Types.group:
                                 return (
                                     <div className={PageManagerStyles.page_manager__rule_list__rule}>
-                                        <span className={PageManagerStyles.page_manager__group__name} value={child.name} onClick={this.handleChildClick}>{child.name}</span>
+                                        <span className={PageManagerStyles.page_manager__group__name}>{child.name}</span>
                                         <div style={{ float: "right" }}>
-                                            <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
-                                            <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                            <i aria-label="Go" className={["las la-chevron-right", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildClick}></i>
+                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleEditButtonClick}></i>
+                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleChildDeleteButtonClick}></i>
                                         </div>
                                     </div>
                                 );
@@ -202,8 +203,8 @@ class PageGroupView extends React.Component {
                                         <span className={PageManagerStyles.page_manager__unique__name}>{child.name}</span>
                                         <span className={PageManagerStyles.page_manager__unique__url}>{child.url}</span>
                                         <div style={{ float: "right" }}>
-                                            <button value={child.name} onClick={this.handleEditButtonClick}>Edit</button>
-                                            <button value={child.name} onClick={this.handleChildDeleteButtonClick}>Delete</button>
+                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleEditButtonClick}></i>
+                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} value={child.name} onClick={this.handleChildDeleteButtonClick}></i>
                                         </div>
                                     </div>
                                 );
@@ -212,7 +213,7 @@ class PageGroupView extends React.Component {
                                 return null;
                         }
                     }).map((element, index) => { return <li key={index}>{element}</li> })}
-                </ul>
+                </ul >
             </div >
         );
     }
