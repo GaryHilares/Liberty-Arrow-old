@@ -25,7 +25,7 @@
 }
 
 .settings__buttons_box__save_button:hover,
-.settings__buttons_box__save_button:active {
+.settings__buttons_box__save_button:focus {
     background-color: #545AA7;
     color: white;
     cursor: pointer;

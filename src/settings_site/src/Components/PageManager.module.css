@@ -27,7 +27,7 @@
 }
 
 .page_manager__buttons_box__save_button:hover,
-.page_manager__buttons_box__save_button:active {
+.page_manager__buttons_box__save_button:focus {
     background-color: #545AA7;
     color: white;
     cursor: pointer;
@@ -57,7 +57,7 @@
 }
 
 .page_manager__top__icon_buttons:hover,
-.page_manager__top__icon_buttons:active {
+.page_manager__top__icon_buttons:focus {
     color: white;
     background-color: #545AA7;
     transition: all 0.5s;
@@ -71,7 +71,7 @@
 }
 
 .page_manager__bottom__icon_buttons:hover,
-.page_manager__bottom__icon_buttons:active {
+.page_manager__bottom__icon_buttons:focus {
     color: white;
     background-color: black;
     transition: all 0.5s;
