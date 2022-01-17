@@ -118,7 +118,7 @@ class PageGroupView extends React.Component {
         const names = root.childs.map((e) => { return e.name; });
         const name = direction[direction.length - 1];
         let index = names.indexOf(name);
-        if (index == -1)
+        if (index === -1)
             root.childs.push(newValue)
         else
             root.childs[index] = newValue;

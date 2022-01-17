@@ -1,8 +1,13 @@
 const Types = { group: '1', unique: '2' };
 chrome.runtime.onInstalled.addListener(() => {
-	chrome.storage.local.get('blockedPages', (result) => {
-		if (!result.blockedPages)
-			chrome.storage.local.set({ blockedPages: { type: Types.group, name: "All pages", isRoot: true, childs: [] } }, () => { console.log('Setted root correctly') });
+	chrome.storage.local.get(null, (result) => {
+		if (Object.keys(result).length == 0)
+			chrome.storage.local.set({
+				blockedPages: { type: Types.group, name: "All pages", isRoot: true, childs: [] },
+				passwordData: { protectionType: 'None', details: null }
+			}, () => {
+				console.info('Set data correctly')
+			});
 	});
 });
 
@@ -40,9 +45,9 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
 	if (changeInfo.url) {
 		let webpage_url = '/blocked.html';
-		console.log(changeInfo.url, blockedPages, pageInTree(changeInfo.url, blockedPages));
+		console.info(changeInfo.url, blockedPages, pageInTree(changeInfo.url, blockedPages));
 		if (pageInTree(changeInfo.url, blockedPages)) {
-			console.log("Updating");
+			console.info("Updating");
 			chrome.tabs.update(tabId, { url: webpage_url });
 		}
 	}

@@ -4,6 +4,7 @@ import { HomeTab } from "../Tabs/HomeTab";
 import { PagesTab } from "../Tabs/PagesTab";
 import { SettingsTab } from "../Tabs/SettingsTab";
 import { NavBar } from "../Components/NavBar";
+import { ProtectionController } from "../Components/ProtectionModal";
 import './App.css';
 
 function App() {

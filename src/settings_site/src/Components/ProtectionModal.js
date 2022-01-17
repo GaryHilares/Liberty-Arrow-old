@@ -6,7 +6,7 @@ function PasswordTypeForm() {
     return (<input type='password' />);
 }
 
-export class ProtectionModal extends React.Component {
+class ProtectionModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = { protectionType: 'None', details: null };
@@ -20,7 +20,29 @@ export class ProtectionModal extends React.Component {
             console.error('UnexpectedResult: this.state.protectionType is not known.');
         return (
             <Modal>
-                {this.state.protectionType == 'Password' && <PasswordTypeForm />}
+                <form onSubmit={this.handleSubmit}>
+                    {this.state.protectionType == 'Password' && <PasswordTypeForm />}
+                </form>
             </Modal>);
+    }
+}
+
+export class ProtectionController extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { loggedIn: false };
+        this.handleLogInSucess = this.handleLogInSucess.bind(this);
+    }
+    handleLogInSucess() {
+        this.setState({ loggedIn: true }, () => {
+            console.info("Logged in sucessfully!");
+        });
+    }
+    render() {
+        /*if (!this.state.loggedIn)
+            return <ProtectionModal onLoginSucess={this.handleLogInSucess} />;
+        else
+            return this.children;*/
+        return this.children;
     }
 }
