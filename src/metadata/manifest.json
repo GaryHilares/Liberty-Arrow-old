@@ -10,17 +10,17 @@
 	"browser_action": {
 		"default_popup": "popup.html",
 		"default_icon": {
-			"16": "static/images/get_started16.png",
-			"32": "static/images/get_started32.png",
-			"48": "static/images/get_started48.png",
-			"128": "static/images/get_started128.png"
+			"16": "static/images/Liberty_Arrow_text-false_16.png",
+			"32": "static/images/Liberty_Arrow_text-false_32.png",
+			"48": "static/images/Liberty_Arrow_text-false_64.png",
+			"128": "static/images/Liberty_Arrow_text-false_128.png"
 		}
 	},
 	"icons": {
-		"16": "static/images/get_started16.png",
-		"32": "static/images/get_started32.png",
-		"48": "static/images/get_started48.png",
-		"128": "static/images/get_started128.png"
+		"16": "static/images/Liberty_Arrow_text-false_16.png",
+		"32": "static/images/Liberty_Arrow_text-false_32.png",
+		"48": "static/images/Liberty_Arrow_text-false_64.png",
+		"128": "static/images/Liberty_Arrow_text-false_128.png"
 	},
 	"manifest_version": 2
 }
