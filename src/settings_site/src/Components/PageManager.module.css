@@ -21,14 +21,14 @@
 .page_manager__buttons_box__save_button {
     font-size: 1em;
     background-color: transparent;
-    color: blue;
-    border: 1px solid blue;
+    color: #545AA7;
+    border: 1px solid #545AA7;
     transition: all 0.5s;
 }
 
 .page_manager__buttons_box__save_button:hover,
 .page_manager__buttons_box__save_button:active {
-    background-color: blue;
+    background-color: #545AA7;
     color: white;
     cursor: pointer;
 }
@@ -50,15 +50,16 @@
 }
 
 .page_manager__top__icon_buttons {
-    color: blue;
+    color: #545AA7;
     font-size: 1.5em;
     cursor: pointer;
     transition: all 0.5s;
 }
 
-.page_manager__top__icon_buttons:hover, .page_manager__top__icon_buttons:active {
+.page_manager__top__icon_buttons:hover,
+.page_manager__top__icon_buttons:active {
     color: white;
-    background-color: blue;
+    background-color: #545AA7;
     transition: all 0.5s;
 }
 
@@ -69,7 +70,8 @@
     transition: all 0.5s;
 }
 
-.page_manager__bottom__icon_buttons:hover, .page_manager__bottom__icon_buttons:active {
+.page_manager__bottom__icon_buttons:hover,
+.page_manager__bottom__icon_buttons:active {
     color: white;
     background-color: black;
     transition: all 0.5s;
