@@ -1,10 +1,17 @@
 /* global chrome */
 import React from 'react';
-import { deepCopy } from '../Utils/utils';
+import { deepCopy, getUniqueId } from '../Utils/utils';
 import { Modal } from './Modal';
+import ProtectionModalStyles from './ProtectionModal.module.css';
 
 function PasswordTypeForm(props) {
-    return (<input type='password' data-key-dict='password' onChange={props.onChange} value={props.formData.password} />);
+    const password_modal_password_input_id = getUniqueId('password-modal-password-input-id');
+    return (
+        <div class={ProtectionModalStyles.protection_modal__content__pair}>
+            <label for={password_modal_password_input_id}>Password</label>
+            <input id={password_modal_password_input_id} type='password' data-key-dict='password' onChange={props.onChange} value={props.formData.password} class={ProtectionModalStyles.protection_modal__content__value} />
+        </div>
+    );
 }
 
 class ProtectionModal extends React.Component {
@@ -37,8 +44,8 @@ class ProtectionModal extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        if ((this.state.protectionData.protectionType == 'None')
-            || (this.state.protectionData.protectionType == 'Password' && this.state.protectionData.details.password == this.state.formData.password))
+        if ((this.state.protectionData.protectionType === 'None')
+            || (this.state.protectionData.protectionType === 'Password' && this.state.protectionData.details.password === this.state.formData.password))
             this.props.onLogInSucess();
     }
     render() {
@@ -46,10 +53,18 @@ class ProtectionModal extends React.Component {
             console.error('UnexpectedResult: this.state.protectionData.protectionType is not known.');
         return (
             <Modal>
-                <form onSubmit={this.handleSubmit}>
-                    {this.state.protectionData.protectionType == 'Password' && <PasswordTypeForm onChange={this.handleChange} formData={this.state.formData} />}
-                    <input type='submit' />
-                </form>
+                <div class={ProtectionModalStyles.protection_modal__content}>
+                    <form onSubmit={this.handleSubmit}>
+                        <div class={ProtectionModalStyles.protection_modal__content__logo_wrapper}>
+                            <img src="/static/images/Liberty_Arrow_text-false.png" width="100px" height="100px" />
+                        </div>
+                        <h1 class={ProtectionModalStyles.protection_modal__content__title}>Log In to Liberty Arrow</h1>
+                        {this.state.protectionData.protectionType === 'Password' && <PasswordTypeForm onChange={this.handleChange} formData={this.state.formData} />}
+                        <div class={ProtectionModalStyles.protection_modal__content__buttons_box}>
+                            <input type='submit' value='Log In' class={ProtectionModalStyles.protection_modal__content__buttons_box__submit_button} />
+                        </div>
+                    </form>
+                </div>
             </Modal>);
     }
 }

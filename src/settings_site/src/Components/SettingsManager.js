@@ -43,7 +43,7 @@ class SettingsManager extends React.Component {
         if (!(this.state.protectionType in ['None', 'Password']))
             console.error('UnexpectedResult: this.state.protectionType is not known.');
         const password_protection_select_id = getUniqueId('password-protection-select');
-        const password_input_id = getUniqueId('password_input_id');
+        const password_input_id = getUniqueId('password-input-id');
         return (
             <div className={SettingsManagerStyles.settings_manager}>
                 <div className={SettingsManagerStyles.settings__pair}>
