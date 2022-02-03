@@ -11,13 +11,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<HomeTab />} />
-          <Route path="/pages" element={<PagesTab />} />
-          <Route path="/settings" element={<SettingsTab />} />
-        </Routes>
+        <ProtectionController>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<HomeTab />} />
+            <Route path="/pages" element={<PagesTab />} />
+            <Route path="/settings" element={<SettingsTab />} />
+          </Routes>
+        </ProtectionController>
       </div>
     </Router>
   );
