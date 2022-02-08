@@ -42,3 +42,9 @@
 .protection_modal__content__logo_wrapper {
     text-align: center;
 }
+
+.protection_modal__content__validation_error_message {
+    margin: 10px 0;
+    color: red;
+    font-size: 0.75em;
+}

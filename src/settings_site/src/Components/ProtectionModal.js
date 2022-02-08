@@ -17,7 +17,7 @@ function PasswordTypeForm(props) {
 class ProtectionModal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { protectionData: { protectionType: 'None', details: null }, formData: {} };
+        this.state = { protectionData: { protectionType: 'None', details: null }, formData: {}, validationErrorMessage: null };
         chrome.storage.local.get('passwordData', (result) => {
             this.setState((prevState) => {
                 return {
@@ -44,9 +44,28 @@ class ProtectionModal extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        if ((this.state.protectionData.protectionType === 'None')
-            || (this.state.protectionData.protectionType === 'Password' && this.state.protectionData.details.password === this.state.formData.password))
-            this.props.onLogInSucess();
+        switch (this.state.protectionData.protectionType) {
+            case 'None':
+                this.props.onLogInSucess();
+                break;
+            case 'Password':
+                if (this.state.formData.password === "")
+                    this.setValidationErrorMessage("You must enter a password.");
+                else if (this.state.formData.password !== this.state.protectionData.details.password)
+                    this.setValidationErrorMessage("Passwords don't match.");
+                else
+                    this.props.onLogInSucess();
+                break;
+            default:
+                break;
+        }
+    }
+    setValidationErrorMessage(message) {
+        this.setState((prevState) => ({
+            protectionData: prevState.protectionData,
+            formData: prevState.formData,
+            validationErrorMessage: message
+        }));
     }
     render() {
         if (!['None', 'Password'].includes(this.state.protectionData.protectionType))
@@ -60,6 +79,7 @@ class ProtectionModal extends React.Component {
                         </div>
                         <h1 class={ProtectionModalStyles.protection_modal__content__title}>Log In to Liberty Arrow</h1>
                         {this.state.protectionData.protectionType === 'Password' && <PasswordTypeForm onChange={this.handleChange} formData={this.state.formData} />}
+                        {this.state.validationErrorMessage && <span class={ProtectionModalStyles.protection_modal__content__validation_error_message}>{this.state.validationErrorMessage}</span>}
                         <div class={ProtectionModalStyles.protection_modal__content__buttons_box}>
                             <input type='submit' value='Log In' class={ProtectionModalStyles.protection_modal__content__buttons_box__submit_button} />
                         </div>
