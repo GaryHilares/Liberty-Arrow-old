@@ -11,9 +11,15 @@ function UniqueTypeForm(props) {
     const unique_name_id = getUniqueId('name');
     const unique_url_id = getUniqueId('url');
     return (
-        <fieldset /* Unique */ >
-            <label htmlFor={unique_name_id}>Name</label><input id={unique_name_id} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
-            <label htmlFor={unique_url_id}>URL</label><input id={unique_url_id} type='text' data-dict-key='url' value={props.data.url || ''} onChange={props.onChange} />
+        <fieldset /* Unique */>
+            <div class={PageManagerStyles.page_manager__form__field}>
+                <label htmlFor={unique_name_id}>Name</label>
+                <input id={unique_name_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
+            </div>
+            <div class={PageManagerStyles.page_manager__form__field}>
+                <label htmlFor={unique_url_id}>URL</label>
+                <input id={unique_url_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='url' value={props.data.url || ''} onChange={props.onChange} />
+            </div>
         </fieldset>);
 }
 
@@ -21,7 +27,10 @@ function GroupTypeForm(props) {
     const group_name_id = getUniqueId('name');
     return (
         <fieldset /* Group */>
-            <label htmlFor={group_name_id}>Name</label><input id={group_name_id} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
+            <div class={PageManagerStyles.page_manager__form__field}>
+                <label htmlFor={group_name_id}>Name</label>
+                <input id={group_name_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
+            </div>
         </fieldset>);
 }
 
@@ -75,15 +84,23 @@ class PageManagerModal extends React.Component {
         return (
             <Modal>
                 <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
-                    <h2>Create new entry</h2>
+                    <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
                     <fieldset /* All */>
-                        <input id={type_unique_id} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} /> <label htmlFor={type_unique_id}>Unique</label>
-                        <input id={type_group_id} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} /> <label htmlFor={type_group_id}>Group</label>
+                        <div class={PageManagerStyles.page_manager__form__field}>
+                            <label htmlFor={type_unique_id}>Unique</label>
+                            <input id={type_unique_id} class={PageManagerStyles.page_manager__form__field__value} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} />
+                        </div>
+                        <div class={PageManagerStyles.page_manager__form__field}>
+                            <label htmlFor={type_group_id}>Group</label>
+                            <input id={type_group_id} class={PageManagerStyles.page_manager__form__field__value} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} />
+                        </div>
                     </fieldset>
                     {this.props.data.type === Types.unique && <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />}
                     {this.props.data.type === Types.group && <GroupTypeForm onChange={this.handleChange} data={this.props.data} />}
-                    <input type='submit' value='Ok' />
-                    <input type='reset' value='Cancel' />
+                    <div class={PageManagerStyles.page_manager__form__buttons_box}>
+                        <input type='submit' value='Ok' class={PageManagerStyles.page_manager__form__submit_button} />
+                        <input type='reset' value='Cancel' class={PageManagerStyles.page_manager__form__reset_button} />
+                    </div>
                 </form>
             </Modal>);
     }

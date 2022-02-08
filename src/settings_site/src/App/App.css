@@ -64,7 +64,5 @@ html {
 fieldset {
     outline: none;
     border: none;
-    display: grid;
-    grid-template-columns: max-content max-content;
-    gap: 5px;
+    display: block;
 }

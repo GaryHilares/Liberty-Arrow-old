@@ -3,10 +3,7 @@
 }
 
 .protection_modal__content__buttons_box__submit_button {
-    text-align: center;
-}
-
-.protection_modal__content__buttons_box__submit_button {
+    margin: 0 5px;
     font-size: 1em;
     background-color: transparent;
     color: #545AA7;
