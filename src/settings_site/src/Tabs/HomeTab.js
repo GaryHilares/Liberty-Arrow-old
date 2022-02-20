@@ -1,5 +1,5 @@
-import PhraseDisplay from '../Components/PhraseManager'
+import { Instructions } from '../Components/Instructions';
 
 export function HomeTab() {
-  return null;
+  return <Instructions />;
 }
