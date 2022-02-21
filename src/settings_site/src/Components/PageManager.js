@@ -31,20 +31,31 @@ function GroupTypeForm(props) {
                 <label htmlFor={group_name_id}>Name</label>
                 <input id={group_name_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
             </div>
-        </fieldset>);
+        </fieldset>
+    );
 }
 
 
 class PageManagerModal extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { validationErrorMessage: null };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
     handleSubmit(event) {
         event.preventDefault();
-        this.props.onSubmit();
+        if (
+            (!Object.values(Types).includes(this.props.data.type)) ||
+            (this.props.data.type == Types.unique && (!this.props.data.name || !this.props.data.url)) ||
+            (this.props.data.type == Types.group && (!this.props.data.name))
+        ) {
+            this.setValidationErrorMessage("Invalid data!");
+        }
+        else {
+            this.props.onSubmit();
+        }
     }
     handleCancel(event) {
         event.preventDefault();
@@ -75,6 +86,9 @@ class PageManagerModal extends React.Component {
         }
         this.props.onChange(newData);
     }
+    setValidationErrorMessage(message) {
+        this.setState({ validationErrorMessage: message });
+    }
     render() {
         if (!Object.values(Types).includes(this.props.data.type) && this.props.data.type !== undefined) {
             console.error('UnexpectedResult: this.props.data.type is not known.')
@@ -97,12 +111,14 @@ class PageManagerModal extends React.Component {
                     </fieldset>
                     {this.props.data.type === Types.unique && <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />}
                     {this.props.data.type === Types.group && <GroupTypeForm onChange={this.handleChange} data={this.props.data} />}
+                    {this.state.validationErrorMessage && <span class={PageManagerStyles.page_manager__form__validation_error_message}>{this.state.validationErrorMessage}</span>}
                     <div class={PageManagerStyles.page_manager__form__buttons_box}>
                         <input type='submit' value='Ok' class={PageManagerStyles.page_manager__form__submit_button} />
                         <input type='reset' value='Cancel' class={PageManagerStyles.page_manager__form__reset_button} />
                     </div>
                 </form>
-            </Modal>);
+            </Modal>
+        );
     }
 }
 

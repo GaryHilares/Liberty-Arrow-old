@@ -93,6 +93,12 @@
     float: right;
 }
 
+.page_manager__form__validation_error_message {
+    margin: 10px 0;
+    color: red;
+    font-size: 0.75em;
+}
+
 .page_manager__form__buttons_box {
     clear: both;
     text-align: center;
