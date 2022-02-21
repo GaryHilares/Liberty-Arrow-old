@@ -100,6 +100,9 @@ export class ProtectionController extends React.Component {
             console.info("Logged in sucessfully!");
         });
     }
+    componentDidMount() {
+        document.title = "Login - Liberty Arrow";
+    }
     render() {
         if (!this.state.loggedIn)
             return <ProtectionModal onLogInSucess={this.handleLogInSucess} />;
