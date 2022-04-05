@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 function pageInTree(url, root) {
 	if (root.type === Types.unique) {
-		return url.includes(root.url);
+		return RegExp(root.url).test(url);
 	}
 	else if (root.type === Types.group) {
 		for (let child of root.childs)
