@@ -1,6 +1,6 @@
 {
 	"name": "Liberty Arrow",
-	"version": "1.0",
+	"version": "1.2",
 	"description": "A customizable page blocker perfect for your needs.",
 	"permissions": ["storage","tabs"],
 	"background": {
