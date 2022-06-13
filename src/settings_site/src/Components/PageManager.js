@@ -66,16 +66,15 @@ class PageManagerModal extends React.Component {
         const dictKey = event.target.dataset.dictKey;
         const val = event.target.value;
         if (dictKey === 'type') {
-            switch (val) {
-                case Types.unique:
-                    newData = { type: Types.unique, name: null, url: null };
-                    break;
-                case Types.group:
-                    newData = { type: Types.group, name: null, isRoot: false, childs: [] };
-                    break;
-                default:
-                    console.error('UnexpectedResult: type is not known.');
-                    break;
+            const defaultData = {
+                [Types.unique]: { type: Types.unique, name: null, url: null },
+                [Types.group]: { type: Types.group, name: null, isRoot: false, childs: [] },
+            };
+            if (Object.keys(defaultData).includes(val)) {
+                newData = defaultData[val];
+            }
+            else {
+                console.error('UnexpectedResult: type is not known.');
             }
         }
         else if (!(['type', 'isRoot'].includes(dictKey)) && (Object.keys(newData).includes(dictKey))) {
