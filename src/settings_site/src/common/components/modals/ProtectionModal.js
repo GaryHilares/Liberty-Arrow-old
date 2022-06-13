@@ -1,6 +1,6 @@
 /* global chrome */
 import React from 'react';
-import { deepCopy, getUniqueId } from '../Utils/utils';
+import { deepCopy, getUniqueId } from '../../utils/utils';
 import { Modal } from './Modal';
 import ProtectionModalStyles from './ProtectionModal.module.css';
 

@@ -1,4 +1,4 @@
-import { Instructions } from '../Components/Instructions';
+import { Instructions } from './Instructions';
 import React from "react";
 
 export function HomeTab() {

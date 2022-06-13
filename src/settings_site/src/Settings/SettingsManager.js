@@ -1,6 +1,6 @@
 /* global chrome */
 import React from 'react';
-import { getUniqueId } from '../Utils/utils';
+import { getUniqueId } from '../common/utils/utils';
 import SettingsManagerStyles from "./SettingsManager.module.css";
 
 class SettingsManager extends React.Component {

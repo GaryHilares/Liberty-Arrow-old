@@ -1,5 +1,5 @@
 import React from "react";
-import PageManager from "../Components/PageManager";
+import PageManager from "./PageManager";
 
 export function PagesTab() {
   React.useEffect(() => {

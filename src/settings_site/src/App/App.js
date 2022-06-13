@@ -1,10 +1,10 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { HomeTab } from "../Tabs/HomeTab";
-import { PagesTab } from "../Tabs/PagesTab";
-import { SettingsTab } from "../Tabs/SettingsTab";
-import { NavBar } from "../Components/NavBar";
-import { ProtectionController } from "../Components/ProtectionModal";
+import { HomeTab } from "../Home/Home";
+import { PagesTab } from "../Pages/Pages";
+import { SettingsTab } from "../Settings/Settings";
+import { NavBar } from "../common/components/NavBar";
+import { ProtectionController } from "../common/components/modals/ProtectionModal";
 import './App.css';
 
 function App() {

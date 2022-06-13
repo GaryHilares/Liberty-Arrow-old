@@ -1,7 +1,7 @@
 /* global chrome */
 import React from "react";
-import { deepCopy, getUniqueId } from '../Utils/utils';
-import { Modal } from './modal';
+import { deepCopy, getUniqueId } from '../common/utils/utils';
+import { Modal } from '../common/components/modals/Modal';
 import PageManagerStyles from './PageManager.module.css';
 
 const Types = { group: '1', unique: '2' };
@@ -48,8 +48,8 @@ class PageManagerModal extends React.Component {
         event.preventDefault();
         if (
             (!Object.values(Types).includes(this.props.data.type)) ||
-            (this.props.data.type == Types.unique && (!this.props.data.name || !this.props.data.url)) ||
-            (this.props.data.type == Types.group && (!this.props.data.name))
+            (this.props.data.type === Types.unique && (!this.props.data.name || !this.props.data.url)) ||
+            (this.props.data.type === Types.group && (!this.props.data.name))
         ) {
             this.setValidationErrorMessage("Invalid data!");
         }
