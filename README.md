@@ -1,11 +1,11 @@
-<h1 align="center">Ganbara Neba</h1>
+<h1 align="center">Liberty Arrow</h1>
 
 <p align="center">
-  <img alt="badge-lastcommit" src="https://img.shields.io/github/last-commit/GaryNLOL/Ganbara-Neba?style=for-the-badge">
-  <img alt="badge-openissues" src="https://img.shields.io/github/issues-raw/GaryNLOL/Ganbara-Neba?style=for-the-badge">
-  <img alt="badge-license" src="https://img.shields.io/github/license/GaryNLOL/Ganbara-Neba?style=for-the-badge">
-  <img alt="badge-contributors" src="https://img.shields.io/github/contributors/GaryNLOL/Ganbara-Neba?style=for-the-badge">
-  <img alt="badge-codesize" src="https://img.shields.io/github/languages/code-size/GaryNLOL/Ganbara-Neba?style=for-the-badge">
+  <img alt="badge-lastcommit" src="https://img.shields.io/github/last-commit/GaryStriving/Liberty-Arrow?style=for-the-badge">
+  <img alt="badge-openissues" src="https://img.shields.io/github/issues-raw/GaryStriving/Liberty-Arrow?style=for-the-badge">
+  <img alt="badge-license" src="https://img.shields.io/github/license/GaryStriving/Liberty-Arrow?style=for-the-badge">
+  <img alt="badge-contributors" src="https://img.shields.io/github/contributors/GaryStriving/Liberty-Arrow?style=for-the-badge">
+  <img alt="badge-codesize" src="https://img.shields.io/github/languages/code-size/GaryStriving/Liberty-Arrow?style=for-the-badge">
 </p>
 
 ## What is Ganbara Neba?
