@@ -8,8 +8,8 @@
   <img alt="badge-codesize" src="https://img.shields.io/github/languages/code-size/GaryStriving/Liberty-Arrow?style=for-the-badge">
 </p>
 
-## What is Ganbara Neba?
-Ganbara Neba is the Chrome extension for blocking websites and improving productivity.
+## What is Liberty Arrow?
+Liberty Arrow is a browser extension for blocking websites and improving productivity.
 
 ### Features
 - **Multiple level:** Ganbara Neba allows you to put groups of blocked pages with individual rules and nested in multiple levels.
