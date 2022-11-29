@@ -9,7 +9,7 @@
 </p>
 
 ## What is Liberty Arrow?
-Liberty Arrow is a customizable extension for blocking websites and improving productivity.
+Liberty Arrow is a customizable browser extension for blocking websites and improving productivity.
 
 ### Features
 - **Multiple level:** Liberty Arrow allows you to put groups of blocked pages with individual rules and nested in multiple levels.
