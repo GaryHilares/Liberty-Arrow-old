@@ -1,0 +1,50 @@
+.protection_modal__content__buttons_box {
+    text-align: center;
+}
+
+.protection_modal__content__buttons_box__submit_button {
+    margin: 0 5px;
+    font-size: 1em;
+    background-color: transparent;
+    color: #545AA7;
+    border: 1px solid #545AA7;
+    transition: all 0.5s;
+}
+
+.protection_modal__content__buttons_box__submit_button:hover,
+.protection_modal__content__buttons_box__submit_button:focus {
+    background-color: #545AA7;
+    color: white;
+    cursor: pointer;
+}
+
+.protection_modal__content__pair {
+    clear: both;
+    margin: 10px 0;
+}
+
+.protection_modal__content__value {
+    display: block;
+    float: right;
+}
+
+.protection_modal__content {
+    width: 50%;
+    margin: auto;
+}
+
+.protection_modal__content__title {
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.protection_modal__content__logo_wrapper {
+    text-align: center;
+}
+
+.protection_modal__content__validation_error_message {
+    margin: 10px 0;
+    color: red;
+    font-size: 0.75em;
+}

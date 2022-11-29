@@ -1,0 +1,33 @@
+.settings_manager {
+    margin: 10px 25% 0;
+}
+
+.settings__pair {
+    clear: both;
+    margin: 10px 0;
+}
+
+.settings__pair__value {
+    display: block;
+    float: right;
+}
+
+.settings__buttons_box {
+    text-align: center;
+}
+
+.settings__buttons_box__save_button {
+    margin: 0 5px;
+    font-size: 1em;
+    background-color: transparent;
+    color: #545AA7;
+    border: 1px solid #545AA7;
+    transition: all 0.5s;
+}
+
+.settings__buttons_box__save_button:hover,
+.settings__buttons_box__save_button:focus {
+    background-color: #545AA7;
+    color: white;
+    cursor: pointer;
+}

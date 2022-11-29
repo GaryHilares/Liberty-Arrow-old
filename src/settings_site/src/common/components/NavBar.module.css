@@ -1,0 +1,44 @@
+.navbar {
+    width: 100%;
+    overflow: auto;
+    border-bottom: 1px solid #545AA7;
+}
+
+.navbar__unordered_list {
+    margin-right: 10px;
+    float: right;
+    list-style: none;
+}
+
+.navbar__unordered_list__list_item {
+    display: inline-block;
+}
+
+.navbar__button {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 20px 20px;
+    display: inline-block;
+}
+
+.navbar__button::after {
+    content: "";
+    display: block;
+    border-bottom: 3px solid #545AA7;
+    transform: scaleX(0);
+    transition: transform 0.25s;
+}
+
+.navbar__button:focus::after {
+    transform: scaleX(1);
+}
+
+.navbar__button:hover::after {
+    transform: scaleX(1);
+}
+
+.navbar__logo {
+    margin: 10px;
+}
