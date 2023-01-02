@@ -1,40 +1,61 @@
 /* global chrome */
 import React from "react";
-import { deepCopy, getUniqueId } from '../common/utils/utils';
-import { Modal } from '../common/components/modals/Modal';
-import PageManagerStyles from './PageManager.module.css';
+import { deepCopy, getUniqueId } from "../common/utils/utils";
+import { Modal } from "../common/components/modals/Modal";
+import PageManagerStyles from "./PageManager.module.css";
 
-const Types = { group: '1', unique: '2' };
+const Types = { group: "1", unique: "2" };
 Object.freeze(Types);
 
 function UniqueTypeForm(props) {
-    const unique_name_id = getUniqueId('name');
-    const unique_url_id = getUniqueId('url');
+    const unique_name_id = getUniqueId("name");
+    const unique_url_id = getUniqueId("url");
     return (
         <fieldset /* Unique */>
             <div class={PageManagerStyles.page_manager__form__field}>
                 <label htmlFor={unique_name_id}>Name</label>
-                <input id={unique_name_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
+                <input
+                    id={unique_name_id}
+                    class={PageManagerStyles.page_manager__form__field__value}
+                    type="text"
+                    data-dict-key="name"
+                    value={props.data.name || ""}
+                    onChange={props.onChange}
+                />
             </div>
             <div class={PageManagerStyles.page_manager__form__field}>
                 <label htmlFor={unique_url_id}>URL</label>
-                <input id={unique_url_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='url' value={props.data.url || ''} onChange={props.onChange} />
-            </div>
-        </fieldset>);
-}
-
-function GroupTypeForm(props) {
-    const group_name_id = getUniqueId('name');
-    return (
-        <fieldset /* Group */>
-            <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={group_name_id}>Name</label>
-                <input id={group_name_id} class={PageManagerStyles.page_manager__form__field__value} type='text' data-dict-key='name' value={props.data.name || ''} onChange={props.onChange} />
+                <input
+                    id={unique_url_id}
+                    class={PageManagerStyles.page_manager__form__field__value}
+                    type="text"
+                    data-dict-key="url"
+                    value={props.data.url || ""}
+                    onChange={props.onChange}
+                />
             </div>
         </fieldset>
     );
 }
 
+function GroupTypeForm(props) {
+    const group_name_id = getUniqueId("name");
+    return (
+        <fieldset /* Group */>
+            <div class={PageManagerStyles.page_manager__form__field}>
+                <label htmlFor={group_name_id}>Name</label>
+                <input
+                    id={group_name_id}
+                    class={PageManagerStyles.page_manager__form__field__value}
+                    type="text"
+                    data-dict-key="name"
+                    value={props.data.name || ""}
+                    onChange={props.onChange}
+                />
+            </div>
+        </fieldset>
+    );
+}
 
 class PageManagerModal extends React.Component {
     constructor(props) {
@@ -47,13 +68,12 @@ class PageManagerModal extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         if (
-            (!Object.values(Types).includes(this.props.data.type)) ||
+            !Object.values(Types).includes(this.props.data.type) ||
             (this.props.data.type === Types.unique && (!this.props.data.name || !this.props.data.url)) ||
-            (this.props.data.type === Types.group && (!this.props.data.name))
+            (this.props.data.type === Types.group && !this.props.data.name)
         ) {
             this.setValidationErrorMessage("Invalid data!");
-        }
-        else {
+        } else {
             this.props.onSubmit();
         }
     }
@@ -65,23 +85,20 @@ class PageManagerModal extends React.Component {
         let newData = deepCopy(this.props.data);
         const dictKey = event.target.dataset.dictKey;
         const val = event.target.value;
-        if (dictKey === 'type') {
+        if (dictKey === "type") {
             const defaultData = {
                 [Types.unique]: { type: Types.unique, name: null, url: null },
                 [Types.group]: { type: Types.group, name: null, isRoot: false, childs: [] },
             };
             if (Object.keys(defaultData).includes(val)) {
                 newData = defaultData[val];
+            } else {
+                console.error("UnexpectedResult: type is not known.");
             }
-            else {
-                console.error('UnexpectedResult: type is not known.');
-            }
-        }
-        else if (!(['type', 'isRoot'].includes(dictKey)) && (Object.keys(newData).includes(dictKey))) {
+        } else if (!["type", "isRoot"].includes(dictKey) && Object.keys(newData).includes(dictKey)) {
             newData[dictKey] = val;
-        }
-        else {
-            console.error('UnexpectedResult: dictKey is not known.');
+        } else {
+            console.error("UnexpectedResult: dictKey is not known.");
         }
         this.props.onChange(newData);
     }
@@ -90,10 +107,10 @@ class PageManagerModal extends React.Component {
     }
     render() {
         if (!Object.values(Types).includes(this.props.data.type) && this.props.data.type !== undefined) {
-            console.error('UnexpectedResult: this.props.data.type is not known.')
+            console.error("UnexpectedResult: this.props.data.type is not known.");
         }
-        const type_unique_id = getUniqueId('type-unique');
-        const type_group_id = getUniqueId('type-group');
+        const type_unique_id = getUniqueId("type-unique");
+        const type_group_id = getUniqueId("type-group");
         return (
             <Modal>
                 <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
@@ -101,19 +118,45 @@ class PageManagerModal extends React.Component {
                     <fieldset /* All */>
                         <div class={PageManagerStyles.page_manager__form__field}>
                             <label htmlFor={type_unique_id}>Unique</label>
-                            <input id={type_unique_id} class={PageManagerStyles.page_manager__form__field__value} name='type' type='radio' data-dict-key='type' value={Types.unique} onChange={this.handleChange} checked={this.props.data.type === Types.unique} />
+                            <input
+                                id={type_unique_id}
+                                class={PageManagerStyles.page_manager__form__field__value}
+                                name="type"
+                                type="radio"
+                                data-dict-key="type"
+                                value={Types.unique}
+                                onChange={this.handleChange}
+                                checked={this.props.data.type === Types.unique}
+                            />
                         </div>
                         <div class={PageManagerStyles.page_manager__form__field}>
                             <label htmlFor={type_group_id}>Group</label>
-                            <input id={type_group_id} class={PageManagerStyles.page_manager__form__field__value} name='type' type='radio' data-dict-key='type' value={Types.group} onChange={this.handleChange} checked={this.props.data.type === Types.group} />
+                            <input
+                                id={type_group_id}
+                                class={PageManagerStyles.page_manager__form__field__value}
+                                name="type"
+                                type="radio"
+                                data-dict-key="type"
+                                value={Types.group}
+                                onChange={this.handleChange}
+                                checked={this.props.data.type === Types.group}
+                            />
                         </div>
                     </fieldset>
-                    {this.props.data.type === Types.unique && <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />}
-                    {this.props.data.type === Types.group && <GroupTypeForm onChange={this.handleChange} data={this.props.data} />}
-                    {this.state.validationErrorMessage && <span class={PageManagerStyles.page_manager__form__validation_error_message}>{this.state.validationErrorMessage}</span>}
+                    {this.props.data.type === Types.unique && (
+                        <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />
+                    )}
+                    {this.props.data.type === Types.group && (
+                        <GroupTypeForm onChange={this.handleChange} data={this.props.data} />
+                    )}
+                    {this.state.validationErrorMessage && (
+                        <span class={PageManagerStyles.page_manager__form__validation_error_message}>
+                            {this.state.validationErrorMessage}
+                        </span>
+                    )}
                     <div class={PageManagerStyles.page_manager__form__buttons_box}>
-                        <input type='submit' value='Ok' class={PageManagerStyles.page_manager__form__submit_button} />
-                        <input type='reset' value='Cancel' class={PageManagerStyles.page_manager__form__reset_button} />
+                        <input type="submit" value="Ok" class={PageManagerStyles.page_manager__form__submit_button} />
+                        <input type="reset" value="Cancel" class={PageManagerStyles.page_manager__form__reset_button} />
                     </div>
                 </form>
             </Modal>
@@ -123,7 +166,7 @@ class PageManagerModal extends React.Component {
 
 class PageGroupView extends React.Component {
     constructor(props) {
-        super(props); // root,  addNode (path), editNode (path), deleteNode (path), 
+        super(props); // root,  addNode (path), editNode (path), deleteNode (path),
         this.state = { currentNode: props.root, path: [props.root.name] };
         this.handleChildClick = this.handleChildClick.bind(this);
         this.handleGoBackButtonClick = this.handleGoBackButtonClick.bind(this);
@@ -134,26 +177,35 @@ class PageGroupView extends React.Component {
     }
     static getNodeFromDirection(root, direction) {
         for (let rulename of direction.slice(1)) {
-            root = root.childs[root.childs.map((e) => { return e.name; }).indexOf(rulename)];
+            root =
+                root.childs[
+                    root.childs
+                        .map((e) => {
+                            return e.name;
+                        })
+                        .indexOf(rulename)
+                ];
         }
         return root;
     }
     static deleteNodeFromDirection(root, direction) {
         root = PageGroupView.getNodeFromDirection(root, direction.slice(0, direction.length - 1));
-        const names = root.childs.map((e) => { return e.name; });
+        const names = root.childs.map((e) => {
+            return e.name;
+        });
         const name = direction[direction.length - 1];
         let index = names.indexOf(name);
         root.childs.splice(index, 1);
     }
     static setNodeFromDirection(root, direction, newValue) {
         root = PageGroupView.getNodeFromDirection(root, direction.slice(0, direction.length - 1));
-        const names = root.childs.map((e) => { return e.name; });
+        const names = root.childs.map((e) => {
+            return e.name;
+        });
         const name = direction[direction.length - 1];
         let index = names.indexOf(name);
-        if (index === -1)
-            root.childs.push(newValue)
-        else
-            root.childs[index] = newValue;
+        if (index === -1) root.childs.push(newValue);
+        else root.childs[index] = newValue;
     }
     handleChildClick(event) {
         let childName = event.target.dataset.pagename;
@@ -161,7 +213,7 @@ class PageGroupView extends React.Component {
             const newPath = prevState.path.concat([childName]);
             return {
                 path: newPath,
-                currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath)
+                currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath),
             };
         });
     }
@@ -170,8 +222,8 @@ class PageGroupView extends React.Component {
             const newPath = prevState.path.slice(0, prevState.path.length - 1);
             return {
                 path: newPath,
-                currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath)
-            }
+                currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath),
+            };
         });
     }
     handleDeleteButtonClick() {
@@ -180,25 +232,27 @@ class PageGroupView extends React.Component {
                 const newPath = prevState.path.slice(0, prevState.path.length - 1);
                 return {
                     path: newPath,
-                    currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath)
+                    currentNode: PageGroupView.getNodeFromDirection(this.props.root, newPath),
                 };
             });
         });
     }
     handleChildDeleteButtonClick(event) {
         let childName = event.target.dataset.pagename;
-        this.props.deleteNode(this.state.path.concat([childName]), () => { });
+        this.props.deleteNode(this.state.path.concat([childName]), () => {});
     }
     componentDidUpdate(prevProps) {
         if (prevProps.root !== this.props.root) {
             this.setState({
                 path: this.state.path,
-                currentNode: PageGroupView.getNodeFromDirection(this.props.root, this.state.path)
+                currentNode: PageGroupView.getNodeFromDirection(this.props.root, this.state.path),
             });
         }
     }
     handleEditButtonClick(event) {
-        const path = event.target.dataset.pagename ? this.state.path.concat([event.target.dataset.pagename]) : this.state.path;
+        const path = event.target.dataset.pagename
+            ? this.state.path.concat([event.target.dataset.pagename])
+            : this.state.path;
         this.props.editNode(path);
     }
     handleAddButtonClick() {
@@ -208,45 +262,115 @@ class PageGroupView extends React.Component {
     render() {
         return (
             <div>
-                <span>{this.state.path.join('/')}</span>
+                <span>{this.state.path.join("/")}</span>
                 <div style={{ float: "right" }}>
-                    {!this.state.currentNode.isRoot && <i aria-label="Go back" className={["las la-chevron-left", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleGoBackButtonClick}></i>}
-                    <i aria-label="Add" className={["las la-plus", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleAddButtonClick}></i>
+                    {!this.state.currentNode.isRoot && (
+                        <i
+                            aria-label="Go back"
+                            className={["las la-chevron-left", PageManagerStyles.page_manager__top__icon_buttons].join(
+                                " "
+                            )}
+                            onClick={this.handleGoBackButtonClick}
+                        ></i>
+                    )}
+                    <i
+                        aria-label="Add"
+                        className={["las la-plus", PageManagerStyles.page_manager__top__icon_buttons].join(" ")}
+                        onClick={this.handleAddButtonClick}
+                    ></i>
                     {/*!this.state.currentNode.isRoot && <button onClick={this.handleEditButtonClick}>Edit</button>*/}
-                    {!this.state.currentNode.isRoot && <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__top__icon_buttons].join(" ")} onClick={this.handleDeleteButtonClick}></i>}
+                    {!this.state.currentNode.isRoot && (
+                        <i
+                            aria-label="Delete"
+                            className={["las la-window-close", PageManagerStyles.page_manager__top__icon_buttons].join(
+                                " "
+                            )}
+                            onClick={this.handleDeleteButtonClick}
+                        ></i>
+                    )}
                 </div>
                 <ul className={PageManagerStyles.page_manager__rule_list}>
-                    {this.state.currentNode.childs.map((child) => {
-                        switch (child.type) {
-                            case Types.group:
-                                return (
-                                    <div className={PageManagerStyles.page_manager__rule_list__rule}>
-                                        <span className={PageManagerStyles.page_manager__group__name}>{child.name}</span>
-                                        <div style={{ float: "right" }}>
-                                            <i aria-label="Go" className={["las la-chevron-right", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildClick}></i>
-                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleEditButtonClick}></i>
-                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildDeleteButtonClick}></i>
+                    {this.state.currentNode.childs
+                        .map((child) => {
+                            switch (child.type) {
+                                case Types.group:
+                                    return (
+                                        <div className={PageManagerStyles.page_manager__rule_list__rule}>
+                                            <span className={PageManagerStyles.page_manager__group__name}>
+                                                {child.name}
+                                            </span>
+                                            <div style={{ float: "right" }}>
+                                                <i
+                                                    aria-label="Go"
+                                                    className={[
+                                                        "las la-chevron-right",
+                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
+                                                    ].join(" ")}
+                                                    data-pagename={child.name}
+                                                    onClick={this.handleChildClick}
+                                                ></i>
+                                                <i
+                                                    aria-label="Edit"
+                                                    className={[
+                                                        "las la-pen",
+                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
+                                                    ].join(" ")}
+                                                    data-pagename={child.name}
+                                                    onClick={this.handleEditButtonClick}
+                                                ></i>
+                                                <i
+                                                    aria-label="Delete"
+                                                    className={[
+                                                        "las la-window-close",
+                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
+                                                    ].join(" ")}
+                                                    data-pagename={child.name}
+                                                    onClick={this.handleChildDeleteButtonClick}
+                                                ></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            case Types.unique:
-                                return (
-                                    <div className={PageManagerStyles.page_manager__rule_list__rule}>
-                                        <span className={PageManagerStyles.page_manager__unique__name}>{child.name}</span>
-                                        <span className={PageManagerStyles.page_manager__unique__url}>{child.url}</span>
-                                        <div style={{ float: "right" }}>
-                                            <i aria-label="Edit" className={["las la-pen", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleEditButtonClick}></i>
-                                            <i aria-label="Delete" className={["las la-window-close", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")} data-pagename={child.name} onClick={this.handleChildDeleteButtonClick}></i>
+                                    );
+                                case Types.unique:
+                                    return (
+                                        <div className={PageManagerStyles.page_manager__rule_list__rule}>
+                                            <span className={PageManagerStyles.page_manager__unique__name}>
+                                                {child.name}
+                                            </span>
+                                            <span className={PageManagerStyles.page_manager__unique__url}>
+                                                {child.url}
+                                            </span>
+                                            <div style={{ float: "right" }}>
+                                                <i
+                                                    aria-label="Edit"
+                                                    className={[
+                                                        "las la-pen",
+                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
+                                                    ].join(" ")}
+                                                    data-pagename={child.name}
+                                                    onClick={this.handleEditButtonClick}
+                                                ></i>
+                                                <i
+                                                    aria-label="Delete"
+                                                    className={[
+                                                        "las la-window-close",
+                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
+                                                    ].join(" ")}
+                                                    data-pagename={child.name}
+                                                    onClick={this.handleChildDeleteButtonClick}
+                                                ></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            default:
-                                console.error("Something went wrong!");
-                                return null;
-                        }
-                    }).map((element, index) => { return <li key={index}>{element}</li> })}
-                </ul >
-            </div >
+                                    );
+                                default:
+                                    console.error("Something went wrong!");
+                                    return null;
+                            }
+                        })
+                        .map((element, index) => {
+                            return <li key={index}>{element}</li>;
+                        })}
+                </ul>
+            </div>
         );
     }
 }
@@ -256,11 +380,11 @@ class PageManager extends React.Component {
         super(props);
         this.state = {
             root: { type: Types.group, name: "All pages", isRoot: true, childs: [] },
-            modal: null
+            modal: null,
         };
-        chrome.storage.local.get('blockedPages', (result) => {
+        chrome.storage.local.get("blockedPages", (result) => {
             this.setState({ root: result.blockedPages });
-            console.info('Data loaded!');
+            console.info("Data loaded!");
         });
         this.addPage = this.addPage.bind(this);
         this.editPage = this.editPage.bind(this);
@@ -277,8 +401,8 @@ class PageManager extends React.Component {
                 modal: {
                     mode: "add",
                     targetAdress: path,
-                    data: {}
-                }
+                    data: {},
+                },
             };
         });
     }
@@ -288,7 +412,7 @@ class PageManager extends React.Component {
             PageGroupView.deleteNodeFromDirection(newRoot, path);
             return {
                 root: newRoot,
-                modal: prevState.modal
+                modal: prevState.modal,
             };
         }, callback);
     }
@@ -299,8 +423,8 @@ class PageManager extends React.Component {
                 modal: {
                     mode: "edit",
                     targetAdress: path,
-                    data: PageGroupView.getNodeFromDirection(prevState.root, path)
-                }
+                    data: PageGroupView.getNodeFromDirection(prevState.root, path),
+                },
             };
         });
     }
@@ -328,7 +452,7 @@ class PageManager extends React.Component {
             PageGroupView.setNodeFromDirection(newRoot, target, data);
             return {
                 root: newRoot,
-                modal: null
+                modal: null,
             };
         });
     }
@@ -336,7 +460,7 @@ class PageManager extends React.Component {
         this.setState((prevState) => {
             return {
                 root: prevState.root,
-                modal: null
+                modal: null,
             };
         });
     }
@@ -347,23 +471,34 @@ class PageManager extends React.Component {
                 modal: {
                     targetAdress: prevState.modal.targetAdress,
                     mode: prevState.modal.mode,
-                    data: newData
-                }
+                    data: newData,
+                },
             };
         });
     }
     render() {
         return (
             <div className={PageManagerStyles.page_manager}>
-                {this.state.modal && <PageManagerModal
-                    onSubmit={this.handleModalSubmit} onCancel={this.handleModalCancel}
-                    onChange={this.handleModalChange} data={this.state.modal.data} />}
-                <PageGroupView root={this.state.root} addNode={this.addPage}
-                    editNode={this.editPage} deleteNode={this.deletePage} />
+                {this.state.modal && (
+                    <PageManagerModal
+                        onSubmit={this.handleModalSubmit}
+                        onCancel={this.handleModalCancel}
+                        onChange={this.handleModalChange}
+                        data={this.state.modal.data}
+                    />
+                )}
+                <PageGroupView
+                    root={this.state.root}
+                    addNode={this.addPage}
+                    editNode={this.editPage}
+                    deleteNode={this.deletePage}
+                />
                 <div className={PageManagerStyles.page_manager__buttons_box}>
-                    <button className={PageManagerStyles.page_manager__buttons_box__save_button} onClick={this.save}>Save</button>
+                    <button className={PageManagerStyles.page_manager__buttons_box__save_button} onClick={this.save}>
+                        Save
+                    </button>
                 </div>
-            </div >
+            </div>
         );
     }
 }
