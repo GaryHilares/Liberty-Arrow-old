@@ -289,14 +289,20 @@ class PageManager extends React.Component {
         });
     }
     deletePage(path, callback) {
-        this.setState((prevState) => {
-            let newRoot = deepCopy(prevState.root);
-            PageGroupView.deleteNodeFromDirection(newRoot, path);
-            return {
-                root: newRoot,
-                modal: prevState.modal,
-            };
-        }, callback);
+        this.setState(
+            (prevState) => {
+                let newRoot = deepCopy(prevState.root);
+                PageGroupView.deleteNodeFromDirection(newRoot, path);
+                return {
+                    root: newRoot,
+                    modal: prevState.modal,
+                };
+            },
+            () => {
+                this.save();
+                callback();
+            }
+        );
     }
     editPage(path) {
         this.setState((prevState) => {
@@ -316,27 +322,32 @@ class PageManager extends React.Component {
         });
     }
     handleModalSubmit() {
-        this.setState((prevState) => {
-            let newRoot = deepCopy(prevState.root);
-            const mode = prevState.modal.mode;
-            const data = prevState.modal.data;
-            let target = "";
-            switch (mode) {
-                case "add":
-                    target = prevState.modal.targetAdress.concat([data.name]);
-                    break;
-                case "edit":
-                    target = prevState.modal.targetAdress;
-                    break;
-                default:
-                    break;
+        this.setState(
+            (prevState) => {
+                let newRoot = deepCopy(prevState.root);
+                const mode = prevState.modal.mode;
+                const data = prevState.modal.data;
+                let target = "";
+                switch (mode) {
+                    case "add":
+                        target = prevState.modal.targetAdress.concat([data.name]);
+                        break;
+                    case "edit":
+                        target = prevState.modal.targetAdress;
+                        break;
+                    default:
+                        break;
+                }
+                PageGroupView.setNodeFromDirection(newRoot, target, data);
+                return {
+                    root: newRoot,
+                    modal: null,
+                };
+            },
+            () => {
+                this.save();
             }
-            PageGroupView.setNodeFromDirection(newRoot, target, data);
-            return {
-                root: newRoot,
-                modal: null,
-            };
-        });
+        );
     }
     handleModalCancel() {
         this.setState((prevState) => {
@@ -375,11 +386,6 @@ class PageManager extends React.Component {
                     editNode={this.editPage}
                     deleteNode={this.deletePage}
                 />
-                <div className={PageManagerStyles.page_manager__buttons_box}>
-                    <button className={PageManagerStyles.page_manager__buttons_box__save_button} onClick={this.save}>
-                        Save
-                    </button>
-                </div>
             </div>
         );
     }
