@@ -1,4 +1,4 @@
-import InstructionsStyles from './instructions.module.css';
+import InstructionsStyles from "./Instructions.module.css";
 
 export function Instructions() {
     return (
