@@ -2,60 +2,12 @@
 import React from "react";
 import { deepCopy, getUniqueId } from "../common/utils/utils";
 import { Modal } from "../common/components/modals/Modal";
+import { UniqueTypeForm, UniqueView } from "./Unique";
+import { GroupTypeForm, GroupView } from "./Group";
 import PageManagerStyles from "./PageManager.module.css";
 
 const Types = { group: "1", unique: "2" };
 Object.freeze(Types);
-
-function UniqueTypeForm(props) {
-    const unique_name_id = getUniqueId("name");
-    const unique_url_id = getUniqueId("url");
-    return (
-        <fieldset /* Unique */>
-            <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={unique_name_id}>Name</label>
-                <input
-                    id={unique_name_id}
-                    class={PageManagerStyles.page_manager__form__field__value}
-                    type="text"
-                    data-dict-key="name"
-                    value={props.data.name || ""}
-                    onChange={props.onChange}
-                />
-            </div>
-            <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={unique_url_id}>URL</label>
-                <input
-                    id={unique_url_id}
-                    class={PageManagerStyles.page_manager__form__field__value}
-                    type="text"
-                    data-dict-key="url"
-                    value={props.data.url || ""}
-                    onChange={props.onChange}
-                />
-            </div>
-        </fieldset>
-    );
-}
-
-function GroupTypeForm(props) {
-    const group_name_id = getUniqueId("name");
-    return (
-        <fieldset /* Group */>
-            <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={group_name_id}>Name</label>
-                <input
-                    id={group_name_id}
-                    class={PageManagerStyles.page_manager__form__field__value}
-                    type="text"
-                    data-dict-key="name"
-                    value={props.data.name || ""}
-                    onChange={props.onChange}
-                />
-            </div>
-        </fieldset>
-    );
-}
 
 class PageManagerModal extends React.Component {
     constructor(props) {
@@ -115,33 +67,28 @@ class PageManagerModal extends React.Component {
             <Modal>
                 <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
                     <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
-                    <fieldset /* All */>
-                        <div class={PageManagerStyles.page_manager__form__field}>
-                            <label htmlFor={type_unique_id}>Unique</label>
-                            <input
-                                id={type_unique_id}
-                                class={PageManagerStyles.page_manager__form__field__value}
-                                name="type"
-                                type="radio"
-                                data-dict-key="type"
-                                value={Types.unique}
-                                onChange={this.handleChange}
-                                checked={this.props.data.type === Types.unique}
-                            />
-                        </div>
-                        <div class={PageManagerStyles.page_manager__form__field}>
-                            <label htmlFor={type_group_id}>Group</label>
-                            <input
-                                id={type_group_id}
-                                class={PageManagerStyles.page_manager__form__field__value}
-                                name="type"
-                                type="radio"
-                                data-dict-key="type"
-                                value={Types.group}
-                                onChange={this.handleChange}
-                                checked={this.props.data.type === Types.group}
-                            />
-                        </div>
+                    <fieldset>
+                        {[
+                            { name: "Unique", id: type_unique_id, type: Types.unique },
+                            { name: "Group", id: type_group_id, type: Types.group },
+                        ].map(
+                            (entry) => (
+                                <div key={entry.id} class={PageManagerStyles.page_manager__form__field}>
+                                    <label htmlFor={entry.id}>{entry.name}</label>
+                                    <input
+                                        id={entry.id}
+                                        class={PageManagerStyles.page_manager__form__field__value}
+                                        name="type"
+                                        type="radio"
+                                        data-dict-key="type"
+                                        value={entry.type}
+                                        onChange={this.handleChange}
+                                        checked={entry.type === this.props.data.type}
+                                    />
+                                </div>
+                            ),
+                            this
+                        )}
                     </fieldset>
                     {this.props.data.type === Types.unique && (
                         <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />
@@ -190,9 +137,7 @@ class PageGroupView extends React.Component {
     }
     static deleteNodeFromDirection(root, direction) {
         root = PageGroupView.getNodeFromDirection(root, direction.slice(0, direction.length - 1));
-        const names = root.childs.map((e) => {
-            return e.name;
-        });
+        const names = root.childs.map((e) => e.name);
         const name = direction[direction.length - 1];
         let index = names.indexOf(name);
         root.childs.splice(index, 1);
@@ -267,108 +212,45 @@ class PageGroupView extends React.Component {
                     {!this.state.currentNode.isRoot && (
                         <i
                             aria-label="Go back"
-                            className={["las la-chevron-left", PageManagerStyles.page_manager__top__icon_buttons].join(
-                                " "
-                            )}
+                            className={`las la-chevron-left ${PageManagerStyles.page_manager__top__icon_buttons}`}
                             onClick={this.handleGoBackButtonClick}
                         ></i>
                     )}
                     <i
                         aria-label="Add"
-                        className={["las la-plus", PageManagerStyles.page_manager__top__icon_buttons].join(" ")}
+                        className={`las la-plus ${PageManagerStyles.page_manager__top__icon_buttons}`}
                         onClick={this.handleAddButtonClick}
                     ></i>
                     {/*!this.state.currentNode.isRoot && <button onClick={this.handleEditButtonClick}>Edit</button>*/}
                     {!this.state.currentNode.isRoot && (
                         <i
                             aria-label="Delete"
-                            className={["las la-window-close", PageManagerStyles.page_manager__top__icon_buttons].join(
-                                " "
-                            )}
+                            className={`las la-window-close" ${PageManagerStyles.page_manager__top__icon_buttons}`}
                             onClick={this.handleDeleteButtonClick}
                         ></i>
                     )}
                 </div>
                 <ul className={PageManagerStyles.page_manager__rule_list}>
-                    {this.state.currentNode.childs
-                        .map((child) => {
-                            switch (child.type) {
-                                case Types.group:
-                                    return (
-                                        <div className={PageManagerStyles.page_manager__rule_list__rule}>
-                                            <span className={PageManagerStyles.page_manager__group__name}>
-                                                {child.name}
-                                            </span>
-                                            <div style={{ float: "right" }}>
-                                                <i
-                                                    aria-label="Go"
-                                                    className={[
-                                                        "las la-chevron-right",
-                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
-                                                    ].join(" ")}
-                                                    data-pagename={child.name}
-                                                    onClick={this.handleChildClick}
-                                                ></i>
-                                                <i
-                                                    aria-label="Edit"
-                                                    className={[
-                                                        "las la-pen",
-                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
-                                                    ].join(" ")}
-                                                    data-pagename={child.name}
-                                                    onClick={this.handleEditButtonClick}
-                                                ></i>
-                                                <i
-                                                    aria-label="Delete"
-                                                    className={[
-                                                        "las la-window-close",
-                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
-                                                    ].join(" ")}
-                                                    data-pagename={child.name}
-                                                    onClick={this.handleChildDeleteButtonClick}
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    );
-                                case Types.unique:
-                                    return (
-                                        <div className={PageManagerStyles.page_manager__rule_list__rule}>
-                                            <span className={PageManagerStyles.page_manager__unique__name}>
-                                                {child.name}
-                                            </span>
-                                            <span className={PageManagerStyles.page_manager__unique__url}>
-                                                {child.url}
-                                            </span>
-                                            <div style={{ float: "right" }}>
-                                                <i
-                                                    aria-label="Edit"
-                                                    className={[
-                                                        "las la-pen",
-                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
-                                                    ].join(" ")}
-                                                    data-pagename={child.name}
-                                                    onClick={this.handleEditButtonClick}
-                                                ></i>
-                                                <i
-                                                    aria-label="Delete"
-                                                    className={[
-                                                        "las la-window-close",
-                                                        PageManagerStyles.page_manager__bottom__icon_buttons,
-                                                    ].join(" ")}
-                                                    data-pagename={child.name}
-                                                    onClick={this.handleChildDeleteButtonClick}
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    );
-                                default:
-                                    console.error("Something went wrong!");
-                                    return null;
-                            }
-                        })
-                        .map((element, index) => {
-                            return <li key={index}>{element}</li>;
-                        })}
+                    {this.state.currentNode.childs.map((child, index) => (
+                        <li key={index}>
+                            {child.type === Types.group && (
+                                <GroupView
+                                    name={child.name}
+                                    onGoButtonClick={this.handleChildClick}
+                                    onEditButtonClick={this.handleEditButtonClick}
+                                    onDeleteButtonClick={this.handleChildDeleteButtonClick}
+                                />
+                            )}
+                            {child.type === Types.unique && (
+                                <UniqueView
+                                    name={child.name}
+                                    url={child.url}
+                                    onEditButtonClick={this.handleEditButtonClick}
+                                    onDeleteButtonClick={this.handleChildDeleteButtonClick}
+                                />
+                            )}
+                        </li>
+                    ))}
                 </ul>
             </div>
         );
