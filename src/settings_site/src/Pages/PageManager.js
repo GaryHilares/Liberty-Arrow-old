@@ -1,5 +1,5 @@
 /* global chrome */
-import React from "react";
+import React, { useState } from "react";
 import { deepCopy, getUniqueId } from "../common/utils/utils";
 import { Modal } from "../common/components/modals/Modal";
 import { UniqueTypeForm, UniqueView } from "./Unique";
@@ -9,32 +9,26 @@ import PageManagerStyles from "./PageManager.module.css";
 const Types = { group: "1", unique: "2" };
 Object.freeze(Types);
 
-class PageManagerModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { validationErrorMessage: null };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-    handleSubmit(event) {
+function PageManagerModal(props) {
+    const [validationErrorMessage, setValidationErrorMessage] = useState(null);
+    const handleSubmit = (event) => {
         event.preventDefault();
         if (
-            !Object.values(Types).includes(this.props.data.type) ||
-            (this.props.data.type === Types.unique && (!this.props.data.name || !this.props.data.url)) ||
-            (this.props.data.type === Types.group && !this.props.data.name)
+            !Object.values(Types).includes(props.data.type) ||
+            (props.data.type === Types.unique && (!props.data.name || !props.data.url)) ||
+            (props.data.type === Types.group && !props.data.name)
         ) {
-            this.setValidationErrorMessage("Invalid data!");
+            setValidationErrorMessage("Invalid data!");
         } else {
-            this.props.onSubmit();
+            props.onSubmit();
         }
     }
-    handleCancel(event) {
+    const handleCancel = (event) => {
         event.preventDefault();
-        this.props.onCancel();
+        props.onCancel();
     }
-    handleChange(event) {
-        let newData = deepCopy(this.props.data);
+    const handleChange = (event) => {
+        let newData = deepCopy(props.data);
         const dictKey = event.target.dataset.dictKey;
         const val = event.target.value;
         if (dictKey === "type") {
@@ -52,63 +46,57 @@ class PageManagerModal extends React.Component {
         } else {
             console.error("UnexpectedResult: dictKey is not known.");
         }
-        this.props.onChange(newData);
+        props.onChange(newData);
     }
-    setValidationErrorMessage(message) {
-        this.setState({ validationErrorMessage: message });
+    if (!Object.values(Types).includes(props.data.type) && props.data.type !== undefined) {
+        console.error("UnexpectedResult: props.data.type is not known.");
     }
-    render() {
-        if (!Object.values(Types).includes(this.props.data.type) && this.props.data.type !== undefined) {
-            console.error("UnexpectedResult: this.props.data.type is not known.");
-        }
-        const type_unique_id = getUniqueId("type-unique");
-        const type_group_id = getUniqueId("type-group");
-        return (
-            <Modal>
-                <form onSubmit={this.handleSubmit} onReset={this.handleCancel}>
-                    <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
-                    <fieldset>
-                        {[
-                            { name: "Unique", id: type_unique_id, type: Types.unique },
-                            { name: "Group", id: type_group_id, type: Types.group },
-                        ].map(
-                            (entry) => (
-                                <div key={entry.id} class={PageManagerStyles.page_manager__form__field}>
-                                    <label htmlFor={entry.id}>{entry.name}</label>
-                                    <input
-                                        id={entry.id}
-                                        class={PageManagerStyles.page_manager__form__field__value}
-                                        name="type"
-                                        type="radio"
-                                        data-dict-key="type"
-                                        value={entry.type}
-                                        onChange={this.handleChange}
-                                        checked={entry.type === this.props.data.type}
-                                    />
-                                </div>
-                            ),
-                            this
-                        )}
-                    </fieldset>
-                    {this.props.data.type === Types.unique && (
-                        <UniqueTypeForm onChange={this.handleChange} data={this.props.data} />
+    const type_unique_id = getUniqueId("type-unique");
+    const type_group_id = getUniqueId("type-group");
+    return (
+        <Modal>
+            <form onSubmit={handleSubmit} onReset={handleCancel}>
+                <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
+                <fieldset>
+                    {[
+                        { name: "Unique", id: type_unique_id, type: Types.unique },
+                        { name: "Group", id: type_group_id, type: Types.group },
+                    ].map(
+                        (entry) => (
+                            <div key={entry.id} class={PageManagerStyles.page_manager__form__field}>
+                                <label htmlFor={entry.id}>{entry.name}</label>
+                                <input
+                                    id={entry.id}
+                                    class={PageManagerStyles.page_manager__form__field__value}
+                                    name="type"
+                                    type="radio"
+                                    data-dict-key="type"
+                                    value={entry.type}
+                                    onChange={handleChange}
+                                    checked={entry.type === props.data.type}
+                                />
+                            </div>
+                        )
                     )}
-                    {this.props.data.type === Types.group && (
-                        <GroupTypeForm onChange={this.handleChange} data={this.props.data} />
-                    )}
-                    {this.state.validationErrorMessage && (
-                        <span class={PageManagerStyles.page_manager__form__validation_error_message}>
-                            {this.state.validationErrorMessage}
-                        </span>
-                    )}
-                    <div class={PageManagerStyles.page_manager__form__buttons_box}>
-                        <input type="submit" value="Ok" class={PageManagerStyles.page_manager__form__submit_button} />
-                        <input type="reset" value="Cancel" class={PageManagerStyles.page_manager__form__reset_button} />
-                    </div>
-                </form>
-            </Modal>
-        );
-    }
+                </fieldset>
+                {props.data.type === Types.unique && (
+                    <UniqueTypeForm onChange={handleChange} data={props.data} />
+                )}
+                {props.data.type === Types.group && (
+                    <GroupTypeForm onChange={handleChange} data={props.data} />
+                )}
+                {validationErrorMessage && (
+                    <span class={PageManagerStyles.page_manager__form__validation_error_message}>
+                        {validationErrorMessage}
+                    </span>
+                )}
+                <div class={PageManagerStyles.page_manager__form__buttons_box}>
+                    <input type="submit" value="Ok" class={PageManagerStyles.page_manager__form__submit_button} />
+                    <input type="reset" value="Cancel" class={PageManagerStyles.page_manager__form__reset_button} />
+                </div>
+            </form>
+        </Modal>
+    );
 }
 
 class PageGroupView extends React.Component {
@@ -126,11 +114,11 @@ class PageGroupView extends React.Component {
         for (let rulename of direction.slice(1)) {
             root =
                 root.childs[
-                    root.childs
-                        .map((e) => {
-                            return e.name;
-                        })
-                        .indexOf(rulename)
+                root.childs
+                    .map((e) => {
+                        return e.name;
+                    })
+                    .indexOf(rulename)
                 ];
         }
         return root;
@@ -184,7 +172,7 @@ class PageGroupView extends React.Component {
     }
     handleChildDeleteButtonClick(event) {
         let childName = event.target.dataset.pagename;
-        this.props.deleteNode(this.state.path.concat([childName]), () => {});
+        this.props.deleteNode(this.state.path.concat([childName]), () => { });
     }
     componentDidUpdate(prevProps) {
         if (prevProps.root !== this.props.root) {
