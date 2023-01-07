@@ -1,5 +1,6 @@
 import { getUniqueId } from "../common/utils/utils";
 import PageManagerStyles from "./PageManager.module.css";
+import React from 'react';
 
 function GroupTypeForm(props) {
     const group_name_id = getUniqueId("name");

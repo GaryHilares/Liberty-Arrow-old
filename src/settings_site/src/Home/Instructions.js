@@ -1,4 +1,5 @@
 import InstructionsStyles from "./Instructions.module.css";
+import React from 'react';
 
 export function Instructions() {
     return (

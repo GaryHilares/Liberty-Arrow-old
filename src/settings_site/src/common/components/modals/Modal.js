@@ -1,4 +1,5 @@
 import ModalStyles from './Modal.module.css';
+import React from 'react';
 
 export function Modal(props) {
   return (
