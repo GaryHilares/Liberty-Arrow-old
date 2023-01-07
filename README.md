@@ -52,4 +52,4 @@ For building the project from its source code, follow the next steps:
 The building process of the project has only been tested in Windows 10. Note that these instructions assume that you have added Python and Node to your path during the installation. If you haven't done it, replace `python3` and/or `npm` with the appropiate path to your Python or Node interpreter.
 
 ## License
-All rights of the code owned in this repository is reserved unless stated otherwise.
+All rights of the code owned in this repository are reserved unless stated otherwise.
