@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
         if (Object.keys(result).length == 0)
             chrome.storage.local.set(
                 {
-                    blockedPages: { type: Types.group, name: "All pages", isRoot: true, childs: [] },
+                    blockedPages: { type: Types.group, name: "All pages", isRoot: true, children: [] },
                     passwordData: { protectionType: "None", details: null },
                 },
                 () => {
@@ -20,14 +20,15 @@ chrome.runtime.onInstalled.addListener(() => {
 // Define function to check if file exists in certain tree
 function pageInTree(url, root) {
     if (root.type === Types.unique) {
+        console.log(root.url.substring(1, root.url.length - 1))
         // If root is of "unique" type, check regex
-        if (root.url.startsWith("/") && root.url.endsWith("/") && root.length > 2) {
+        if (root.url.startsWith("/") && root.url.endsWith("/") && root.url.length > 2) {
             return RegExp(root.url.substring(1, root.url.length - 1)).test(url);
         }
-        return root.url === url;
+        return url.includes(root.url);
     } else if (root.type === Types.group) {
-        // If root is of "group" type, check childs recursively
-        for (let child of root.childs) {
+        // If root is of "group" type, check children recursively
+        for (let child of root.children) {
             if (pageInTree(url, child)) {
                 return true;
             }
@@ -44,8 +45,6 @@ let blockedPages = {};
 chrome.storage.local.get("blockedPages", (result) => {
     blockedPages = result.blockedPages;
 });
-
-// Set changes
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace == "local") {
         for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
