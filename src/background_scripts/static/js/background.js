@@ -72,7 +72,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
     // Check that url exists
     if (changeInfo.title || changeInfo.url) {
-        let webpage_url = "/blocked.html";
+        let webpage_url = "https://liberty-arrow-backend.vercel.app/block-screens/default";
 
         // Log data for debugging
         console.info(changeInfo, blockedPages, pageInTree(changeInfo, blockedPages));
