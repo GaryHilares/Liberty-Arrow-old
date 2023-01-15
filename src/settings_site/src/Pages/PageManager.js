@@ -269,7 +269,7 @@ function PageManager() {
     // Modal functions
     function openModal(mode) {
         return function (path) {
-            let startingData = mode == "edit" ? root.getNodeFromPathname(path) : {};
+            let startingData = mode === "edit" ? root.getNodeFromPathname(path) : {};
             setModal({
                 mode: mode,
                 target: path,
