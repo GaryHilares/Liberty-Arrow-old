@@ -4,9 +4,10 @@ import { deepCopy, getUniqueId } from "../common/utils/utils";
 import { Modal } from "../common/components/modals/Modal";
 import { UniqueTypeForm, UniqueView } from "./Unique";
 import { GroupTypeForm, GroupView } from "./Group";
+import { WordTypeForm, WordView } from "./Word";
 import PageManagerStyles from "./PageManager.module.css";
 
-const Types = { group: "1", unique: "2" };
+const Types = { group: "1", unique: "2", word: "3" };
 Object.freeze(Types);
 
 function PageManagerModal(props) {
@@ -16,7 +17,8 @@ function PageManagerModal(props) {
         if (
             !Object.values(Types).includes(props.data.type) ||
             (props.data.type === Types.unique && (!props.data.name || !props.data.url)) ||
-            (props.data.type === Types.group && !props.data.name)
+            (props.data.type === Types.group && !props.data.name) ||
+            (props.data.type === Types.word && (!props.data.name || !props.data.word))
         ) {
             setValidationErrorMessage("Invalid data!");
         } else {
@@ -35,6 +37,7 @@ function PageManagerModal(props) {
             const defaultData = {
                 [Types.unique]: { type: Types.unique, name: null, url: null },
                 [Types.group]: { type: Types.group, name: null, isRoot: false, children: [] },
+                [Types.word]: { type: Types.word, name: null, word: null },
             };
             if (Object.keys(defaultData).includes(val)) {
                 newData = defaultData[val];
@@ -53,6 +56,7 @@ function PageManagerModal(props) {
     }
     const type_unique_id = getUniqueId("type-unique");
     const type_group_id = getUniqueId("type-group");
+    const type_word_id = getUniqueId("type-word");
     return (
         <Modal>
             <form onSubmit={handleSubmit} onReset={handleCancel}>
@@ -61,6 +65,7 @@ function PageManagerModal(props) {
                     {[
                         { name: "Unique", id: type_unique_id, type: Types.unique },
                         { name: "Group", id: type_group_id, type: Types.group },
+                        { name: "Word", id: type_word_id, type: Types.word }
                     ].map(
                         (entry) => (
                             <div key={entry.id} class={PageManagerStyles.page_manager__form__field}>
@@ -84,6 +89,9 @@ function PageManagerModal(props) {
                 )}
                 {props.data.type === Types.group && (
                     <GroupTypeForm onChange={handleChange} data={props.data} />
+                )}
+                {props.data.type === Types.word && (
+                    <WordTypeForm onChange={handleChange} data={props.data} />
                 )}
                 {validationErrorMessage && (
                     <span class={PageManagerStyles.page_manager__form__validation_error_message}>
@@ -219,6 +227,14 @@ function PageManagerView(props) {
                             <UniqueView
                                 name={child.name}
                                 url={child.url}
+                                onEditButtonClick={props.onEditChildButtonClick(child.name)}
+                                onDeleteButtonClick={props.onDeleteChildButtonClick(child.name)}
+                            />
+                        )}
+                        {child.type === Types.word && (
+                            <WordView
+                                name={child.name}
+                                word={child.word}
                                 onEditButtonClick={props.onEditChildButtonClick(child.name)}
                                 onDeleteButtonClick={props.onDeleteChildButtonClick(child.name)}
                             />

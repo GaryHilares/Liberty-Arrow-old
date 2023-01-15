@@ -1,5 +1,5 @@
 // Define types constant dictionary
-const Types = { group: "1", unique: "2" };
+const Types = { group: "1", unique: "2", word: "3" };
 
 // Set storage to default value on install if no previous data exists
 chrome.runtime.onInstalled.addListener(() => {
@@ -18,25 +18,38 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // Define function to check if file exists in certain tree
-function pageInTree(url, root) {
-    if (root.type === Types.unique) {
-        console.log(root.url.substring(1, root.url.length - 1))
-        // If root is of "unique" type, check regex
-        if (root.url.startsWith("/") && root.url.endsWith("/") && root.url.length > 2) {
-            return RegExp(root.url.substring(1, root.url.length - 1)).test(url);
-        }
-        return url.includes(root.url);
-    } else if (root.type === Types.group) {
-        // If root is of "group" type, check children recursively
-        for (let child of root.children) {
-            if (pageInTree(url, child)) {
-                return true;
+function pageInTree(tabInfo, root) {
+    switch (root.type) {
+        case Types.unique:
+            if (!tabInfo.url) {
+                return false;
             }
-        }
-        return false;
-    } else {
-        console.error("UnexpectedResult: root.type is not known.");
-        return false;
+
+            // If root is of "unique" type, check regex
+            if (root.url.startsWith("/") && root.url.endsWith("/") && root.url.length > 2) {
+                return RegExp(root.url.substring(1, root.url.length - 1)).test(tabInfo.url);
+            }
+            return tabInfo.url.includes(root.url);
+        case Types.group:
+            // If root is of "group" type, check children recursively
+            for (let child of root.children) {
+                if (pageInTree(tabInfo, child)) {
+                    return true;
+                }
+            }
+            return false;
+        case Types.word:
+            if (!tabInfo.title) {
+                return false;
+            }
+            // If root is of "unique" type, check regex
+            if (root.word.startsWith("/") && root.word.endsWith("/") && root.word.length > 2) {
+                return RegExp(root.word.substring(1, root.word.length - 1)).test(tabInfo.title);
+            }
+            return tabInfo.title.includes(root.word);
+        default:
+            console.error("UnexpectedResult: root.type is not known.");
+            return false;
     }
 }
 
@@ -58,14 +71,17 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 // Listen for change in tabs and block them
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
     // Check that url exists
-    if (changeInfo.url) {
+    if (changeInfo.title || changeInfo.url) {
         let webpage_url = "/blocked.html";
 
         // Log data for debugging
-        console.info(changeInfo.url, blockedPages, pageInTree(changeInfo.url, blockedPages));
+        console.info(changeInfo, blockedPages, pageInTree(changeInfo, blockedPages));
+
+        const title = changeInfo.title ? changeInfo.title.toLowerCase() : null;
+        const url = changeInfo.url ? changeInfo.url.toLowerCase() : null;
 
         // Check if page exists in directory tree
-        if (pageInTree(changeInfo.url, blockedPages)) {
+        if (pageInTree({ title: title, url: url }, blockedPages)) {
             // Block website
             console.info("Updating");
             chrome.tabs.update(tabId, { url: webpage_url });

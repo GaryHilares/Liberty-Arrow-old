@@ -2,15 +2,15 @@ import { getUniqueId } from "../common/utils/utils";
 import PageManagerStyles from "./PageManager.module.css";
 import React from "react";
 
-function UniqueTypeForm(props) {
-    const unique_name_id = getUniqueId("name");
-    const unique_url_id = getUniqueId("url");
+function WordTypeForm(props) {
+    const word_name_id = getUniqueId("name");
+    const word_word_id = getUniqueId("word");
     return (
-        <fieldset /* Unique */>
+        <fieldset /* Word */>
             <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={unique_name_id}>Name</label>
+                <label htmlFor={word_name_id}>Name</label>
                 <input
-                    id={unique_name_id}
+                    id={word_name_id}
                     class={PageManagerStyles.page_manager__form__field__value}
                     type="text"
                     data-dict-key="name"
@@ -19,13 +19,13 @@ function UniqueTypeForm(props) {
                 />
             </div>
             <div class={PageManagerStyles.page_manager__form__field}>
-                <label htmlFor={unique_url_id}>URL</label>
+                <label htmlFor={word_word_id}>Word</label>
                 <input
-                    id={unique_url_id}
+                    id={word_word_id}
                     class={PageManagerStyles.page_manager__form__field__value}
                     type="text"
-                    data-dict-key="url"
-                    value={props.data.url || ""}
+                    data-dict-key="word"
+                    value={props.data.word || ""}
                     onChange={props.onChange}
                 />
             </div>
@@ -33,11 +33,11 @@ function UniqueTypeForm(props) {
     );
 }
 
-function UniqueView(props) {
+function WordView(props) {
     return (
         <div className={PageManagerStyles.page_manager__rule_list__rule}>
             <span className={PageManagerStyles.page_manager__unique__name}>{props.name}</span>
-            <span className={PageManagerStyles.page_manager__unique__url}>URL: {props.url}</span>
+            <span className={PageManagerStyles.page_manager__unique__url}>By word: {props.word}</span>
             <div style={{ float: "right" }}>
                 <i
                     aria-label="Edit"
@@ -56,4 +56,4 @@ function UniqueView(props) {
     );
 }
 
-export { UniqueTypeForm, UniqueView };
+export { WordTypeForm, WordView };
