@@ -2,7 +2,11 @@
 	"name": "Liberty Arrow",
 	"version": "1.2",
 	"description": "A customizable page blocker perfect for your needs.",
-	"permissions": ["storage","tabs"],
+	"permissions": [
+		"storage",
+		"tabs",
+		"https://liberty-arrow-backend.vercel.app/"
+	],
 	"background": {
 		"scripts": ["static/js/background.js"],
 		"persistent": false

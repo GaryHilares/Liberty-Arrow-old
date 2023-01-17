@@ -25,6 +25,9 @@ function SettingsManager() {
             case "Password":
                 setDetails({ password: "" });
                 break;
+            case "PIN":
+                setDetails({ email: "" });
+                break;
             default:
                 setDetails({});
                 console.error("UnexpectedResult: protectionType is not known.");
@@ -33,16 +36,20 @@ function SettingsManager() {
     function handlePasswordTextChange(event) {
         setDetails({ password: event.target.value });
     }
+    function handlePinEmailTextChange(event) {
+        setDetails({ email: event.target.value });
+    }
     function save() {
         const passwordData = { details: details, protectionType: protectionType };
         console.info("Saving", passwordData);
         chrome.storage.local.set({ passwordData: passwordData });
     }
-    if (!["None", "Password"].includes(protectionType)) {
+    if (!["None", "Password", "PIN"].includes(protectionType)) {
         console.error("UnexpectedResult: protectionType is not known.");
     }
     const password_protection_select_id = getUniqueId("password-protection-select");
     const password_input_id = getUniqueId("password-input-id");
+    const pin_email_input_id = getUniqueId("pin-email-input-id");
     return (
         <div className={SettingsManagerStyles.settings_manager}>
             <h2 className={SettingsManagerStyles.settings__title}>Password</h2>
@@ -56,6 +63,7 @@ function SettingsManager() {
                 >
                     <option value="None">None</option>
                     <option value="Password">Password</option>
+                    <option value="PIN">PIN</option>
                 </select>
             </div>
             {protectionType === "Password" && (
@@ -67,6 +75,18 @@ function SettingsManager() {
                         type="password"
                         onChange={handlePasswordTextChange}
                         value={details.password}
+                    />
+                </div>
+            )}
+            {protectionType === "PIN" && (
+                <div className={SettingsManagerStyles.settings__pair}>
+                    <label htmlFor={pin_email_input_id}>Email</label>
+                    <input
+                        className={SettingsManagerStyles.settings__pair__value}
+                        id={pin_email_input_id}
+                        type="email"
+                        onChange={handlePinEmailTextChange}
+                        value={details.email}
                     />
                 </div>
             )}

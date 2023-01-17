@@ -1,5 +1,5 @@
 /* global chrome */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { deepCopy, getUniqueId } from "../../utils/utils";
 import { Modal } from "./Modal";
 import ProtectionModalStyles from "./ProtectionModal.module.css";
@@ -21,115 +21,135 @@ function PasswordTypeForm(props) {
     );
 }
 
-class ProtectionModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            protectionData: { protectionType: "None", details: null },
-            formData: {},
-            validationErrorMessage: null,
-        };
+function PinTypeForm(props) {
+    const pin_modal_pin_input_id = getUniqueId("pin-modal-pin-input-id");
+    return (
+        <div class={ProtectionModalStyles.protection_modal__content__pair}>
+            <label for={pin_modal_pin_input_id}>PIN</label>
+            <input
+                id={pin_modal_pin_input_id}
+                type="password"
+                data-key-dict="pin"
+                onChange={props.onChange}
+                value={props.formData.password}
+                class={ProtectionModalStyles.protection_modal__content__value}
+            />
+        </div>
+    );
+}
+
+function ProtectionModal(props) {
+    const [protectionData, setProtectionData] = useState({ protectionType: "None", details: null });
+    const [formData, setFormData] = useState({});
+    const [validationErrorMessage, setValidationErrorMessage] = useState(null);
+    const [tempData, setTempData] = useState({});
+    useEffect(() => {
         chrome.storage.local.get("passwordData", (result) => {
-            this.setState((prevState) => {
-                return {
-                    protectionData: result.passwordData,
-                    formData: prevState.formData,
-                };
-            });
+            setProtectionData(result.passwordData);
             console.info("Data loaded!");
-        });
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    handleChange(event) {
+            if (result.passwordData.protectionType === "PIN") {
+                const email = result.passwordData.details.email;
+                fetch(`https://liberty-arrow-backend.vercel.app/create-pin?email=${email}`)
+                    .then((response) => {
+                        response.text().then((pin) => {
+                            console.log(pin);
+                            setTempData({ pin: pin });
+                        });
+                    });
+            }
+        })
+    }, []);
+    function handleChange(event) {
         const keyDict = event.target.dataset.keyDict;
         const value = event.target.value;
-        this.setState((prevState) => {
-            let newFormData = deepCopy(prevState.formData);
+        setFormData((prevFormData) => {
+            let newFormData = deepCopy(prevFormData);
             newFormData[keyDict] = value;
-            return {
-                protectionData: prevState.protectionData,
-                formData: newFormData,
-            };
+            return newFormData;
         });
     }
-    handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
-        switch (this.state.protectionData.protectionType) {
+        switch (protectionData.protectionType) {
             case "None":
-                this.props.onLogInSucess();
+                props.onLogInSucess();
                 break;
             case "Password":
-                if (this.state.formData.password === "") this.setValidationErrorMessage("You must enter a password.");
-                else if (this.state.formData.password !== this.state.protectionData.details.password)
-                    this.setValidationErrorMessage("Passwords don't match.");
-                else this.props.onLogInSucess();
+                if (formData.password === "") {
+                    setValidationErrorMessage("You must enter a password.");
+                } else if (formData.password !== protectionData.details.password) {
+                    setValidationErrorMessage("Passwords don't match.");
+                } else {
+                    props.onLogInSucess()
+                };
+                break;
+            case "PIN":
+                if (formData.pin === "") {
+                    setValidationErrorMessage("You must enter a PIN.");
+                } else if (!tempData.pin || formData.pin !== tempData.pin) {
+                    setValidationErrorMessage("Passwords don't match.");
+                } else {
+                    props.onLogInSucess()
+                };
                 break;
             default:
+                console.error("ProtectionModal : protectionData.protectionType is not known");
                 break;
         }
     }
-    setValidationErrorMessage(message) {
-        this.setState((prevState) => ({
-            protectionData: prevState.protectionData,
-            formData: prevState.formData,
-            validationErrorMessage: message,
-        }));
-    }
-    render() {
-        if (!["None", "Password"].includes(this.state.protectionData.protectionType))
-            console.error("UnexpectedResult: this.state.protectionData.protectionType is not known.");
-        return (
-            <Modal>
-                <div class={ProtectionModalStyles.protection_modal__content}>
-                    <form onSubmit={this.handleSubmit}>
-                        <div class={ProtectionModalStyles.protection_modal__content__logo_wrapper}>
-                            <img
-                                src="/static/images/Liberty_Arrow_text-false.png"
-                                width="100px"
-                                height="100px"
-                                alt="logo"
-                            />
-                        </div>
-                        <h1 class={ProtectionModalStyles.protection_modal__content__title}>Log In to Liberty Arrow</h1>
-                        {this.state.protectionData.protectionType === "Password" && (
-                            <PasswordTypeForm onChange={this.handleChange} formData={this.state.formData} />
-                        )}
-                        {this.state.validationErrorMessage && (
-                            <span class={ProtectionModalStyles.protection_modal__content__validation_error_message}>
-                                {this.state.validationErrorMessage}
-                            </span>
-                        )}
-                        <div class={ProtectionModalStyles.protection_modal__content__buttons_box}>
-                            <input
-                                type="submit"
-                                value="Log In"
-                                class={ProtectionModalStyles.protection_modal__content__buttons_box__submit_button}
-                            />
-                        </div>
-                    </form>
-                </div>
-            </Modal>
-        );
-    }
+    if (!["None", "Password", "PIN"].includes(protectionData.protectionType))
+        console.error("UnexpectedResult: protectionData.protectionType is not known.");
+    return (
+        <Modal>
+            <div class={ProtectionModalStyles.protection_modal__content}>
+                <form onSubmit={handleSubmit}>
+                    <div class={ProtectionModalStyles.protection_modal__content__logo_wrapper}>
+                        <img
+                            src="/static/images/Liberty_Arrow_text-false.png"
+                            width="100px"
+                            height="100px"
+                            alt="logo"
+                        />
+                    </div>
+                    <h1 class={ProtectionModalStyles.protection_modal__content__title}>Log In to Liberty Arrow</h1>
+                    {protectionData.protectionType === "Password" && (
+                        <PasswordTypeForm onChange={handleChange} formData={formData} />
+                    )}
+                    {protectionData.protectionType === "PIN" && (
+                        <PinTypeForm onChange={handleChange} formData={formData} />
+                    )}
+                    {validationErrorMessage && (
+                        <span class={ProtectionModalStyles.protection_modal__content__validation_error_message}>
+                            {validationErrorMessage}
+                        </span>
+                    )}
+                    <div class={ProtectionModalStyles.protection_modal__content__buttons_box}>
+                        <input
+                            type="submit"
+                            value="Log In"
+                            class={ProtectionModalStyles.protection_modal__content__buttons_box__submit_button}
+                        />
+                    </div>
+                </form>
+            </div>
+        </Modal>
+    );
 }
 
-export class ProtectionController extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { loggedIn: false };
-        this.handleLogInSucess = this.handleLogInSucess.bind(this);
-    }
-    handleLogInSucess() {
-        this.setState({ loggedIn: true }, () => {
-            console.info("Logged in sucessfully!");
-        });
-    }
-    componentDidMount() {
+export function ProtectionController(props) {
+    useEffect(() => {
         document.title = "Login - Liberty Arrow";
+    }, []);
+
+    const [loggedIn, setLoggedIn] = useState(false);
+    function handleLogInSucess() {
+        setLoggedIn({ loggedIn: true });
+        console.info("Logged in sucessfully!");
     }
-    render() {
-        if (!this.state.loggedIn) return <ProtectionModal onLogInSucess={this.handleLogInSucess} />;
-        else return <React.Fragment>{this.props.children}</React.Fragment>;
+
+    if (!loggedIn) {
+        return <ProtectionModal onLogInSucess={handleLogInSucess} />;
+    } else {
+        return <React.Fragment>{props.children}</React.Fragment>
     }
 }
