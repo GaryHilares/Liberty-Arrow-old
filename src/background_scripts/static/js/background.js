@@ -9,6 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {
                 {
                     blockedPages: { type: Types.group, name: "All pages", isRoot: true, children: [] },
                     passwordData: { protectionType: "None", details: null },
+                    theme: "default"
                 },
                 () => {
                     console.info("Set data correctly");
@@ -55,14 +56,18 @@ function pageInTree(tabInfo, root) {
 
 // Load blocked pages
 let blockedPages = {};
-chrome.storage.local.get("blockedPages", (result) => {
+let theme = "default";
+chrome.storage.local.get(["blockedPages", "theme"], (result) => {
     blockedPages = result.blockedPages;
+    theme = result.theme;
 });
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace == "local") {
         for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
             if (key == "blockedPages") {
                 blockedPages = newValue;
+            } else if (key == "theme") {
+                theme = newValue;
             }
         }
     }
@@ -72,7 +77,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
     // Check that url exists
     if (changeInfo.title || changeInfo.url) {
-        let webpage_url = "https://liberty-arrow-backend.vercel.app/block-screens/default";
+        let webpage_url = `https://liberty-arrow-backend.vercel.app/block-screens/${theme}`;
 
         // Log data for debugging
         console.info(changeInfo, blockedPages, pageInTree(changeInfo, blockedPages));

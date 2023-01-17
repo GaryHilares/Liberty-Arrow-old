@@ -6,6 +6,7 @@ import SettingsManagerStyles from "./SettingsManager.module.css";
 function SettingsManager() {
     const [protectionType, setProtectionType] = useState("None");
     const [details, setDetails] = useState({});
+    const [theme, setTheme] = useState("default");
 
     useEffect(() => {
         chrome.storage.local.get("passwordData", (result) => {
@@ -15,6 +16,11 @@ function SettingsManager() {
             setDetails(result.passwordData.details);
         });
     }, []);
+    useEffect(() => {
+        const passwordData = { details: details, protectionType: protectionType };
+        console.info("Saving", passwordData);
+        chrome.storage.local.set({ passwordData: passwordData, theme: theme });
+    }, [details, protectionType, theme]);
 
     function handleProtectionTypeChange(event) {
         setProtectionType(event.target.value);
@@ -39,10 +45,8 @@ function SettingsManager() {
     function handlePinEmailTextChange(event) {
         setDetails({ email: event.target.value });
     }
-    function save() {
-        const passwordData = { details: details, protectionType: protectionType };
-        console.info("Saving", passwordData);
-        chrome.storage.local.set({ passwordData: passwordData });
+    function handleThemeChange(event) {
+        setTheme(event.target.value);
     }
     if (!["None", "Password", "PIN"].includes(protectionType)) {
         console.error("UnexpectedResult: protectionType is not known.");
@@ -50,6 +54,7 @@ function SettingsManager() {
     const password_protection_select_id = getUniqueId("password-protection-select");
     const password_input_id = getUniqueId("password-input-id");
     const pin_email_input_id = getUniqueId("pin-email-input-id");
+    const theme_input_id = getUniqueId("theme-input-id");
     return (
         <div className={SettingsManagerStyles.settings_manager}>
             <h2 className={SettingsManagerStyles.settings__title}>Password</h2>
@@ -92,12 +97,18 @@ function SettingsManager() {
             )}
             <h2 className={SettingsManagerStyles.settings__title}>Theme</h2>
             <div className={SettingsManagerStyles.settings__pair}>
-                <span>Coming soon!</span>
-            </div>
-            <div className={SettingsManagerStyles.settings__buttons_box}>
-                <button className={SettingsManagerStyles.settings__buttons_box__save_button} onClick={save}>
-                    Save
-                </button>
+                <div className={SettingsManagerStyles.settings__pair}>
+                    <label htmlFor={theme_input_id}>Blocking page theme</label>
+                    <select
+                        value={theme}
+                        className={SettingsManagerStyles.settings__pair__value}
+                        id={theme_input_id}
+                        onChange={handleThemeChange}
+                    >
+                        <option value="default">Default</option>
+                        <option value="minimalist">Minimalist</option>
+                    </select>
+                </div>
             </div>
         </div>
     );
