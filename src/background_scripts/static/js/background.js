@@ -57,7 +57,7 @@ function pageInTree(tabInfo, root) {
 // Load blocked pages
 let blockedPages = {};
 let theme = "default";
-chrome.storage.local.get(["blockedPages", "theme"], (result) => {
+chrome.storage.local.get(["blockedPages", "theme"]).then((result) => {
     blockedPages = result.blockedPages;
     theme = result.theme;
 });
@@ -93,3 +93,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
         }
     }
 });
+
+let sites = {};
+setInterval(async () => {
+    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+
+    if (tab) {
+        let url = new URL(tab.url);
+        let hostname = url.hostname;
+        if (!(hostname in sites)) {
+            sites[hostname] = 0;
+        }
+        sites[hostname]++;
+    }
+
+    console.log(sites);
+}, 1000);

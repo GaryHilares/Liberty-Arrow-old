@@ -4,14 +4,16 @@
 	"description": "A customizable page blocker perfect for your needs.",
 	"permissions": [
 		"storage",
-		"tabs",
+		"tabs"
+	],
+	"host_permissions": [
 		"https://liberty-arrow-backend.vercel.app/"
 	],
 	"background": {
-		"scripts": ["static/js/background.js"],
-		"persistent": false
+		"scripts": ["static/js/background.js"]
 	},
-	"browser_action": {
+	"action": {
+		"default_title": "Liberty Arrow's settings",
 		"default_popup": "popup.html",
 		"default_icon": {
 			"16": "static/images/Liberty_Arrow_text-false_16.png",
@@ -26,5 +28,5 @@
 		"48": "static/images/Liberty_Arrow_text-false_64.png",
 		"128": "static/images/Liberty_Arrow_text-false_128.png"
 	},
-	"manifest_version": 2
+	"manifest_version": 3
 }
