@@ -1,35 +1,15 @@
-import { getUniqueId } from "../common/utils/utils.js";
+import { SettingsTextEntry } from "./SettingsTextEntry.js";
 import { ButtonWithIcon } from "./ButtonWithIcon.js";
 import PageManagerStyles from "./PageManager.module.css";
 import React from "react";
 
 class ByWordType {
     static Form(props) {
-        const word_name_id = getUniqueId("name");
-        const word_word_id = getUniqueId("word");
         return (
-            <fieldset /* Word */>
-                <div class={PageManagerStyles.page_manager__form__field}>
-                    <label htmlFor={word_name_id}>Name</label>
-                    <input
-                        id={word_name_id}
-                        class={PageManagerStyles.page_manager__form__field__value}
-                        type="text"
-                        value={props.data.name || ""}
-                        onChange={props.onChange("name")}
-                    />
-                </div>
-                <div class={PageManagerStyles.page_manager__form__field}>
-                    <label htmlFor={word_word_id}>Word</label>
-                    <input
-                        id={word_word_id}
-                        class={PageManagerStyles.page_manager__form__field__value}
-                        type="text"
-                        value={props.data.word || ""}
-                        onChange={props.onChange("word")}
-                    />
-                </div>
-            </fieldset>
+            <fieldset>
+                <SettingsTextEntry label="Name" value={props.data.name || ""} onChange={props.onChange("name")} />
+                <SettingsTextEntry label="Word" value={props.data.url || ""} onChange={props.onChange("word")} />
+            </fieldset >
         );
     }
 

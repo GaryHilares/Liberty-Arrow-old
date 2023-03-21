@@ -1,5 +1,4 @@
 import React from "react";
-import PageManagerStyles from "./PageManager.module.css";
 
 function ButtonWithIcon(props) {
     return (

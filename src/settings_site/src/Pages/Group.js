@@ -1,23 +1,13 @@
-import { getUniqueId } from "../common/utils/utils";
 import PageManagerStyles from "./PageManager.module.css";
 import React from 'react';
 import { ButtonWithIcon } from "./ButtonWithIcon.js";
+import { SettingsTextEntry } from "./SettingsTextEntry";
 
 class GroupType {
     static Form(props) {
-        const group_name_id = getUniqueId("name");
         return (
-            <fieldset /* Group */>
-                <div class={PageManagerStyles.page_manager__form__field}>
-                    <label htmlFor={group_name_id}>Name</label>
-                    <input
-                        id={group_name_id}
-                        class={PageManagerStyles.page_manager__form__field__value}
-                        type="text"
-                        value={props.data.name || ""}
-                        onChange={props.onChange("name")}
-                    />
-                </div>
+            <fieldset>
+                <SettingsTextEntry label="Name" value={props.data.name || ""} onChange={props.onChange("name")} />
             </fieldset>
         );
     }
