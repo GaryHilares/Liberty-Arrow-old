@@ -14,9 +14,8 @@ class ByWordType {
                         id={word_name_id}
                         class={PageManagerStyles.page_manager__form__field__value}
                         type="text"
-                        data-dict-key="name"
                         value={props.data.name || ""}
-                        onChange={props.onChange}
+                        onChange={props.onChange("name")}
                     />
                 </div>
                 <div class={PageManagerStyles.page_manager__form__field}>
@@ -25,9 +24,8 @@ class ByWordType {
                         id={word_word_id}
                         class={PageManagerStyles.page_manager__form__field__value}
                         type="text"
-                        data-dict-key="word"
                         value={props.data.word || ""}
-                        onChange={props.onChange}
+                        onChange={props.onChange("word")}
                     />
                 </div>
             </fieldset>
@@ -43,13 +41,11 @@ class ByWordType {
                     <i
                         aria-label="Edit"
                         className={`las la-pen ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        data-pagename={props.name}
                         onClick={props.onEditButtonClick}
                     />
                     <i
                         aria-label="Delete"
                         className={`las la-window-close ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        data-pagename={props.name}
                         onClick={props.onDeleteButtonClick}
                     />
                 </div>

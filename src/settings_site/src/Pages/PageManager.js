@@ -30,27 +30,28 @@ function PageManagerModal(props) {
         event.preventDefault();
         props.onCancel();
     }
-    const handleChange = (event) => {
-        let newData = deepCopy(props.data);
-        const dictKey = event.target.dataset.dictKey;
-        const val = event.target.value;
-        if (dictKey === "type") {
-            const defaultData = {
-                [Types.unique]: { type: Types.unique, name: null, url: null },
-                [Types.group]: { type: Types.group, name: null, isRoot: false, children: [] },
-                [Types.word]: { type: Types.word, name: null, word: null },
-            };
-            if (Object.keys(defaultData).includes(val)) {
-                newData = defaultData[val];
+    const handleChange = (dictKey) => {
+        return function (event) {
+            let newData = deepCopy(props.data);
+            const val = event.target.value;
+            if (dictKey === "type") {
+                const defaultData = {
+                    [Types.unique]: { type: Types.unique, name: null, url: null },
+                    [Types.group]: { type: Types.group, name: null, isRoot: false, children: [] },
+                    [Types.word]: { type: Types.word, name: null, word: null },
+                };
+                if (Object.keys(defaultData).includes(val)) {
+                    newData = defaultData[val];
+                } else {
+                    console.error("UnexpectedResult: type is not known.");
+                }
+            } else if (!["type", "isRoot"].includes(dictKey) && Object.keys(newData).includes(dictKey)) {
+                newData[dictKey] = val;
             } else {
-                console.error("UnexpectedResult: type is not known.");
+                console.error("UnexpectedResult: dictKey is not known.");
             }
-        } else if (!["type", "isRoot"].includes(dictKey) && Object.keys(newData).includes(dictKey)) {
-            newData[dictKey] = val;
-        } else {
-            console.error("UnexpectedResult: dictKey is not known.");
+            props.onChange(newData);
         }
-        props.onChange(newData);
     }
     if (!Object.values(Types).includes(props.data.type) && props.data.type !== undefined) {
         console.error("UnexpectedResult: props.data.type is not known.");
@@ -76,9 +77,8 @@ function PageManagerModal(props) {
                                     class={PageManagerStyles.page_manager__form__field__value}
                                     name="type"
                                     type="radio"
-                                    data-dict-key="type"
                                     value={entry.type}
-                                    onChange={handleChange}
+                                    onChange={handleChange("type")}
                                     checked={entry.type === props.data.type}
                                 />
                             </div>
