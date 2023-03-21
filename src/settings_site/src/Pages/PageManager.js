@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { deepCopy, getUniqueId } from "../common/utils/utils";
 import { Modal } from "../common/components/modals/Modal";
-import { UniqueTypeForm, UniqueView } from "./Unique";
-import { GroupTypeForm, GroupView } from "./Group";
-import { WordTypeForm, WordView } from "./Word";
+import { ByUrlType } from "./ByUrl";
+import { GroupType } from "./Group";
+import { ByWordType } from "./ByWord";
+import { ButtonWithIcon } from "./ButtonWithIcon.js";
 import PageManagerStyles from "./PageManager.module.css";
 
 const Types = { group: "1", unique: "2", word: "3" };
@@ -85,13 +86,13 @@ function PageManagerModal(props) {
                     )}
                 </fieldset>
                 {props.data.type === Types.unique && (
-                    <UniqueTypeForm onChange={handleChange} data={props.data} />
+                    <ByUrlType.Form onChange={handleChange} data={props.data} />
                 )}
                 {props.data.type === Types.group && (
-                    <GroupTypeForm onChange={handleChange} data={props.data} />
+                    <GroupType.Form onChange={handleChange} data={props.data} />
                 )}
                 {props.data.type === Types.word && (
-                    <WordTypeForm onChange={handleChange} data={props.data} />
+                    <ByWordType.Form onChange={handleChange} data={props.data} />
                 )}
                 {validationErrorMessage && (
                     <span class={PageManagerStyles.page_manager__form__validation_error_message}>
@@ -193,30 +194,18 @@ function PageManagerView(props) {
             <span>{[props.root.name].concat(props.path).join("/")}</span>
             <div style={{ float: "right" }}>
                 {!currentNode.isRoot && (
-                    <i
-                        aria-label="Go back"
-                        className={`las la-chevron-left ${PageManagerStyles.page_manager__top__icon_buttons}`}
-                        onClick={props.onGoBackButton}
-                    ></i>
+                    <ButtonWithIcon label="Go back" code="chevron-left" onClick={props.onGoBackButton} />
                 )}
-                <i
-                    aria-label="Add"
-                    className={`las la-plus ${PageManagerStyles.page_manager__top__icon_buttons}`}
-                    onClick={props.onAddButton}
-                ></i>
+                <ButtonWithIcon label="Add" code="plus" onClick={props.onAddButton} />
                 {!currentNode.isRoot && (
-                    <i
-                        aria-label="Delete"
-                        className={`las la-window-close ${PageManagerStyles.page_manager__top__icon_buttons}`}
-                        onClick={props.onDeleteButtonClick}
-                    ></i>
+                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} />
                 )}
             </div>
             <ul className={PageManagerStyles.page_manager__rule_list}>
                 {currentNode.children.map((child, index) => (
                     <li key={index}>
                         {child.type === Types.group && (
-                            <GroupView
+                            <GroupType.View
                                 name={child.name}
                                 onGoButtonClick={props.onGoChildButtonClick(child.name)}
                                 onEditButtonClick={props.onEditChildButtonClick(child.name)}
@@ -224,7 +213,7 @@ function PageManagerView(props) {
                             />
                         )}
                         {child.type === Types.unique && (
-                            <UniqueView
+                            <ByUrlType.View
                                 name={child.name}
                                 url={child.url}
                                 onEditButtonClick={props.onEditChildButtonClick(child.name)}
@@ -232,7 +221,7 @@ function PageManagerView(props) {
                             />
                         )}
                         {child.type === Types.word && (
-                            <WordView
+                            <ByWordType.View
                                 name={child.name}
                                 word={child.word}
                                 onEditButtonClick={props.onEditChildButtonClick(child.name)}
