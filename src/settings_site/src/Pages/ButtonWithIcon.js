@@ -4,8 +4,9 @@ import PageManagerStyles from "./PageManager.module.css";
 function ButtonWithIcon(props) {
     return (
         <i
+            role="button"
             aria-label={props.label}
-            className={`las la-${props.code} ${PageManagerStyles.page_manager__top__icon_buttons}`}
+            className={`las la-${props.code} ${props.className}`}
             onClick={props.onClick}
         ></i>
     );

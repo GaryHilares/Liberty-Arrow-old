@@ -1,6 +1,7 @@
 import { getUniqueId } from "../common/utils/utils";
 import PageManagerStyles from "./PageManager.module.css";
 import React from "react";
+import { ButtonWithIcon } from "./ButtonWithIcon";
 
 class ByUrlType {
     static Form(props) {
@@ -38,16 +39,8 @@ class ByUrlType {
                 <span className={PageManagerStyles.page_manager__unique__name}>{props.name}</span>
                 <span className={PageManagerStyles.page_manager__unique__url}>URL: {props.url}</span>
                 <div style={{ float: "right" }}>
-                    <i
-                        aria-label="Edit"
-                        className={`las la-pen ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        onClick={props.onEditButtonClick}
-                    />
-                    <i
-                        aria-label="Delete"
-                        className={`las la-window-close ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        onClick={props.onDeleteButtonClick}
-                    />
+                    <ButtonWithIcon label="Edit" code="pen" onClick={props.onEditButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
+                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
                 </div>
             </div>
         );

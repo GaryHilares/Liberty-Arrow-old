@@ -27,15 +27,9 @@ class GroupType {
             <div className={PageManagerStyles.page_manager__rule_list__rule}>
                 <span className={PageManagerStyles.page_manager__group__name}>{props.name}</span>
                 <div style={{ float: "right" }}>
-                    <ButtonWithIcon label="Go" code="chevron-right" onClick={props.onGoButtonClick} />
-                    <ButtonWithIcon label="Edit" code="pen" onClick={props.onEditButtonClick} />
-                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} />
-
-                    {/* <i
-                        aria-label="Go"
-                        className={["las la-chevron-right", PageManagerStyles.page_manager__bottom__icon_buttons].join(" ")}
-                        onClick={props.onGoButtonClick}
-                    ></i> */}
+                    <ButtonWithIcon label="Go" code="chevron-right" onClick={props.onGoButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
+                    <ButtonWithIcon label="Edit" code="pen" onClick={props.onEditButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
+                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
                 </div>
             </div>
         );

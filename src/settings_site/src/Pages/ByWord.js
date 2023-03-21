@@ -1,4 +1,5 @@
-import { getUniqueId } from "../common/utils/utils";
+import { getUniqueId } from "../common/utils/utils.js";
+import { ButtonWithIcon } from "./ButtonWithIcon.js";
 import PageManagerStyles from "./PageManager.module.css";
 import React from "react";
 
@@ -38,16 +39,8 @@ class ByWordType {
                 <span className={PageManagerStyles.page_manager__unique__name}>{props.name}</span>
                 <span className={PageManagerStyles.page_manager__unique__url}>By word: {props.word}</span>
                 <div style={{ float: "right" }}>
-                    <i
-                        aria-label="Edit"
-                        className={`las la-pen ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        onClick={props.onEditButtonClick}
-                    />
-                    <i
-                        aria-label="Delete"
-                        className={`las la-window-close ${PageManagerStyles.page_manager__bottom__icon_buttons}`}
-                        onClick={props.onDeleteButtonClick}
-                    />
+                    <ButtonWithIcon label="Edit" code="pen" onClick={props.onEditButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
+                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} className={PageManagerStyles.page_manager__bottom__icon_buttons} />
                 </div>
             </div>
         );

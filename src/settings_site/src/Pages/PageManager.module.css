@@ -18,22 +18,6 @@
     padding: 5px 0;
 }
 
-.page_manager__buttons_box__save_button {
-    margin: 0 5px;
-    font-size: 1em;
-    background-color: transparent;
-    color: #545AA7;
-    border: 1px solid #545AA7;
-    transition: all 0.5s;
-}
-
-.page_manager__buttons_box__save_button:hover,
-.page_manager__buttons_box__save_button:focus {
-    background-color: #545AA7;
-    color: white;
-    cursor: pointer;
-}
-
 .page_manager__group__name {
     font-size: 0.9em;
     font-weight: bold;

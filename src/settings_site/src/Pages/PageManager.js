@@ -194,11 +194,11 @@ function PageManagerView(props) {
             <span>{[props.root.name].concat(props.path).join("/")}</span>
             <div style={{ float: "right" }}>
                 {!currentNode.isRoot && (
-                    <ButtonWithIcon label="Go back" code="chevron-left" onClick={props.onGoBackButton} />
+                    <ButtonWithIcon label="Go back" code="chevron-left" onClick={props.onGoBackButton} className={PageManagerStyles.page_manager__top__icon_buttons} />
                 )}
-                <ButtonWithIcon label="Add" code="plus" onClick={props.onAddButton} />
+                <ButtonWithIcon label="Add" code="plus" onClick={props.onAddButton} className={PageManagerStyles.page_manager__top__icon_buttons} />
                 {!currentNode.isRoot && (
-                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} />
+                    <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteButtonClick} className={PageManagerStyles.page_manager__top__icon_buttons} />
                 )}
             </div>
             <ul className={PageManagerStyles.page_manager__rule_list}>
