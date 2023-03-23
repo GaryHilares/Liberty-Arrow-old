@@ -1,6 +1,5 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { HomeTab } from "../Home/Home";
 import { PagesTab } from "../Pages/Pages";
 import { SettingsTab } from "../Settings/Settings";
 import { NavBar } from "../common/components/NavBar";
@@ -14,8 +13,7 @@ function App() {
         <ProtectionController>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<HomeTab />} />
+            <Route path="/" element={<Navigate to="/pages" />} />
             <Route path="/pages" element={<PagesTab />} />
             <Route path="/settings" element={<SettingsTab />} />
           </Routes>
