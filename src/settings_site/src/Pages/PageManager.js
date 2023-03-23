@@ -45,7 +45,7 @@ function PageManagerModal(props) {
                 } else {
                     console.error("UnexpectedResult: type is not known.");
                 }
-            } else if (!["type", "isRoot"].includes(dictKey) && Object.keys(newData).includes(dictKey)) {
+            } else if (Object.keys(newData).includes(dictKey)) {
                 newData[dictKey] = val;
             } else {
                 console.error("UnexpectedResult: dictKey is not known.");
