@@ -8,8 +8,26 @@ import { ByWordType } from "./ByWord";
 import { ButtonWithIcon } from "./ButtonWithIcon.js";
 import PageManagerStyles from "./PageManager.module.css";
 
-const Types = { group: "1", unique: "2", word: "3" };
+const Types = { group: "1", byUrl: "2", byWord: "3" };
 Object.freeze(Types);
+
+function RaddioButton(props) {
+    const unique_id = getUniqueId("radio-button");
+    return (
+        <div class={PageManagerStyles.page_manager__form__field}>
+            <label htmlFor={unique_id}>{props.label}</label>
+            <input
+                id={unique_id}
+                class={PageManagerStyles.page_manager__form__field__value}
+                name="type"
+                type="radio"
+                value={props.value}
+                onChange={props.onChange}
+                checked={props.checked}
+            />
+        </div>
+    );
+}
 
 function PageManagerModal(props) {
     const [validationErrorMessage, setValidationErrorMessage] = useState(null);
@@ -17,9 +35,9 @@ function PageManagerModal(props) {
         event.preventDefault();
         if (
             !Object.values(Types).includes(props.data.type) ||
-            (props.data.type === Types.unique && (!props.data.name || !props.data.url)) ||
+            (props.data.type === Types.byUrl && !props.data.url) ||
             (props.data.type === Types.group && !props.data.name) ||
-            (props.data.type === Types.word && (!props.data.name || !props.data.word))
+            (props.data.type === Types.byWord && !props.data.word)
         ) {
             setValidationErrorMessage("Invalid data!");
         } else {
@@ -36,9 +54,9 @@ function PageManagerModal(props) {
             const val = event.target.value;
             if (dictKey === "type") {
                 const defaultData = {
-                    [Types.unique]: { type: Types.unique, name: null, url: null },
+                    [Types.byUrl]: { type: Types.byUrl, url: null },
                     [Types.group]: { type: Types.group, name: null, isRoot: false, children: [] },
-                    [Types.word]: { type: Types.word, name: null, word: null },
+                    [Types.byWord]: { type: Types.byWord, word: null },
                 };
                 if (Object.keys(defaultData).includes(val)) {
                     newData = defaultData[val];
@@ -56,42 +74,22 @@ function PageManagerModal(props) {
     if (!Object.values(Types).includes(props.data.type) && props.data.type !== undefined) {
         console.error("UnexpectedResult: props.data.type is not known.");
     }
-    const type_unique_id = getUniqueId("type-unique");
-    const type_group_id = getUniqueId("type-group");
-    const type_word_id = getUniqueId("type-word");
     return (
         <Modal>
             <form onSubmit={handleSubmit} onReset={handleCancel}>
                 <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
                 <fieldset>
-                    {[
-                        { name: "Unique", id: type_unique_id, type: Types.unique },
-                        { name: "Group", id: type_group_id, type: Types.group },
-                        { name: "Word", id: type_word_id, type: Types.word }
-                    ].map(
-                        (entry) => (
-                            <div key={entry.id} class={PageManagerStyles.page_manager__form__field}>
-                                <label htmlFor={entry.id}>{entry.name}</label>
-                                <input
-                                    id={entry.id}
-                                    class={PageManagerStyles.page_manager__form__field__value}
-                                    name="type"
-                                    type="radio"
-                                    value={entry.type}
-                                    onChange={handleChange("type")}
-                                    checked={entry.type === props.data.type}
-                                />
-                            </div>
-                        )
-                    )}
+                    <RaddioButton label="By URL" value={Types.byUrl} checked={Types.byUrl === props.data.type} onChange={handleChange("type")} />
+                    <RaddioButton label="By Word" value={Types.byWord} checked={Types.byWord === props.data.type} onChange={handleChange("type")} />
+                    <RaddioButton label="Group" value={Types.group} checked={Types.group === props.data.type} onChange={handleChange("type")} />
                 </fieldset>
-                {props.data.type === Types.unique && (
+                {props.data.type === Types.byUrl && (
                     <ByUrlType.Form onChange={handleChange} data={props.data} />
                 )}
                 {props.data.type === Types.group && (
                     <GroupType.Form onChange={handleChange} data={props.data} />
                 )}
-                {props.data.type === Types.word && (
+                {props.data.type === Types.byWord && (
                     <ByWordType.Form onChange={handleChange} data={props.data} />
                 )}
                 {validationErrorMessage && (
@@ -111,8 +109,8 @@ function PageManagerModal(props) {
 class PageTree {
     // Constructor
     constructor(newValue) {
-        if (!newValue || !newValue.name) {
-            throw new Error("PageTree : newValue is not well defined");
+        if (!newValue || !(newValue.name || newValue.url || newValue.word)) {
+            throw new Error("PageTree : newValue is null");
         }
         for (let key of Object.keys(newValue)) {
             this[key] = newValue[key];
@@ -132,7 +130,7 @@ class PageTree {
             return -1;
         }
         return this.children
-            .map((e) => e.name)
+            .map((e) => e.name || e.word || e.url)
             .indexOf(name);
     }
 
@@ -212,20 +210,18 @@ function PageManagerView(props) {
                                 onDeleteButtonClick={props.onDeleteChildButtonClick(child.name)}
                             />
                         )}
-                        {child.type === Types.unique && (
+                        {child.type === Types.byUrl && (
                             <ByUrlType.View
-                                name={child.name}
                                 url={child.url}
-                                onEditButtonClick={props.onEditChildButtonClick(child.name)}
-                                onDeleteButtonClick={props.onDeleteChildButtonClick(child.name)}
+                                onEditButtonClick={props.onEditChildButtonClick(child.url)}
+                                onDeleteButtonClick={props.onDeleteChildButtonClick(child.url)}
                             />
                         )}
-                        {child.type === Types.word && (
+                        {child.type === Types.byWord && (
                             <ByWordType.View
-                                name={child.name}
                                 word={child.word}
-                                onEditButtonClick={props.onEditChildButtonClick(child.name)}
-                                onDeleteButtonClick={props.onDeleteChildButtonClick(child.name)}
+                                onEditButtonClick={props.onEditChildButtonClick(child.word)}
+                                onDeleteButtonClick={props.onDeleteChildButtonClick(child.word)}
                             />
                         )}
                     </li>
@@ -273,7 +269,7 @@ function PageManager() {
         setRoot((prevRoot) => {
             let newRoot = prevRoot.getDeepCopy();
             let pathname = {
-                "add": target.concat([data.name]),
+                "add": target.concat([data.name || data.word || data.url]),
                 "edit": target
             }[mode];
             newRoot.upsertNodeFromPathname(pathname, data);
