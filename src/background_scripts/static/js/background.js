@@ -7,6 +7,14 @@ class ExtensionBackgroundWorker {
         this.theme = "default";
     }
     static includesSite(tabInfo, root) {
+        const now = new Date();
+        const startTime = new Date(`01/01/1970 ${root.startTime || "00:00"}`);
+        const endTime = new Date(`01/01/1970 ${root.endTime || "23:59"}`);
+        if (now.getHours() < startTime.getHours() || (now.getHours() == startTime.getHours() && now.getMinutes() < startTime.getMinutes())
+            || now.getHours() > endTime.getHours() || (now.getHours() == endTime.getHours() && now.getMinutes() > endTime.getMinutes())) {
+            console.log("Times:", now, startTime, endTime)
+            return false;
+        }
         switch (root.type) {
             case Types.byUrl:
                 if (!tabInfo.url) {

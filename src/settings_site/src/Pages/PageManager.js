@@ -11,6 +11,23 @@ import PageManagerStyles from "./PageManager.module.css";
 const Types = { group: "1", byUrl: "2", byWord: "3" };
 Object.freeze(Types);
 
+function TimeEntry(props) {
+    const unique_id = getUniqueId("date-entry");
+    return (
+        <div class={PageManagerStyles.page_manager__form__field}>
+            <label htmlFor={unique_id}>{props.label}</label>
+            <input
+                id={unique_id}
+                class={PageManagerStyles.page_manager__form__field__value}
+                name="type"
+                type="time"
+                value={props.value}
+                onChange={props.onChange}
+            />
+        </div>
+    );
+}
+
 function RaddioButton(props) {
     const unique_id = getUniqueId("radio-button");
     return (
@@ -26,6 +43,15 @@ function RaddioButton(props) {
                 checked={props.checked}
             />
         </div>
+    );
+}
+
+function AdvancedSettingsForm(props) {
+    return (
+        <fieldset>
+            <TimeEntry label="Start time" value={props.data.startTime} onChange={props.onChange("startTime")} />
+            <TimeEntry label="End time (Testing)" value={props.data.endTime} onChange={props.onChange("endTime")} />
+        </fieldset>
     );
 }
 
@@ -54,9 +80,9 @@ function PageManagerModal(props) {
             const val = event.target.value;
             if (dictKey === "type") {
                 const defaultData = {
-                    [Types.byUrl]: { type: Types.byUrl, url: null },
-                    [Types.group]: { type: Types.group, name: null, isRoot: false, children: [] },
-                    [Types.byWord]: { type: Types.byWord, word: null },
+                    [Types.byUrl]: { type: Types.byUrl, url: null, startTime: null, endTime: null },
+                    [Types.group]: { type: Types.group, name: null, isRoot: false, children: [], startTime: null, endTime: null },
+                    [Types.byWord]: { type: Types.byWord, word: null, startTime: null, endTime: null },
                 };
                 if (Object.keys(defaultData).includes(val)) {
                     newData = defaultData[val];
@@ -97,6 +123,7 @@ function PageManagerModal(props) {
                         {validationErrorMessage}
                     </span>
                 )}
+                {props.data.type && <AdvancedSettingsForm onChange={handleChange} data={props.data} />}
                 <div class={PageManagerStyles.page_manager__form__buttons_box}>
                     <input type="submit" value="Ok" class={PageManagerStyles.page_manager__form__submit_button} />
                     <input type="reset" value="Cancel" class={PageManagerStyles.page_manager__form__reset_button} />
