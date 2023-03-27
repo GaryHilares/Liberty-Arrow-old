@@ -50,7 +50,7 @@ function AdvancedSettingsForm(props) {
     return (
         <fieldset>
             <TimeEntry label="Start time" value={props.data.startTime} onChange={props.onChange("startTime")} />
-            <TimeEntry label="End time (Testing)" value={props.data.endTime} onChange={props.onChange("endTime")} />
+            <TimeEntry label="End time" value={props.data.endTime} onChange={props.onChange("endTime")} />
         </fieldset>
     );
 }
