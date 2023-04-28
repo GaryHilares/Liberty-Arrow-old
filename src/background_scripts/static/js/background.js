@@ -1,5 +1,9 @@
-// Define types constant dictionary
-const Types = { group: "1", byUrl: "2", byWord: "3" };
+function matchesPattern(pattern, text) {
+    if (pattern.startsWith("/") && pattern.endsWith("/") && pattern.length > 2) {
+        return RegExp(pattern.substring(1, pattern.length - 1), 'i').test(text);
+    }
+    return text.toLowerCase().includes(pattern.toLowerCase());
+}
 
 class ExtensionBackgroundWorker {
     constructor() {
@@ -8,45 +12,20 @@ class ExtensionBackgroundWorker {
     }
     static includesSite(tabInfo, root) {
         const now = new Date();
-        const startTime = new Date(`01/01/1970 ${root.startTime || "00:00"}`);
-        const endTime = new Date(`01/01/1970 ${root.endTime || "23:59"}`);
-        if (now.getHours() < startTime.getHours() || (now.getHours() == startTime.getHours() && now.getMinutes() < startTime.getMinutes())
-            || now.getHours() > endTime.getHours() || (now.getHours() == endTime.getHours() && now.getMinutes() > endTime.getMinutes())) {
-            console.log("Times:", now, startTime, endTime)
-            return false;
-        }
-        switch (root.type) {
-            case Types.byUrl:
-                if (!tabInfo.url) {
-                    return false;
-                }
+        return root.sites.some((siteRule) => {
+            // Ignore site rule if the current time is not within its limits
+            const startTime = new Date(`01/01/1970 ${siteRule.startTime || "00:00"}`);
+            const endTime = new Date(`01/01/1970 ${siteRule.endTime || "23:59"}`);
+            if (now.getHours() < startTime.getHours() || (now.getHours() == startTime.getHours() && now.getMinutes() < startTime.getMinutes())
+                || now.getHours() > endTime.getHours() || (now.getHours() == endTime.getHours() && now.getMinutes() > endTime.getMinutes())) {
+                return false;
+            }
 
-                // If root is of "byUrl" type, check regex
-                if (root.url.startsWith("/") && root.url.endsWith("/") && root.url.length > 2) {
-                    return RegExp(root.url.substring(1, root.url.length - 1)).test(tabInfo.url);
-                }
-                return tabInfo.url.includes(root.url);
-            case Types.group:
-                // If root is of "group" type, check children recursively
-                for (let child of root.children) {
-                    if (ExtensionBackgroundWorker.includesSite(tabInfo, child)) {
-                        return true;
-                    }
-                }
-                return false;
-            case Types.byWord:
-                if (!tabInfo.title) {
-                    return false;
-                }
-                // If root is of "byUrl" type, check regex
-                if (root.word.startsWith("/") && root.word.endsWith("/") && root.word.length > 2) {
-                    return RegExp(root.word.substring(1, root.word.length - 1)).test(tabInfo.title);
-                }
-                return tabInfo.title.includes(root.word);
-            default:
-                console.error("UnexpectedResult: root.type is not known.");
-                return false;
-        }
+            // Check if information to check (URL and/or title) matches the pattern
+            return [[siteRule.blocksUrl, tabInfo.url], [siteRule.blocksTitle, tabInfo.title]].some(([conditionToCheck, informationToCheck]) => {
+                return conditionToCheck && informationToCheck && matchesPattern(siteRule.pattern, informationToCheck);
+            });
+        });
     }
     saveDefaultDataOnInstall() {
         // Set storage to default value on install if no previous data exists
@@ -55,7 +34,7 @@ class ExtensionBackgroundWorker {
                 if (Object.keys(result).length == 0)
                     chrome.storage.local.set(
                         {
-                            blockedPages: { type: Types.group, name: "All pages", isRoot: true, children: [] },
+                            blockedPages: { name: "Default Profile", sites: [] },
                             passwordData: { protectionType: "None", details: null },
                             theme: "default"
                         },

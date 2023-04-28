@@ -47,7 +47,7 @@ function ProtectionModal(props) {
         chrome.storage.local.get("passwordData", (result) => {
             setProtectionData(result.passwordData);
             console.info("Data loaded!");
-            if (result.passwordData.protectionType == "None") {
+            if (result.passwordData.protectionType === "None") {
                 props.onLogInSucess();
             } else if (result.passwordData.protectionType === "PIN") {
                 const email = result.passwordData.details.email;
