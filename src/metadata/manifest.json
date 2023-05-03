@@ -18,14 +18,14 @@
 		"default_icon": {
 			"16": "static/images/Liberty_Arrow_text-false_16.png",
 			"32": "static/images/Liberty_Arrow_text-false_32.png",
-			"48": "static/images/Liberty_Arrow_text-false_64.png",
+			"48": "static/images/Liberty_Arrow_text-false_48.png",
 			"128": "static/images/Liberty_Arrow_text-false_128.png"
 		}
 	},
 	"icons": {
 		"16": "static/images/Liberty_Arrow_text-false_16.png",
 		"32": "static/images/Liberty_Arrow_text-false_32.png",
-		"48": "static/images/Liberty_Arrow_text-false_64.png",
+		"48": "static/images/Liberty_Arrow_text-false_48.png",
 		"128": "static/images/Liberty_Arrow_text-false_128.png"
 	},
 	"manifest_version": 3
