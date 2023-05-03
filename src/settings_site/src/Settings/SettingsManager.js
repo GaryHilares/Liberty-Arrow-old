@@ -31,7 +31,7 @@ function SettingsManager() {
             case "Password":
                 setDetails({ password: "" });
                 break;
-            case "PIN":
+            case "Email Confirmation":
                 setDetails({ email: "" });
                 break;
             default:
@@ -42,13 +42,13 @@ function SettingsManager() {
     function handlePasswordTextChange(event) {
         setDetails({ password: event.target.value });
     }
-    function handlePinEmailTextChange(event) {
+    function handleEmailTextChange(event) {
         setDetails({ email: event.target.value });
     }
     function handleThemeChange(event) {
         setTheme(event.target.value);
     }
-    if (!["None", "Password", "PIN"].includes(protectionType)) {
+    if (!["None", "Password", "Email Confirmation"].includes(protectionType)) {
         console.error("UnexpectedResult: protectionType is not known.");
     }
     const password_protection_select_id = getUniqueId("password-protection-select");
@@ -68,7 +68,7 @@ function SettingsManager() {
                 >
                     <option value="None">None</option>
                     <option value="Password">Password</option>
-                    <option value="PIN">PIN</option>
+                    <option value="Email Confirmation">Email Confirmation</option>
                 </select>
             </div>
             {protectionType === "Password" && (
@@ -83,14 +83,14 @@ function SettingsManager() {
                     />
                 </div>
             )}
-            {protectionType === "PIN" && (
+            {protectionType === "Email Confirmation" && (
                 <div className={SettingsManagerStyles.settings__pair}>
                     <label htmlFor={pin_email_input_id}>Email</label>
                     <input
                         className={SettingsManagerStyles.settings__pair__value}
                         id={pin_email_input_id}
                         type="email"
-                        onChange={handlePinEmailTextChange}
+                        onChange={handleEmailTextChange}
                         value={details.email}
                     />
                 </div>

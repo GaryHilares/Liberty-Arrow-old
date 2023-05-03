@@ -5,12 +5,12 @@ import { Modal } from "./Modal";
 import ProtectionModalStyles from "./ProtectionModal.module.css";
 
 function PasswordTypeForm(props) {
-    const password_modal_password_input_id = getUniqueId("password-modal-password-input-id");
+    const uniqueId = getUniqueId("password-input-id");
     return (
         <div class={ProtectionModalStyles.protection_modal__content__pair}>
-            <label for={password_modal_password_input_id}>Password</label>
+            <label for={uniqueId}>Password</label>
             <input
-                id={password_modal_password_input_id}
+                id={uniqueId}
                 type="password"
                 data-key-dict="password"
                 onChange={props.onChange}
@@ -21,15 +21,15 @@ function PasswordTypeForm(props) {
     );
 }
 
-function PinTypeForm(props) {
-    const pin_modal_pin_input_id = getUniqueId("pin-modal-pin-input-id");
+function EmailConfirmationTypeForm(props) {
+    const uniqueId = getUniqueId("email-confirmation-input-id");
     return (
         <div class={ProtectionModalStyles.protection_modal__content__pair}>
-            <label for={pin_modal_pin_input_id}>PIN</label>
+            <label for={uniqueId}>Email Code</label>
             <input
-                id={pin_modal_pin_input_id}
+                id={uniqueId}
                 type="password"
-                data-key-dict="pin"
+                data-key-dict="emailCode"
                 onChange={props.onChange}
                 value={props.formData.password}
                 class={ProtectionModalStyles.protection_modal__content__value}
@@ -49,13 +49,13 @@ function ProtectionModal(props) {
             console.info("Data loaded!");
             if (result.passwordData.protectionType === "None") {
                 props.onLogInSucess();
-            } else if (result.passwordData.protectionType === "PIN") {
+            } else if (result.passwordData.protectionType === "Email Confirmation") {
                 const email = result.passwordData.details.email;
                 fetch(`https://liberty-arrow-backend.vercel.app/create-pin?email=${email}`)
                     .then((response) => {
-                        response.text().then((pin) => {
-                            console.log(pin);
-                            setTempData({ pin: pin });
+                        response.text().then((emailCode) => {
+                            console.log(emailCode);
+                            setTempData({ emailCode: emailCode });
                         });
                     });
             }
@@ -85,11 +85,11 @@ function ProtectionModal(props) {
                     props.onLogInSucess()
                 };
                 break;
-            case "PIN":
-                if (formData.pin === "") {
-                    setValidationErrorMessage("You must enter a PIN.");
-                } else if (!tempData.pin || formData.pin !== tempData.pin) {
-                    setValidationErrorMessage("Passwords don't match.");
+            case "Email Confirmation":
+                if (formData.emailCode === "") {
+                    setValidationErrorMessage("You must enter the code that was sent to your email.");
+                } else if (!tempData.emailCode || formData.emailCode !== tempData.emailCode) {
+                    setValidationErrorMessage("Codes don't match.");
                 } else {
                     props.onLogInSucess()
                 };
@@ -99,8 +99,9 @@ function ProtectionModal(props) {
                 break;
         }
     }
-    if (!["None", "Password", "PIN"].includes(protectionData.protectionType))
+    if (!["None", "Password", "Email Confirmation"].includes(protectionData.protectionType)) {
         console.error("UnexpectedResult: protectionData.protectionType is not known.");
+    }
     return (
         <Modal>
             <div class={ProtectionModalStyles.protection_modal__content}>
@@ -117,8 +118,8 @@ function ProtectionModal(props) {
                     {protectionData.protectionType === "Password" && (
                         <PasswordTypeForm onChange={handleChange} formData={formData} />
                     )}
-                    {protectionData.protectionType === "PIN" && (
-                        <PinTypeForm onChange={handleChange} formData={formData} />
+                    {protectionData.protectionType === "Email Confirmation" && (
+                        <EmailConfirmationTypeForm onChange={handleChange} formData={formData} />
                     )}
                     {validationErrorMessage && (
                         <span class={ProtectionModalStyles.protection_modal__content__validation_error_message}>
