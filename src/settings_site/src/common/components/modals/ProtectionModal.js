@@ -1,16 +1,16 @@
 /* global chrome */
 import React, { useState, useEffect } from "react";
-import { deepCopy, getUniqueId } from "../../utils/utils";
+import { deepCopy, getUniqueIdHandler } from "../../utils/utils";
 import { Modal } from "./Modal";
 import ProtectionModalStyles from "./ProtectionModal.module.css";
 
 function PasswordTypeForm(props) {
-    const uniqueId = getUniqueId("password-input-id");
+    const idHandler = getUniqueIdHandler();
     return (
         <div class={ProtectionModalStyles.protection_modal__content__pair}>
-            <label for={uniqueId}>Password</label>
+            <label for={idHandler.get("password-input-id")}>Password</label>
             <input
-                id={uniqueId}
+                id={idHandler.get("password-input-id")}
                 type="password"
                 data-key-dict="password"
                 onChange={props.onChange}
@@ -22,12 +22,12 @@ function PasswordTypeForm(props) {
 }
 
 function EmailConfirmationTypeForm(props) {
-    const uniqueId = getUniqueId("email-confirmation-input-id");
+    const idHandler = getUniqueIdHandler();
     return (
         <div class={ProtectionModalStyles.protection_modal__content__pair}>
-            <label for={uniqueId}>Email Code</label>
+            <label for={idHandler.get("email-confirmation-input-id")}>Email Code</label>
             <input
-                id={uniqueId}
+                id={idHandler.get("email-confirmation-input-id")}
                 type="password"
                 data-key-dict="emailCode"
                 onChange={props.onChange}

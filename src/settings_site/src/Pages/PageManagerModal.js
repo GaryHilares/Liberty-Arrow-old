@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { deepCopy, getUniqueId } from "../common/utils/utils";
+import { deepCopy, getUniqueIdHandler } from "../common/utils/utils";
 import { SiteRule } from "./SiteRule";
 import { Modal } from "../common/components/modals/Modal";
 import PageManagerStyles from "./PageManager.module.css";
 
 function TimeEntry(props) {
-    const unique_id = getUniqueId("date-entry");
+    const idHandler = getUniqueIdHandler();
     return (
         <div class={PageManagerStyles.page_manager__form__field}>
-            <label htmlFor={unique_id}>{props.label}</label>
+            <label htmlFor={idHandler.get("date-entry")}>{props.label}</label>
             <input
-                id={unique_id}
+                id={idHandler.get("date-entry")}
                 class={PageManagerStyles.page_manager__form__field__value}
                 name="type"
                 type="time"
@@ -22,12 +22,12 @@ function TimeEntry(props) {
 }
 
 function CheckBox(props) {
-    const unique_id = getUniqueId("checkbox");
+    const idHandler = getUniqueIdHandler();
     return (
         <div class={PageManagerStyles.page_manager__form__field}>
-            <label htmlFor={unique_id}>{props.label}</label>
+            <label htmlFor={idHandler.get("checkbox")}>{props.label}</label>
             <input
-                id={unique_id}
+                id={idHandler.get("checkbox")}
                 class={PageManagerStyles.page_manager__form__field__value}
                 name="type"
                 type="checkbox"

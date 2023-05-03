@@ -1,5 +1,9 @@
-function getUniqueId(prefix) {
-  return `${prefix}-${Date.now()}-${Math.random()}`;
+function getUniqueIdHandler() {
+  const prefix = `${Date.now()}-${Math.random()}`;
+  const get = (suffix) => {
+    return `${prefix}-${suffix}`;
+  }
+  return {get: get};
 };
 
 function compose(a, b) {
@@ -11,8 +15,8 @@ const deepCopy = compose(JSON.parse, JSON.stringify);
 
 const Utils = {
   deepCopy,
-  getUniqueId
+  getUniqueIdHandler
 };
 
 export default Utils;
-export { deepCopy, getUniqueId };
+export { deepCopy, getUniqueIdHandler };
