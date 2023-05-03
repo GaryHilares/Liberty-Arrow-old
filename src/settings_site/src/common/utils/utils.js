@@ -1,9 +1,8 @@
 function getUniqueIdHandler() {
   const prefix = `${Date.now()}-${Math.random()}`;
-  const get = (suffix) => {
+  return {get: (suffix) => {
     return `${prefix}-${suffix}`;
-  }
-  return {get: get};
+  }};
 };
 
 function compose(a, b) {
