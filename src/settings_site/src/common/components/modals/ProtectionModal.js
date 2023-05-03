@@ -51,7 +51,7 @@ function ProtectionModal(props) {
                 props.onLogInSucess();
             } else if (result.passwordData.protectionType === "Email Confirmation") {
                 const email = result.passwordData.details.email;
-                fetch(`https://liberty-arrow-backend.vercel.app/create-pin?email=${email}`)
+                fetch(`https://liberty-arrow-backend.vercel.app/email-code?email=${email}`)
                     .then((response) => {
                         response.text().then((emailCode) => {
                             console.log(emailCode);
