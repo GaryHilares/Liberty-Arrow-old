@@ -12,10 +12,4 @@ function compose(a, b) {
 }
 const deepCopy = compose(JSON.parse, JSON.stringify);
 
-const Utils = {
-  deepCopy,
-  getUniqueIdHandler
-};
-
-export default Utils;
 export { deepCopy, getUniqueIdHandler };
