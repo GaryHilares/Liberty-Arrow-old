@@ -58,7 +58,7 @@ function EditableSitesList(props) {
     );
 }
 
-function PageManager() {
+function ProfileEditor() {
     // Set state variables
     const [profile, setProfile] = useState(new Profile("Default Profile", []));
     const [modal, setModal] = useState(null);
@@ -137,4 +137,4 @@ function PageManager() {
     );
 }
 
-export default PageManager;
+export { ProfileEditor };
