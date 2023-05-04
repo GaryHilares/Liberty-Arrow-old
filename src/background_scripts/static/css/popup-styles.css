@@ -20,7 +20,13 @@ body {
     margin: 5px 0;
 }
 
+.logo_wrapper {
+    text-align: center;
+    margin: 10px;
+}
+
 .settings_button {
+    display: block;
     padding: 5px;
     transition: all 0.5s;
     color: #545AA7;
