@@ -12,25 +12,17 @@
 Liberty Arrow is a customizable browser extension for blocking websites and improving productivity.
 
 ### Features
-- **Multiple level:** Liberty Arrow allows you to put groups of blocked pages with individual rules and nested in multiple levels.
 - **Unlimited sites:** You wan't to block 50 different sites? No problem!
 - **Substring blocking system:** You not only can block sites by adding the domain name, but also by adding any url's substring.
 
 ### Dependencies
 #### Build dependencies
-- React 17.0.2 or superior.
-- React DOM 17.0.2 or superior.
-- React Router DOM 6.0.2 or superior.
 - NodeJS 14.16.0 or superior.
 - NPM 8.0.0 or superior.
 - Python 3.0.0 or superior.
 
 ### Platforms
-- Google Chrome.
-- Firefox.
-- Edge (Unofficial).
-- Opera (Unofficial).
-- Brave (Unofficial).
+- Mozilla Firefox.
 
 ## Motivation
 I like different browser extensions that help you to improve productivity by giving you different options to make you waste less time in unnecessary websites. However, I wanted to add multiple websites in different ways and these extensions only allowed to set a group of rules for all pages.
@@ -49,7 +41,7 @@ For building the project from its source code, follow the next steps:
    1. Open a terminal in the root of the project.
    2. Use the command `python3 build.py all` (or `build all` if you have the `py` extension linked to your Python interpreter).
 
-The building process of the project has only been tested in Windows 10. Note that these instructions assume that you have added Python and Node to your path during the installation. If you haven't done it, replace `python3` and/or `npm` with the appropiate path to your Python or Node interpreter.
+The building process of the project has only been tested in Windows 10 and Linux Ubuntu. Note that these instructions assume that you have added Python and Node to your path during the installation. If you haven't done it, replace `python3` and/or `npm` with the appropiate path to your Python or Node interpreter.
 
 ## License
 All rights of the code owned in this repository are reserved unless stated otherwise.
