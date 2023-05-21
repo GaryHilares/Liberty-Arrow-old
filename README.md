@@ -32,8 +32,8 @@ Liberty Arrow aims to solve this problem by providing group organization to your
 ## Installation and usage
 For building the project from its source code, follow the next steps:
 1. Install Python, NodeJS and NPM:
-    - You can find the latest version of Python for your OS [here](https://www.python.org/downloads/).
-    - You can find the latest version of NodeJS and NPM for your OS [here](https://nodejs.org/en/download/).
+    - You can find the latest version of Python [here](https://www.python.org/downloads/).
+    - You can find the latest version of NodeJS and NPM [here](https://nodejs.org/en/download/).
 2. Install `settings_site` dependencies:
     1. Open a terminal in `src/settings_site`.
     2. Use the command `npm install` to install the required dependencies.
