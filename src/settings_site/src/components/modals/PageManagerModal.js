@@ -1,52 +1,8 @@
-import { deepCopy, getUniqueIdHandler } from "../../utils/utils.js";
-import { LabelledTextEntry } from "../input-elements/LabelledTextEntry.js";
+import { deepCopy } from "../../utils/utils.js";
+import { LabelledTextEntry, LabelledCheckBox, LabelledTimeEntry } from "../input-elements/LabelledInputs.js";
 import { Modal } from "./Modal.js";
 import PageManagerModalStyles from "../../styles/PageManagerModal.module.css";
 import React, { useState } from "react";
-
-function TimeEntry(props) {
-    const idHandler = getUniqueIdHandler();
-    return (
-        <div class={PageManagerModalStyles.page_manager__form__field}>
-            <label htmlFor={idHandler.get("date-entry")}>{props.label}</label>
-            <input
-                id={idHandler.get("date-entry")}
-                class={PageManagerModalStyles.page_manager__form__field__value}
-                name="type"
-                type="time"
-                value={props.value}
-                onChange={props.onChange}
-            />
-        </div>
-    );
-}
-
-function CheckBox(props) {
-    const idHandler = getUniqueIdHandler();
-    return (
-        <div class={PageManagerModalStyles.page_manager__form__field}>
-            <label htmlFor={idHandler.get("checkbox")}>{props.label}</label>
-            <input
-                id={idHandler.get("checkbox")}
-                class={PageManagerModalStyles.page_manager__form__field__value}
-                name="type"
-                type="checkbox"
-                value={props.value}
-                onChange={props.onChange}
-                checked={props.checked}
-            />
-        </div>
-    );
-}
-
-function AdvancedSettingsForm(props) {
-    return (
-        <fieldset>
-            <TimeEntry label="Start time" value={props.data.startTime} onChange={props.onChange("startTime")} />
-            <TimeEntry label="End time" value={props.data.endTime} onChange={props.onChange("endTime")} />
-        </fieldset>
-    );
-}
 
 function PageManagerModal(props) {
     const [validationErrorMessage, setValidationErrorMessage] = useState(null);
@@ -95,8 +51,8 @@ function PageManagerModal(props) {
             <form onSubmit={handleSubmit} onReset={handleCancel}>
                 <h2 class={PageManagerModalStyles.page_manager__form__title}>Create new entry</h2>
                 <fieldset>
-                    <CheckBox label="Match site URL" value={"url"} checked={props.data.blocksUrl} onChange={handleChange("type")} />
-                    <CheckBox label="Match site title" value={"title"} checked={props.data.blocksTitle} onChange={handleChange("type")} />
+                    <LabelledCheckBox label="Match site URL" value={"url"} checked={props.data.blocksUrl} onChange={handleChange("type")} />
+                    <LabelledCheckBox label="Match site title" value={"title"} checked={props.data.blocksTitle} onChange={handleChange("type")} />
                 </fieldset>
                 <fieldset>
                     <LabelledTextEntry label="Pattern" value={props.data.pattern || ""} onChange={handleChange("pattern")} />
@@ -106,7 +62,10 @@ function PageManagerModal(props) {
                         {validationErrorMessage}
                     </span>
                 )}
-                <AdvancedSettingsForm onChange={handleChange} data={props.data} />
+                <fieldset>
+                    <LabelledTimeEntry label="Start time" value={props.data.startTime} onChange={handleChange("startTime")} />
+                    <LabelledTimeEntry label="End time" value={props.data.endTime} onChange={handleChange("endTime")} />
+                </fieldset>
                 <div class={PageManagerModalStyles.page_manager__form__buttons_box}>
                     <input type="submit" value="Ok" class={PageManagerModalStyles.page_manager__form__submit_button} />
                     <input type="reset" value="Cancel" class={PageManagerModalStyles.page_manager__form__reset_button} />
