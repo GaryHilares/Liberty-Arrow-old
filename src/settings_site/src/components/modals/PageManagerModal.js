@@ -1,17 +1,17 @@
+import { deepCopy, getUniqueIdHandler } from "../../utils/utils.js";
+import { LabelledTextEntry } from "../input-elements/LabelledTextEntry.js";
+import { Modal } from "./Modal.js";
+import PageManagerModalStyles from "../../styles/PageManagerModal.module.css";
 import React, { useState } from "react";
-import { deepCopy, getUniqueIdHandler } from "../common/utils/utils";
-import { SiteRule } from "./SiteRule";
-import { Modal } from "../common/components/modals/Modal";
-import PageManagerStyles from "./PageManager.module.css";
 
 function TimeEntry(props) {
     const idHandler = getUniqueIdHandler();
     return (
-        <div class={PageManagerStyles.page_manager__form__field}>
+        <div class={PageManagerModalStyles.page_manager__form__field}>
             <label htmlFor={idHandler.get("date-entry")}>{props.label}</label>
             <input
                 id={idHandler.get("date-entry")}
-                class={PageManagerStyles.page_manager__form__field__value}
+                class={PageManagerModalStyles.page_manager__form__field__value}
                 name="type"
                 type="time"
                 value={props.value}
@@ -24,11 +24,11 @@ function TimeEntry(props) {
 function CheckBox(props) {
     const idHandler = getUniqueIdHandler();
     return (
-        <div class={PageManagerStyles.page_manager__form__field}>
+        <div class={PageManagerModalStyles.page_manager__form__field}>
             <label htmlFor={idHandler.get("checkbox")}>{props.label}</label>
             <input
                 id={idHandler.get("checkbox")}
-                class={PageManagerStyles.page_manager__form__field__value}
+                class={PageManagerModalStyles.page_manager__form__field__value}
                 name="type"
                 type="checkbox"
                 value={props.value}
@@ -69,7 +69,7 @@ function PageManagerModal(props) {
             let newData = deepCopy(props.data);
             const val = event.target.value;
             if (dictKey === "type") {
-                if(event.target.checked) {
+                if (event.target.checked) {
                     if (val === "url") {
                         newData.blocksUrl = true;
                     } else if (val === "title") {
@@ -93,25 +93,27 @@ function PageManagerModal(props) {
     return (
         <Modal>
             <form onSubmit={handleSubmit} onReset={handleCancel}>
-                <h2 class={PageManagerStyles.page_manager__form__title}>Create new entry</h2>
+                <h2 class={PageManagerModalStyles.page_manager__form__title}>Create new entry</h2>
                 <fieldset>
                     <CheckBox label="Match site URL" value={"url"} checked={props.data.blocksUrl} onChange={handleChange("type")} />
                     <CheckBox label="Match site title" value={"title"} checked={props.data.blocksTitle} onChange={handleChange("type")} />
                 </fieldset>
-                <SiteRule.Form onChange={handleChange} data={props.data} />
+                <fieldset>
+                    <LabelledTextEntry label="Pattern" value={props.data.pattern || ""} onChange={handleChange("pattern")} />
+                </fieldset>
                 {validationErrorMessage && (
-                    <span class={PageManagerStyles.page_manager__form__validation_error_message}>
+                    <span class={PageManagerModalStyles.page_manager__form__validation_error_message}>
                         {validationErrorMessage}
                     </span>
                 )}
                 <AdvancedSettingsForm onChange={handleChange} data={props.data} />
-                <div class={PageManagerStyles.page_manager__form__buttons_box}>
-                    <input type="submit" value="Ok" class={PageManagerStyles.page_manager__form__submit_button} />
-                    <input type="reset" value="Cancel" class={PageManagerStyles.page_manager__form__reset_button} />
+                <div class={PageManagerModalStyles.page_manager__form__buttons_box}>
+                    <input type="submit" value="Ok" class={PageManagerModalStyles.page_manager__form__submit_button} />
+                    <input type="reset" value="Cancel" class={PageManagerModalStyles.page_manager__form__reset_button} />
                 </div>
             </form>
         </Modal>
     );
 }
 
-export {PageManagerModal};
+export { PageManagerModal };

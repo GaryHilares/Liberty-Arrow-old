@@ -1,62 +1,9 @@
 /* global chrome */
+import { EditableSitesList } from "./EditableSitesList.js";
+import { PageManagerModal } from "./modals/PageManagerModal.js";
+import { Profile } from "../utils/Profile.js";
+import PageManagerStyles from "../styles/PageManager.module.css";
 import React, { useEffect, useState } from "react";
-import { deepCopy } from "../common/utils/utils";
-import { SiteRule } from "./SiteRule";
-import { ButtonWithIcon } from "./ButtonWithIcon.js";
-import { PageManagerModal } from "./PageManagerModal";
-import PageManagerStyles from "./PageManager.module.css";
-
-class Profile {
-    constructor(name, sites) {
-        if (!name || !sites) {
-            throw new Error("PageTree : A value passed to the constructor is invalid");
-        }
-        this.name = name;
-        this.sites = sites;
-    }
-    getSiteIndex(name) {
-        return this.sites
-            .map((e) => e.pattern)
-            .indexOf(name);
-    }
-    upsertSite(name, newValue) {
-        const index = this.getSiteIndex(name);
-        if (index === -1) {
-            this.sites.push(newValue);
-        } else {
-            this.sites[index] = newValue;
-        }
-    }
-    deleteSite(name) {
-        const index = this.getSiteIndex(name);
-        this.sites.splice(index, 1);
-    }
-
-    getDeepCopy() {
-        return new Profile(this.name, deepCopy(this.sites));
-    }
-}
-
-function EditableSitesList(props) {
-    return (
-        <div>
-            <span>{props.profile.name}</span>
-            <div style={{ float: "right" }}>
-                <ButtonWithIcon label="Add" code="plus" onClick={props.onAddButton} className={PageManagerStyles.page_manager__top__icon_buttons} />
-            </div>
-            <ul className={PageManagerStyles.page_manager__rule_list}>
-                {props.profile.sites.map((child, index) => (
-                    <li key={index}>
-                        <SiteRule.View
-                            site={child}
-                            onDeleteButtonClick={props.onDeleteChildButtonClick(child.pattern)}
-                        />
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
 
 function ProfileEditor() {
     // Set state variables
@@ -73,12 +20,12 @@ function ProfileEditor() {
     useEffect(() => {
         console.info("Saving data to storage")
         chrome.storage.local.set(
-            { blockedPages: {name: profile.name, sites: profile.sites} }
+            { blockedPages: { name: profile.name, sites: profile.sites } }
         );
     }, [profile]);
 
     // Modal functions
-    function openModal () {
+    function openModal() {
         setModal({
             data: { pattern: null, startTime: null, endTime: null, blocksUrl: true, blocksTitle: false },
         });

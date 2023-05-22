@@ -1,0 +1,50 @@
+.page_manager__rule_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.page_manager__rule_list__rule {
+    clear: both;
+    border-bottom: 1px dashed gray;
+    padding: 5px 0;
+}
+
+.page_manager__rule__name {
+    font-weight: bold;
+    font-size: 0.9em;
+    padding-right: 0.5em;
+}
+
+.page_manager__rule__url {
+    font-size: 0.75em;
+    color: gray;
+}
+
+.page_manager__top__icon_buttons {
+    color: #545AA7;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.page_manager__top__icon_buttons:hover,
+.page_manager__top__icon_buttons:focus {
+    color: white;
+    background-color: #545AA7;
+    transition: all 0.5s;
+}
+
+.page_manager__bottom__icon_buttons {
+    color: black;
+    font-size: 1.25em;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.page_manager__bottom__icon_buttons:hover,
+.page_manager__bottom__icon_buttons:focus {
+    color: white;
+    background-color: black;
+    transition: all 0.5s;
+}

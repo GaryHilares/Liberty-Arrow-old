@@ -1,4 +1,4 @@
-import SettingsManager from "./SettingsManager";
+import SettingsManager from "../components/SettingsManager.js";
 import React from "react";
 
 export function SettingsTab() {

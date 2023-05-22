@@ -1,7 +1,7 @@
 /* global chrome */
 import React, { useEffect, useState } from "react";
-import { getUniqueIdHandler } from "../common/utils/utils";
-import SettingsManagerStyles from "./SettingsManager.module.css";
+import { getUniqueIdHandler } from "../utils/utils.js";
+import SettingsManagerStyles from "../styles/SettingsManager.module.css";
 
 function SettingsManager() {
     const idHandler = getUniqueIdHandler();

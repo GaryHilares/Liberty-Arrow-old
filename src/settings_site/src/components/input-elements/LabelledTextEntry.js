@@ -1,15 +1,15 @@
-import { getUniqueIdHandler } from "../common/utils/utils";
-import PageManagerStyles from "./PageManager.module.css";
+import { getUniqueIdHandler } from "../../utils/utils.js";
+import LabelledTextEntryStyles from "../../styles/LabelledTextEntry.module.css";
 import React from "react";
 
-function SettingsTextEntry(props) {
+function LabelledTextEntry(props) {
     const idHandler = getUniqueIdHandler();
     return (
-        <div class={PageManagerStyles.page_manager__form__field}>
+        <div class={LabelledTextEntryStyles.page_manager__form__field}>
             <label htmlFor={idHandler.get("text-entry")}>{props.label}</label>
             <input
                 id={idHandler.get("text-entry")}
-                class={PageManagerStyles.page_manager__form__field__value}
+                class={LabelledTextEntryStyles.page_manager__form__field__value}
                 type="text"
                 value={props.value}
                 onChange={props.onChange}
@@ -18,4 +18,4 @@ function SettingsTextEntry(props) {
     );
 }
 
-export { SettingsTextEntry };
+export { LabelledTextEntry };

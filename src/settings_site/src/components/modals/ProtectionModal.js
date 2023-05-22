@@ -1,8 +1,8 @@
 /* global chrome */
-import React, { useState, useEffect } from "react";
-import { deepCopy, getUniqueIdHandler } from "../../utils/utils";
+import { deepCopy, getUniqueIdHandler } from "../../utils/utils.js";
 import { Modal } from "./Modal";
-import ProtectionModalStyles from "./ProtectionModal.module.css";
+import ProtectionModalStyles from "../../styles/ProtectionModal.module.css";
+import React, { useState, useEffect } from "react";
 
 function PasswordTypeForm(props) {
     const idHandler = getUniqueIdHandler();

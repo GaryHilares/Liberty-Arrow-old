@@ -1,0 +1,10 @@
+.page_manager__form__field {
+    margin: 10px 0;
+    display: block;
+    clear: both;
+}
+
+.page_manager__form__field__value {
+    display: block;
+    float: right;
+}

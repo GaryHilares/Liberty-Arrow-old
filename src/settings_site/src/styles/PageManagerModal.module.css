@@ -1,0 +1,57 @@
+.page_manager__form__title {
+    font-weight: bold;
+}
+
+.page_manager__form__field {
+    margin: 10px 0;
+    display: block;
+    clear: both;
+}
+
+.page_manager__form__field__value {
+    display: block;
+    float: right;
+}
+
+.page_manager__form__validation_error_message {
+    margin: 10px 0;
+    color: red;
+    font-size: 0.75em;
+}
+
+.page_manager__form__buttons_box {
+    clear: both;
+    text-align: center;
+}
+
+.page_manager__form__submit_button {
+    margin: 0 5px;
+    font-size: 1em;
+    background-color: transparent;
+    color: #545AA7;
+    border: 1px solid #545AA7;
+    transition: all 0.5s;
+}
+
+.page_manager__form__submit_button:hover,
+.page_manager__form__submit_button:focus {
+    background-color: #545AA7;
+    color: white;
+    cursor: pointer;
+}
+
+.page_manager__form__reset_button {
+    margin: 0 5px;
+    font-size: 1em;
+    background-color: transparent;
+    color: red;
+    border: 1px solid red;
+    transition: all 0.5s;
+}
+
+.page_manager__form__reset_button:hover,
+.page_manager__form__reset_button:focus {
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}

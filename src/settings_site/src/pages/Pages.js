@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileEditor } from "./PageManager";
+import { ProfileEditor } from "../components/ProfileEditor.js";
 
 export function PagesTab() {
     React.useEffect(() => {
