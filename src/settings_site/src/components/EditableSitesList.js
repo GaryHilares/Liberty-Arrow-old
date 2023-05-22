@@ -16,7 +16,7 @@ function EditableSitesList(props) {
                             <span className={EditableSitesListStyles.page_manager__rule__name}>{child.pattern}</span>
                             <span className={EditableSitesListStyles.page_manager__rule__url}>{(child.blocksUrl ? ["URL"] : []).concat(child.blocksTitle ? ["Title"] : []).join(', ')}</span>
                             <div style={{ float: "right" }}>
-                                {/* <ButtonWithIcon label="Edit" code="pen" onClick={ TODO } className={EditableSitesList.page_manager__bottom__icon_buttons} /> */}
+                                <ButtonWithIcon label="Edit" code="pen" onClick={props.onEditChildButtonClick(child, child.pattern)} className={EditableSitesListStyles.page_manager__bottom__icon_buttons} />
                                 <ButtonWithIcon label="Delete" code="window-close" onClick={props.onDeleteChildButtonClick(child.pattern)} className={EditableSitesListStyles.page_manager__bottom__icon_buttons} />
                             </div>
                         </div>

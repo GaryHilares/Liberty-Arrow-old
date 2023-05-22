@@ -25,17 +25,21 @@ function ProfileEditor() {
     }, [profile]);
 
     // Modal functions
-    function openModal() {
+    function openModal(initialData = { pattern: null, startTime: null, endTime: null, blocksUrl: true, blocksTitle: false }, toOverwrite = "") {
         setModal({
-            data: { pattern: null, startTime: null, endTime: null, blocksUrl: true, blocksTitle: false },
+            toOverwrite: toOverwrite,
+            data: initialData,
         });
     }
     function submitModal() {
+        const toOverwrite = modal.toOverwrite;
         const data = modal.data;
         setProfile((prevValue) => {
             let newValue = prevValue.getDeepCopy();
-            let name = data.pattern;
-            newValue.upsertSite(name, data);
+            if (toOverwrite) {
+                newValue.deleteSite(toOverwrite);
+            }
+            newValue.insertSite(data);
             return newValue;
         });
         setModal(null);
@@ -53,6 +57,12 @@ function ProfileEditor() {
     // Create/Edit buttons
     function handleAddButtonClick() {
         openModal();
+    }
+
+    function handleChildEditButtonClick(childData, childName) {
+        return function () {
+            openModal(childData, childName);
+        }
     }
 
     // Delete buttons
@@ -78,6 +88,7 @@ function ProfileEditor() {
             <EditableSitesList
                 profile={profile}
                 onAddButton={handleAddButtonClick}
+                onEditChildButtonClick={handleChildEditButtonClick}
                 onDeleteChildButtonClick={handleChildDeleteButtonClick}
             />
         </div>

@@ -13,13 +13,8 @@ class Profile {
             .map((e) => e.pattern)
             .indexOf(name);
     }
-    upsertSite(name, newValue) {
-        const index = this.getSiteIndex(name);
-        if (index === -1) {
-            this.sites.push(newValue);
-        } else {
-            this.sites[index] = newValue;
-        }
+    insertSite(newValue) {
+        this.sites.push(newValue);
     }
     deleteSite(name) {
         const index = this.getSiteIndex(name);

@@ -2,17 +2,6 @@
     font-weight: bold;
 }
 
-.page_manager__form__field {
-    margin: 10px 0;
-    display: block;
-    clear: both;
-}
-
-.page_manager__form__field__value {
-    display: block;
-    float: right;
-}
-
 .page_manager__form__validation_error_message {
     margin: 10px 0;
     color: red;
