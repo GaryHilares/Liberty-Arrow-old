@@ -3,49 +3,32 @@ import os
 from distutils.dir_util import copy_tree
 
 
-def build_background_scripts():
-    copy_tree('src/background_scripts/', 'build/',update=True)
+def update_public():
+    copy_tree('src/public/', 'build/public',update=True)
 
-
-def build_metadata():
-    copy_tree('src/metadata/', 'build/',update=True)
-
-
-def build_settings_site():
+def build_all():
     os.environ["INLINE_RUNTIME_CHUNK"] = "false"
     os.environ["GENERATE_SOURCEMAP"] = "false"
-    os.system('cd src/settings_site && npm run build')
-    copy_tree('src/settings_site/build/', 'build/',update=True)
+    os.system('npm run build')
 
 
 build_bindings = {
-    "background_scripts": build_background_scripts,
-    "metadata": build_metadata,
-    "settings_site": build_settings_site
+    "public": update_public,
+    "all": build_all
 }
-
-build_modes = {
-    "all": ["background_scripts", "metadata", "settings_site"],
-    "background_scripts": ["background_scripts"],
-    "metadata": ["metadata"],
-    "settings_site": ["settings_site"]
-}
-
 
 def main():
     if len(sys.argv) < 2:
         print("Please pass the build mode as argument.")
         exit(1)
     selected_build_mode = sys.argv[1]
-    if selected_build_mode not in build_modes:
+    if selected_build_mode not in build_bindings:
         print("That is not a valid build mode.")
         exit(1)
-
-    to_build_bindings = build_modes[selected_build_mode]
-    for binding in to_build_bindings:
-        print(f"Starting to build '{binding}'.")
-        build_bindings[binding]()
-        print(f"Finished building '{binding}'.")
+    
+    print(f"Starting building...")
+    build_bindings[selected_build_mode]()
+    print(f"Finished building.")
 
 
 if __name__ == '__main__':
